@@ -1,0 +1,76 @@
+# Website — deploy
+#
+# Builds the static Next.js site and publishes to GitHub Pages.
+# Product docs (non-guide) + language AST coverage are pulled from sshaaf/rgctl.
+
+name: Website
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  # Rebuild when product docs / languages change (optional cross-repo trigger).
+  repository_dispatch:
+    types: [rgctl-docs-updated]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: website-pages-${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout website
+        uses: actions/checkout@v4
+
+      - name: Checkout rgctl (docs + language coverage)
+        uses: actions/checkout@v4
+        with:
+          repository: sshaaf/rgctl
+          path: .rgctl-src
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Build static export
+        env:
+          RGCTL_REPO: ${{ github.workspace }}/.rgctl-src
+          # Apex custom domain https://rgctl.io — no project base path
+          NEXT_PUBLIC_BASE_PATH: ""
+          NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
+        run: pnpm build
+
+      - name: Ensure CNAME in export
+        run: printf 'rgctl.io\n' > out/CNAME
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
