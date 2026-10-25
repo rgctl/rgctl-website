@@ -155,7 +155,7 @@ Install: \`curl -fsSL https://rgctl.io/install.sh | sh\`
 
 ## Capabilities
 
-- Typed code knowledge graph: Tier-1 deep-analysis languages (C, C++, C#, Go, Groovy, Java, JavaScript, Kotlin, PHP, Puppet, Python, Ruby, Rust, TypeScript; plus ERB / Markdown) and the full \`languages.toml\` plugin catalog (config/IaC and additional languages)
+- Typed code knowledge graph across 61 language plugins: 24 Tier-1 custom AST plugins (Bash, C, C++, C#, Dart, Elixir, ERB, Go, Groovy, HCL, Java, JavaScript, Kotlin, Lua, Markdown, PHP, Puppet, Python, Ruby, Rust, Scala, SQL, Swift, TypeScript) and 37 Tier-2 declarative \`tags.scm\` query plugins (Clojure, CMake, CSS, CUDA, D, Emacs Lisp, Elm, Erlang, Fortran, F#, GDScript, Gleam, GLSL, GraphQL, Haskell, HTML, JSON, Julia, Makefile, Nix, Objective-C, OCaml, Odin, PowerShell, Prisma, Protocol Buffers, R, Racket, Scheme, Solidity, Starlark, Svelte, TOML, Verilog/SystemVerilog, VHDL, YAML, Zig)
 - Structured queries: \`find\`, \`callers\`, \`callees\`, \`relations\`, \`inventory\`
 - Blast radius; Fast-Leiden communities; PageRank / betweenness / harmonic metrics; git churn (\`discover --with-git\`, \`metrics --churn\`)
 - Hybrid CPG / CFG / PDG: \`rgctl slice\` builds single-function CFG/PDG lazily on demand; \`discover --with-cfg\` pre-builds the full repo archive
@@ -202,6 +202,8 @@ Install: \`curl -fsSL https://rgctl.io/install.sh | sh\`
 ## Optional
 
 - https://rgctl.io/docs/contributor-checklist/
+- https://rgctl.io/docs/tier-1-language-support/
+- https://rgctl.io/docs/tier-2-language-support/
 - https://rgctl.io/docs/analysis-architecture/
 - https://rgctl.io/llms.txt
 `;

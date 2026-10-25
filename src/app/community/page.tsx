@@ -45,6 +45,7 @@ const tracks = [
     links: [
       { href: "/docs/contributor-checklist/", label: "Contributor checklist" },
       { href: "/docs/tier-1-language-support/", label: "Tier 1 language support" },
+      { href: "/docs/tier-2-language-support/", label: "Tier 2 language support" },
       { href: "/docs/language-testing-guide/", label: "Language testing guide" },
       { href: "/docs/languages/", label: "Languages" },
     ],

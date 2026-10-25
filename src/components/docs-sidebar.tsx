@@ -68,6 +68,7 @@ export const DOCS_NAV: NavSection[] = [
     links: [
       { href: "/docs/contributor-checklist/", label: "Contributor Checklist" },
       { href: "/docs/tier-1-language-support/", label: "Tier 1 Language Support" },
+      { href: "/docs/tier-2-language-support/", label: "Tier 2 Language Support" },
       { href: "/docs/language-testing-guide/", label: "Language Testing Guide" },
       { href: "/docs/analysis-architecture/", label: "Analysis Architecture" },
       { href: "/docs/graph-storage-architecture/", label: "Graph Storage Architecture" },

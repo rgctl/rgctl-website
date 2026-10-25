@@ -5,6 +5,7 @@ const contentRoot = join(process.cwd(), "content/languages");
 
 /** Fallback display names when catalog.json is missing an entry (keep in sync with copy-lang-coverage.mjs). */
 export const LANGUAGE_DISPLAY: Record<string, string> = {
+  // Tier 1 (custom + markdown)
   bash: "Bash",
   c: "C",
   cpp: "C++",
@@ -29,6 +30,44 @@ export const LANGUAGE_DISPLAY: Record<string, string> = {
   sql: "SQL",
   swift: "Swift",
   typescript: "TypeScript",
+  // Tier 2 (declarative tags.scm queries)
+  clojure: "Clojure",
+  cmake: "CMake",
+  css: "CSS",
+  cuda: "CUDA",
+  d: "D",
+  elisp: "Emacs Lisp",
+  elm: "Elm",
+  erlang: "Erlang",
+  fortran: "Fortran",
+  fsharp: "F#",
+  gdscript: "GDScript",
+  gleam: "Gleam",
+  glsl: "GLSL",
+  graphql: "GraphQL",
+  haskell: "Haskell",
+  html: "HTML",
+  json: "JSON",
+  julia: "Julia",
+  make: "Makefile",
+  nix: "Nix",
+  objc: "Objective-C",
+  ocaml: "OCaml",
+  odin: "Odin",
+  powershell: "PowerShell",
+  prisma: "Prisma",
+  proto: "Protocol Buffers",
+  r: "R",
+  racket: "Racket",
+  scheme: "Scheme",
+  solidity: "Solidity",
+  starlark: "Starlark",
+  svelte: "Svelte",
+  toml: "TOML",
+  verilog: "Verilog / SystemVerilog",
+  vhdl: "VHDL",
+  yaml: "YAML",
+  zig: "Zig",
 };
 
 export function displayNameFor(id: string, fallback?: string): string {
@@ -48,17 +87,23 @@ export type HandlerKind = (typeof HANDLER_ORDER)[number] | string;
 
 export type LanguageCatalogEntry = {
   id: string;
+  tier?: 1 | 2;
   displayName: string;
   grammar: string;
   crateDir: string;
   manifestFile: string;
+  tagsFile?: string;
   plugin: string;
   grammarCrate: string;
   handler: string;
   extensions: string[];
   aliases: string[];
+  functionKinds?: string[];
+  classKinds?: string[];
   kindCount: number;
   handlerCounts: Record<string, number>;
+  captures?: string[];
+  captureCounts?: Record<string, number>;
 };
 
 export type AstCoverageManifest = {
@@ -86,6 +131,7 @@ export function listLanguages(): LanguageCatalogEntry[] {
   return [...catalog.languages]
     .map((l) => ({
       ...l,
+      tier: l.tier ?? (l.handler === "queries" ? 2 : 1),
       displayName: displayNameFor(l.id, l.displayName),
     }))
     .sort((a, b) => a.displayName.localeCompare(b.displayName));
@@ -99,6 +145,12 @@ export function loadCoverage(id: string): AstCoverageManifest | null {
   return readJson<AstCoverageManifest>(
     join(contentRoot, `${id}-ast-coverage.json`),
   );
+}
+
+export function loadTagsScm(id: string): string | null {
+  const p = join(contentRoot, `${id}-tags.scm`);
+  if (!existsSync(p)) return null;
+  return readFileSync(p, "utf8");
 }
 
 export function groupHandlers(
