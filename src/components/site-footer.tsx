@@ -74,7 +74,7 @@ export function SiteFooter() {
             target="_blank"
             rel="noreferrer"
           >
-            github.com/sshaaf/rgctl
+            github.com/rgctl/rgctl
           </a>
         </div>
       </div>

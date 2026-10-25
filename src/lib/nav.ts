@@ -21,22 +21,22 @@ export const footerAgents = [
 
 export const footerContribute = [
   {
-    href: "https://github.com/sshaaf/rgctl/blob/main/CONTRIBUTING.md",
+    href: "https://github.com/rgctl/rgctl/blob/main/CONTRIBUTING.md",
     label: "Contributing",
     external: true,
   },
   {
-    href: "https://github.com/sshaaf/rgctl/issues",
+    href: "https://github.com/rgctl/rgctl/issues",
     label: "Issues",
     external: true,
   },
   {
-    href: "https://github.com/sshaaf/rgctl/discussions",
+    href: "https://github.com/rgctl/rgctl/discussions",
     label: "Discussions",
     external: true,
   },
   {
-    href: "https://github.com/sshaaf/rgctl/releases",
+    href: "https://github.com/rgctl/rgctl/releases",
     label: "Releases",
     external: true,
   },

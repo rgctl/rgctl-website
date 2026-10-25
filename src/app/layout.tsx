@@ -60,7 +60,7 @@ const softwareApplicationLd = {
   applicationCategory: "DeveloperApplication",
   operatingSystem: "macOS, Linux, Windows",
   license: "https://opensource.org/licenses/MIT",
-  codeRepository: "https://github.com/sshaaf/rgctl",
+  codeRepository: "https://github.com/rgctl/rgctl",
   url: "https://rgctl.io/",
   description:
     "Open-source code knowledge graph for LLM agents. Index once, query compact JSON — blast radius, structured find/callers, semantic search, migration planning.",

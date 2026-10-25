@@ -130,10 +130,11 @@ for (const agents of agentsCandidates) {
   }
 }
 
-// install.sh
+// install.sh — prefer website vendor so the published one-liner always
+// targets rgctl/rgctl releases (product-tree copy can lag after the org move).
 const installCandidates = [
-  rgctlRepo ? join(rgctlRepo, "scripts/install.sh") : null,
   join(siteRoot, "vendor/install.sh"),
+  rgctlRepo ? join(rgctlRepo, "scripts/install.sh") : null,
 ].filter(Boolean);
 mkdirSync(publicDir, { recursive: true });
 for (const installSh of installCandidates) {
@@ -149,8 +150,8 @@ const llmsTxt = `# rgctl
 > Open-source code knowledge graph for LLM agents. Index once (\`discover\`), then query compact JSON — callers, blast radius, CFG/PDG slices, communities, semantic search, OSV reachability, and migration planning.
 
 Website: https://rgctl.io/
-Repository: https://github.com/sshaaf/rgctl
-Website source: https://github.com/sshaaf/rgctl-website
+Repository: https://github.com/rgctl/rgctl
+Website source: https://github.com/rgctl/rgctl-website
 Install: \`curl -fsSL https://rgctl.io/install.sh | sh\`
 
 ## Capabilities

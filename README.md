@@ -1,6 +1,6 @@
 # rgctl-website
 
-Marketing site, docs hub, and **user-facing feature guides** for [rgctl](https://github.com/sshaaf/rgctl).
+Marketing site, docs hub, and **user-facing feature guides** for [rgctl](https://github.com/rgctl/rgctl).
 
 Live: [https://rgctl.io/](https://rgctl.io/)
 
@@ -46,4 +46,4 @@ GitHub Actions: `.github/workflows/website.yml` (Pages → `https://rgctl.io/`).
 
 ## Editing guides
 
-Edit markdown under **`docs/guides/`** in this repository. Links from the product repo (`sshaaf/rgctl`) should point at `https://rgctl.io/docs/guides/…` rather than in-tree paths.
+Edit markdown under **`docs/guides/`** in this repository. Links from the product repo (`rgctl/rgctl`) should point at `https://rgctl.io/docs/guides/…` rather than in-tree paths.

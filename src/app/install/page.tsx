@@ -73,7 +73,7 @@ export default function InstallPage() {
         <h2 className="text-lg text-[var(--ink)]">Option B — Build from source</h2>
         <TerminalBlock
           lines={[
-            "git clone https://github.com/sshaaf/rgctl.git",
+            "git clone https://github.com/rgctl/rgctl.git",
             "cd rgctl",
             "# Optional: only if you use `semantic index --embedder code-daemon` (~206 MB)",
             "git lfs pull",
