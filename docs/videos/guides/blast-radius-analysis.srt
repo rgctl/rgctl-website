@@ -1,0 +1,14 @@
+1
+00:00:00,000 --> 00:00:05,664
+Know What Breaks Before You Edit (blast-radius)
+Score · direct callers · full upstream impact zone
+
+2
+00:00:05,744 --> 00:00:12,160
+JSON Envelope for Agents & CI ( -f json )
+schema_version metrics — wire into review bots
+
+3
+00:00:12,240 --> 00:00:18,044
+Cap Traversal Depth (--depth 3)
+Focus the impact zone when planning a safe refactor

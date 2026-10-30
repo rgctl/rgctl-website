@@ -1,0 +1,14 @@
+1
+00:00:00,000 --> 00:00:06,280
+Migration Plan on Disk (migration_plan.json)
+Written by discover --export-migration-hints
+
+2
+00:00:06,360 --> 00:00:12,758
+Dependency-Aware Extraction Order
+Foundational-first or dense-cluster presets
+
+3
+00:00:12,838 --> 00:00:20,910
+Validate Before You Extract (communities · blast-radius)
+Confirm boundaries and upstream risk on CoolStore

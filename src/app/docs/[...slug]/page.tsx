@@ -3,6 +3,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { DocsSidebar } from "@/components/docs-sidebar";
 import { DocMarkdown } from "@/components/doc-markdown";
+import { GuideDemo } from "@/components/guide-demo";
+import {
+  getGuideDemoMeta,
+  guideDemoMp4Exists,
+} from "@/lib/guide-demos";
 import { extractDocMeta, listDocSlugs, readDoc, rewriteDocLinks } from "@/lib/docs";
 import { GITHUB_REPO } from "@/lib/utils";
 
@@ -40,6 +45,11 @@ export default async function DocPage({ params }: Props) {
   const md = rewriteDocLinks(raw, slug);
   const githubPath = `${GITHUB_REPO}/blob/main/docs/${slug.join("/")}.md`;
   const isGuide = slug[0] === "guides";
+  const guideSlug = isGuide && slug.length === 2 ? slug[1] : null;
+  const guideDemoMeta =
+    guideSlug && guideDemoMp4Exists(guideSlug)
+      ? getGuideDemoMeta(guideSlug)
+      : null;
   const currentPath = `/docs/${slug.join("/")}/`;
 
   return (
@@ -84,6 +94,7 @@ export default async function DocPage({ params }: Props) {
               Edit on GitHub
             </a>
           </p>
+          {guideDemoMeta ? <GuideDemo meta={guideDemoMeta} /> : null}
           <article className="prose-docs space-y-4 text-[var(--body)] [&_a]:text-[var(--primary)] [&_a]:underline [&_code]:rounded [&_code]:border [&_code]:border-[var(--hairline)] [&_code]:bg-[var(--canvas-soft)] [&_code]:px-1 [&_h1]:font-[family-name:var(--font-serif)] [&_h1]:text-3xl [&_h1]:font-semibold [&_h1]:tracking-tight [&_h1]:text-[var(--ink)] [&_h2]:mt-8 [&_h2]:font-[family-name:var(--font-serif)] [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-[var(--ink)] [&_h3]:mt-6 [&_h3]:text-lg [&_h3]:text-[var(--ink)] [&_li]:my-1 [&_p]:leading-relaxed [&_pre]:overflow-x-auto [&_pre]:rounded-lg [&_pre]:border [&_pre]:border-[var(--hairline)] [&_pre]:bg-[var(--canvas-soft)] [&_pre]:p-3 [&_pre]:text-sm [&_table]:w-full [&_table]:text-sm [&_td]:border [&_td]:border-[var(--hairline)] [&_td]:p-2 [&_th]:border [&_th]:border-[var(--hairline)] [&_th]:p-2 [&_th]:text-left">
             <DocMarkdown>{md}</DocMarkdown>
           </article>

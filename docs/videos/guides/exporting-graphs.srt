@@ -1,0 +1,9 @@
+1
+00:00:00,000 --> 00:00:09,246
+Mermaid for PRs & Docs (export --export-format mermaid)
+Query-scoped diagrams — paste into Markdown immediately
+
+2
+00:00:09,326 --> 00:00:16,934
+GraphML for External Tools (export --export-format graphml)
+Interchange format for Function-node subgraphs

@@ -1,0 +1,9 @@
+1
+00:00:00,000 --> 00:00:07,766
+CI Policy Gate on Diff Scope (rgctl check)
+max_impact_nodes · centrality alerts — fail the build early
+
+2
+00:00:07,846 --> 00:00:15,162
+Same Policy on a Single Symbol (blast-radius --policy-file)
+Pre-merge guardrails without waiting for the PR bot

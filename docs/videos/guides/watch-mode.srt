@@ -1,0 +1,9 @@
+1
+00:00:00,000 --> 00:00:05,380
+Check Index Freshness (rgctl status)
+index_current + dirty file counts — agents skip blind rediscover
+
+2
+00:00:05,460 --> 00:00:14,036
+Patch the Graph in Place (rgctl update --files)
+DeltaSegment + GraphCompactor — keep .rgctl warm while you edit

@@ -1,0 +1,9 @@
+1
+00:00:00,000 --> 00:00:09,760
+Statement-Level Backward Slicing (rgctl slice)
+Lazy CFG/PDG — cut 60–95% of prompt noise for agents
+
+2
+00:00:09,840 --> 00:00:18,790
+Forward Slice + Alias Tracking (--with-alias)
+Follow the variable (and its aliases) through the method

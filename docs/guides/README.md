@@ -2,9 +2,11 @@
 
 Practical, step-by-step guides for every major rgctl feature.
 
+Most CLI how-tos embed a short **VHS walkthrough** (captioned) at the top of the page. Tapes live in [`docs/videos/`](../videos/README.md) and record against **CoolStore**.
+
 > **Which fixture?**  
-> - **In-tree quickstart:** `rgctl-tests/ecommerce-java` (ships with this repo — no extra clone). Best for first `discover` / `find` / `blast-radius` runs and the [User Guide](../user-guide.md).  
-> - **Full feature guides:** **CoolStore** (`example/coolstore` or [konveyor-ecosystem/coolstore](https://github.com/konveyor-ecosystem/coolstore)) — larger Java EE app used in the how-tos below.
+> - **In-tree quickstart:** `rgctl-tests/ecommerce-java` (ships with the product repo — no extra clone). Best for first `discover` / `find` / `blast-radius` runs and the [User Guide](../user-guide.md).  
+> - **Full feature guides + demos:** **CoolStore** (`example/coolstore` or [konveyor-ecosystem/coolstore](https://github.com/konveyor-ecosystem/coolstore)) — larger Java EE app used in the how-tos below.
 
 ## Guides
 

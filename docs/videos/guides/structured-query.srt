@@ -1,0 +1,14 @@
+1
+00:00:00,000 --> 00:00:07,954
+Graph Readiness & Inventory (status · inventory)
+Agent-facing counts before you touch a single source file
+
+2
+00:00:08,034 --> 00:00:13,824
+Exact Symbol Lookup (rgctl find)
+Deterministic -f json EntityRow — no noisy text grep
+
+3
+00:00:13,904 --> 00:00:23,002
+Call Neighborhoods & Typed Edges (callers · relations)
+mmap CALLS traversal with explicit direction filters

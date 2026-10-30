@@ -1,0 +1,14 @@
+1
+00:00:00,000 --> 00:00:05,876
+Build an Offline Semantic Index (semantic index)
+Compiled vocab embedder · 256-d · zero GPU
+
+2
+00:00:05,956 --> 00:00:12,750
+Ask the Codebase in English (semantic query)
+Graph-distance score fusion in ~30ms
+
+3
+00:00:12,830 --> 00:00:19,390
+Scope Hits to a Domain Community (--scope community)
+Keep search inside the Fast-Leiden cluster that matters

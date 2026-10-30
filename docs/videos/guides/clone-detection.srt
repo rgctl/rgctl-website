@@ -1,0 +1,9 @@
+1
+00:00:00,000 --> 00:00:07,032
+Exact Copy-Paste Clones (clones --mode exact)
+Type-1 whole-function matches — min-loc gated
+
+2
+00:00:07,112 --> 00:00:15,144
+Structural Near-Duplicates (clones --mode bloom)
+Token-bloom candidates at threshold 0.85 — refactor bait

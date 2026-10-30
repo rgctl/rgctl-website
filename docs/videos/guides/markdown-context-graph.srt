@@ -1,0 +1,14 @@
+1
+00:00:00,000 --> 00:00:07,118
+Docs + Code in One Knowledge Graph
+discover -l markdown,java on the in-tree fixture
+
+2
+00:00:07,198 --> 00:00:13,240
+Find Headings Like Code Symbols (find --type module)
+Checkout* modules — agent-ready EntityRows
+
+3
+00:00:13,320 --> 00:00:19,128
+Follow Doc Links into Java Classes
+Cross-language context without pasting whole READMEs

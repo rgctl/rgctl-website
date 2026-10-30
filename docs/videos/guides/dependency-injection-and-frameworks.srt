@@ -1,0 +1,14 @@
+1
+00:00:00,000 --> 00:00:06,100
+Framework Edges in Inventory (ExposesRoute · Injects)
+Compiled frameworks.bin catalog — routes & DI without grep
+
+2
+00:00:06,180 --> 00:00:14,702
+Walk JAX-RS Routes & Injection Wiring (relations)
+Who exposes /cart — and what CartEndpoint injects
+
+3
+00:00:14,782 --> 00:00:21,774
+Ask for Endpoints in Plain English (semantic)
+Offline vocab embedder — zero GPU required

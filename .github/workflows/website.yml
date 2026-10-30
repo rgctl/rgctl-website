@@ -1,7 +1,7 @@
 # Website — deploy
 #
 # Builds the static Next.js site and publishes to GitHub Pages.
-# Product docs (non-guide) + language AST coverage are pulled from sshaaf/rgctl.
+# Product docs (non-guide) + language AST coverage are pulled from rgctl/rgctl.
 
 name: Website
 
@@ -32,7 +32,7 @@ jobs:
       - name: Checkout rgctl (docs + language coverage)
         uses: actions/checkout@v4
         with:
-          repository: sshaaf/rgctl
+          repository: rgctl/rgctl
           path: .rgctl-src
 
       - uses: pnpm/action-setup@v4
@@ -53,7 +53,7 @@ jobs:
           RGCTL_REPO: ${{ github.workspace }}/.rgctl-src
           # Apex custom domain https://rgctl.io — no project base path
           NEXT_PUBLIC_BASE_PATH: ""
-          NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
+          NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-8WJX68J872' }}
         run: pnpm build
 
       - name: Ensure CNAME in export

@@ -1,0 +1,9 @@
+1
+00:00:00,000 --> 00:00:12,842
+Index CoolStore Once (rgctl discover)
+Tree-sitter AST · RGCL v2 mmap · CFG/PDG · harmonic · migration plan
+
+2
+00:00:12,922 --> 00:00:18,388
+Zero-Grep Readiness (rgctl status)
+schema_version · node/edge counts from graph.snapshot.bin

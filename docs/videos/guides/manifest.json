@@ -1,0 +1,127 @@
+{
+  "fixture": "coolstore",
+  "theme": "Catppuccin Mocha",
+  "width": 1400,
+  "height": 800,
+  "exclude": [
+    "cli-command-reference",
+    "http-server-and-dashboard"
+  ],
+  "guides": [
+    {
+      "slug": "discovering-and-indexing",
+      "title": "Discovering and indexing",
+      "blurb": "Build the CoolStore knowledge graph with discover -l java.",
+      "needs": ["coolstore"],
+      "cold_discover": true
+    },
+    {
+      "slug": "structured-query",
+      "title": "Structured graph queries",
+      "blurb": "status, inventory, find, callers, and typed relations.",
+      "needs": ["coolstore"]
+    },
+    {
+      "slug": "dependency-injection-and-frameworks",
+      "title": "DI and frameworks",
+      "blurb": "ExposesRoute / Injects edges and semantic endpoint search.",
+      "needs": ["coolstore", "semantic"]
+    },
+    {
+      "slug": "watch-mode",
+      "title": "Watch mode and incremental update",
+      "blurb": "status dirty check and one-shot rgctl update --files.",
+      "needs": ["coolstore"]
+    },
+    {
+      "slug": "blast-radius-analysis",
+      "title": "Blast radius analysis",
+      "blurb": "Upstream impact scoring before you edit a method.",
+      "needs": ["coolstore"]
+    },
+    {
+      "slug": "pr-review",
+      "title": "Pull request review",
+      "blurb": "review paths with synthetic worktree head synthesis.",
+      "needs": ["coolstore"]
+    },
+    {
+      "slug": "ci-policy-checks",
+      "title": "CI policy checks",
+      "blurb": "Local policy gate with rgctl check --policy-file.",
+      "needs": ["coolstore", "policy"]
+    },
+    {
+      "slug": "program-slicing",
+      "title": "Program slicing",
+      "blurb": "Backward slice on ShoppingCartService.",
+      "needs": ["coolstore"]
+    },
+    {
+      "slug": "hybrid-cpg",
+      "title": "Hybrid CPG",
+      "blurb": "cpg status, calls, mutations, and flows.",
+      "needs": ["coolstore", "cfg"]
+    },
+    {
+      "slug": "inspecting-cfg-pdg-dominance",
+      "title": "Inspect CFG / PDG / dominance",
+      "blurb": "inspect priceShoppingCart cfg · pdg · dom.",
+      "needs": ["coolstore", "cfg"]
+    },
+    {
+      "slug": "clone-detection",
+      "title": "Clone detection",
+      "blurb": "Exact and bloom clone modes on CoolStore.",
+      "needs": ["coolstore"]
+    },
+    {
+      "slug": "vulnerability-and-osv-analysis",
+      "title": "Vulnerability and OSV analysis",
+      "blurb": "vuln triage → deps check → vuln analyze (offline OSV fixture).",
+      "needs": ["coolstore", "osv"]
+    },
+    {
+      "slug": "community-detection",
+      "title": "Community detection",
+      "blurb": "Fast-Leiden communities list and inventory.",
+      "needs": ["coolstore"]
+    },
+    {
+      "slug": "graph-metrics",
+      "title": "Graph metrics",
+      "blurb": "PageRank, betweenness, and community metrics.",
+      "needs": ["coolstore"]
+    },
+    {
+      "slug": "semantic-search",
+      "title": "Semantic search",
+      "blurb": "Offline vocab semantic index and natural-language query.",
+      "needs": ["coolstore", "semantic"]
+    },
+    {
+      "slug": "migration-planning",
+      "title": "Migration planning",
+      "blurb": "Inspect migration_plan.json from discover --export-migration-hints.",
+      "needs": ["coolstore", "migration"]
+    },
+    {
+      "slug": "markdown-context-graph",
+      "title": "Markdown context graph",
+      "blurb": "Discover docs+Java fixture and find Checkout* modules.",
+      "needs": ["markdown-context"]
+    },
+    {
+      "slug": "exporting-graphs",
+      "title": "Exporting graphs",
+      "blurb": "Export Mermaid and GraphML slices of CoolStore.",
+      "needs": ["coolstore"]
+    },
+    {
+      "slug": "agent-skill",
+      "title": "Agent pack",
+      "blurb": "List agents and install the Cursor skill pack.",
+      "needs": ["coolstore"]
+    }
+  ]
+}
