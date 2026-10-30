@@ -17,11 +17,18 @@ test-results/
 .next/
 out/
 
-# CI checkout of sshaaf/rgctl for docs + language coverage
+# CI checkout of rgctl/rgctl for docs + language coverage
 .rgctl-src/
 
 # copied from docs/videos at build/dev time
 public/demos/
+
+# VHS working tree (CoolStore / fixture symlinks)
+docs/videos/.work/
+
+# Raw VHS outputs — commit captioned guides/<slug>.mp4 only
+docs/videos/guides/*-no-captions.*
+docs/videos/guides/*.gif
 
 # copied from docs/ at build/dev time
 content/docs/

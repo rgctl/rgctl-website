@@ -10,7 +10,7 @@ Live: [https://rgctl.io/](https://rgctl.io/)
 |------|------|
 | `src/` | Next.js App Router (static export) |
 | `docs/guides/` | **SSOT** for feature guides (also published under `/docs/guides/`) |
-| `docs/videos/` | Optional demo media for `public/demos/` |
+| `docs/videos/` | Homepage CLI demo + per-guide VHS tapes (`docs/videos/README.md`) |
 | `scripts/copy-*.mjs` | Prebuild: assemble `content/docs`, language catalog, demos |
 | `vendor/install.sh` | Fallback install script if product repo is unavailable |
 

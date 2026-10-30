@@ -37,11 +37,25 @@ elif ! ffmpeg -filters 2>/dev/null | grep -q 'subtitles'; then
   exit 1
 fi
 
+# Fit estimated cue timings to the real recording length.
+if command -v ffprobe >/dev/null 2>&1; then
+  DUR_SEC="$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$SRC")"
+else
+  # ffmpeg -i exits 1 when used as a probe; ignore under pipefail.
+  DUR="$("$FFMPEG" -i "$SRC" 2>&1 | sed -n 's/.*Duration: \([0-9:.]*\),.*/\1/p' | head -1 || true)"
+  DUR_SEC="$(
+    python3 -c 'h,m,s=map(float,"'"$DUR"'".split(":")); print(h*3600+m*60+s)'
+  )"
+fi
+SCALED="$VID/.${SLUG}.scaled.srt"
+node "$SITE/docs/videos/scripts/scale-srt.mjs" "$SRT" "$DUR_SEC" "$SCALED"
+
 cd "$VID"
 "$FFMPEG" -y -i "${SLUG}-no-captions.mp4" \
-  -vf "subtitles=filename=${SLUG}.srt:force_style='FontName=Menlo,FontSize=11,PrimaryColour=&H00FFFFFF&,OutlineColour=&H99000000&,BackColour=&H99000000&,BorderStyle=3,Outline=1,Shadow=0,MarginV=12,Alignment=2'" \
+  -vf "subtitles=filename=.${SLUG}.scaled.srt:force_style='FontName=Menlo,FontSize=11,PrimaryColour=&H00FFFFFF&,OutlineColour=&H99000000&,BackColour=&H99000000&,BorderStyle=3,Outline=1,Shadow=0,MarginV=12,Alignment=2'" \
   -c:v libx264 -pix_fmt yuv420p -crf 20 \
   "${SLUG}.mp4"
+rm -f "$SCALED"
 
 echo "==> wrote $OUT"
 ls -lh "$OUT" "$SRC"
