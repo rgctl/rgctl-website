@@ -9,6 +9,6 @@ Walk JAX-RS Routes & Injection Wiring (relations)
 Who exposes /cart — and what CartEndpoint injects
 
 3
-00:00:14,782 --> 00:00:21,774
+00:00:14,782 --> 00:00:21,900
 Ask for Endpoints in Plain English (semantic)
 Offline vocab embedder — zero GPU required

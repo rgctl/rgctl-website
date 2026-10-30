@@ -67,6 +67,6 @@ Show
 # 3. Natural-language endpoint search
 Type "# 3. Natural-language endpoint search"
 Enter
-Type "rgctl -f json semantic query 'hey give me all my end points' --limit 3 | jq '.hits[:3] | map({name: .symbol, score})'"
+Type "rgctl -f json semantic query 'hey give me all my end points' --limit 3 | jq '.hits[:3] | map({name, qualified_name, score})'"
 Enter
 Sleep 2.5s

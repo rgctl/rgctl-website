@@ -55,10 +55,21 @@ if [[ ! -e "$SITE/docs/videos/.work/coolstore" && "$SLUG" != "markdown-context-g
   exit 1
 fi
 
+if [[ "$SLUG" != "markdown-context-graph" && "$SLUG" != "discovering-and-indexing" && -d "$SITE/docs/videos/.work/.rgctl.golden" ]]; then
+  mkdir -p "$SITE/docs/videos/.work/coolstore/.rgctl"
+  rsync -a --delete "$SITE/docs/videos/.work/.rgctl.golden/" "$SITE/docs/videos/.work/coolstore/.rgctl/"
+fi
+
 echo "==> rgctl: $(command -v rgctl) ($(rgctl --version))"
 echo "==> validating $TAPE"
 vhs validate "$TAPE"
 echo "==> recording $SLUG"
 vhs "$TAPE"
+
+if [[ ("$SLUG" == "discovering-and-indexing" || "$SLUG" == "watch-mode") && -d "$SITE/docs/videos/.work/.rgctl.golden" ]]; then
+  mkdir -p "$SITE/docs/videos/.work/coolstore/.rgctl"
+  rsync -a --delete "$SITE/docs/videos/.work/.rgctl.golden/" "$SITE/docs/videos/.work/coolstore/.rgctl/"
+fi
+
 echo "==> wrote:"
 ls -lh "$OUT_GIF" "$OUT_MP4" 2>/dev/null || ls -lh "docs/videos/guides/${SLUG}"*

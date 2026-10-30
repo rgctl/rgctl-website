@@ -53,7 +53,7 @@ Show
 # 2. Sampled betweenness bridges
 Type "# 2. Sampled betweenness bridges"
 Enter
-Type "rgctl -f json metrics --betweenness | jq '.betweenness.top[:3] | map({kind, qualified_name, betweenness})'"
+Type "rgctl -f json metrics --betweenness | jq '.betweenness[:3] | map({kind, qualified_name, score})'"
 Enter
 Sleep 2.5s
 
@@ -65,6 +65,6 @@ Show
 # 3. Community metrics overlay
 Type "# 3. Community metrics overlay"
 Enter
-Type "rgctl -f json metrics --communities | jq '{communities: (.communities|length)}'"
+Type "rgctl -f json metrics --communities | jq '.communities'"
 Enter
 Sleep 2s

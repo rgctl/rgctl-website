@@ -53,6 +53,6 @@ Show
 # 2. Blast-radius policy on a hot method
 Type "# 2. Blast-radius policy on a hot method"
 Enter
-Type "rgctl -f json blast-radius priceShoppingCart --policy-file ../rgctl-pr-policy.json | jq '{metrics, violations: (.violations // [])}'"
+Type "rgctl -f json blast-radius priceShoppingCart --policy-file ../rgctl-pr-policy.json | jq '{metrics, gatekeeping}'"
 Enter
 Sleep 2.5s

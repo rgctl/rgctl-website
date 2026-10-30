@@ -1,9 +1,9 @@
 1
-00:00:00,000 --> 00:00:06,312
+00:00:00,000 --> 00:00:06,456
 Map Domain Architecture (communities list)
 Fast-Leiden clusters with μ+4σ hub stripping
 
 2
-00:00:06,392 --> 00:00:11,660
-Community Sizes at a Glance (inventory --by community)
-Pick extraction boundaries before a migration
+00:00:06,536 --> 00:00:11,822
+Community Partition Summary (metrics --communities)
+Assignments · cluster count · modularity score

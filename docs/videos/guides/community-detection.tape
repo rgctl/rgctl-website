@@ -41,7 +41,7 @@ Show
 # 1. Fast-Leiden domain communities
 Type "# 1. Fast-Leiden domain communities"
 Enter
-Type "rgctl -f json communities list | jq '.communities[:4] | map({id, label, size})'"
+Type "rgctl -f json communities list | jq '.communities[:4] | map({id, label, member_count})'"
 Enter
 Sleep 2.5s
 
@@ -50,9 +50,9 @@ Type "clear"
 Enter
 Show
 
-# 2. Community size inventory
-Type "# 2. Community size inventory"
+# 2. Community partition summary
+Type "# 2. Community partition summary"
 Enter
-Type "rgctl -f json inventory --by community | jq '.counts[:5]'"
+Type "rgctl -f json metrics --communities | jq '.communities'"
 Enter
 Sleep 2s

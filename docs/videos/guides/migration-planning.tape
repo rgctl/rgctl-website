@@ -65,7 +65,7 @@ Show
 # 3. Pair with communities + blast-radius
 Type "# 3. Pair with communities + blast-radius"
 Enter
-Type "rgctl -f json communities list | jq '.communities[:3] | map({id, label, size})'"
+Type "rgctl -f json communities list | jq '.communities[:3] | map({id, label, member_count})'"
 Enter
 Type "rgctl blast-radius getShoppingCart --depth 3"
 Enter

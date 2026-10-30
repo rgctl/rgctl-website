@@ -41,7 +41,7 @@ Show
 # 1. Backward slice — what influences sc?
 Type "# 1. Backward slice — what influences sc?"
 Enter
-Type "rgctl -f json slice src/main/java/com/redhat/coolstore/service/ShoppingCartService.java --line 68 --variable sc --direction backward | jq '{criterion, statements: (.statements|length), files: (.files|length)}'"
+Type "rgctl -f json slice src/main/java/com/redhat/coolstore/service/ShoppingCartService.java --line 68 --variable sc --direction backward | jq '{criterion, file, lines, nodes: (.nodes|length), edges: (.edges|length)}'"
 Enter
 Sleep 3.5s
 
@@ -53,6 +53,6 @@ Show
 # 2. Forward slice with alias tracking
 Type "# 2. Forward slice with alias tracking"
 Enter
-Type "rgctl -f json slice src/main/java/com/redhat/coolstore/service/ShoppingCartService.java --line 68 --variable sc --direction forward --with-alias | jq '{direction, statements: (.statements|length)}'"
+Type "rgctl -f json slice src/main/java/com/redhat/coolstore/service/ShoppingCartService.java --line 68 --variable sc --direction forward --with-alias | jq '{direction, lines, nodes: (.nodes|length), reduction_percent}'"
 Enter
 Sleep 3s

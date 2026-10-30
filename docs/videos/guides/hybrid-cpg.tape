@@ -41,7 +41,7 @@ Show
 # 1. Hybrid CPG archive status
 Type "# 1. Hybrid CPG archive status"
 Enter
-Type "rgctl -f json cpg status | jq '{schema_version, functions, field_write_count, ready}'"
+Type "rgctl -f json cpg status | jq '{schema_version, field_write_count, field_write_index_present}'"
 Enter
 Sleep 2s
 
@@ -53,7 +53,7 @@ Show
 # 2. Call overlay + field mutations on ShoppingCart
 Type "# 2. Call overlay + field mutations on ShoppingCart"
 Enter
-Type "rgctl -f json cpg calls priceShoppingCart | jq '{callees: (.callees|length), callers: (.callers|length)}'"
+Type "rgctl -f json cpg calls priceShoppingCart | jq '{function_name, edges: (.edges|length), sample: .edges[:2]}'"
 Enter
 Type "rgctl -f json cpg mutations --type ShoppingCart --exclude-ctors | jq '{mutations: (.mutations|length)}'"
 Enter
@@ -67,6 +67,6 @@ Show
 # 3. Data-flow façade (cpg flows)
 Type "# 3. Data-flow façade (cpg flows)"
 Enter
-Type "rgctl -f json cpg flows src/main/java/com/redhat/coolstore/service/ShoppingCartService.java --line 68 --variable sc --direction forward --with-alias | jq '{statements: (.statements|length)}'"
+Type "rgctl -f json cpg flows src/main/java/com/redhat/coolstore/service/ShoppingCartService.java --line 68 --variable sc --direction forward --with-alias | jq '{function, variable, lines, steps: (.steps|length)}'"
 Enter
 Sleep 3s

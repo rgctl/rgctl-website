@@ -9,6 +9,6 @@ Dependency-Aware Extraction Order
 Foundational-first or dense-cluster presets
 
 3
-00:00:12,838 --> 00:00:20,910
+00:00:12,838 --> 00:00:21,054
 Validate Before You Extract (communities · blast-radius)
 Confirm boundaries and upstream risk on CoolStore

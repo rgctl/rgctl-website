@@ -58,7 +58,12 @@ echo "==> CoolStore=$COOLSTORE"
 
 WORK="$SITE/docs/videos/.work"
 mkdir -p "$WORK"
-ln -sfn "$COOLSTORE" "$WORK/coolstore"
+if [[ -L "$WORK/coolstore" ]]; then
+  rm -f "$WORK/coolstore"
+fi
+mkdir -p "$WORK/coolstore"
+rsync -a --delete --exclude '.rgctl*' --exclude '.cursor' "$COOLSTORE/" "$WORK/coolstore/"
+rm -rf "$COOLSTORE/.cursor"
 
 OSV="$RGCTL_REPO/tests/fixtures/osv"
 if [[ -d "$OSV" ]]; then
@@ -82,19 +87,22 @@ else
 fi
 
 if [[ "${SKIP_DISCOVER:-0}" == "1" ]]; then
-  echo "==> SKIP_DISCOVER=1 — symlinks only"
+  echo "==> SKIP_DISCOVER=1 — workspace wired only"
   ls -la "$WORK"
   exit 0
 fi
 
 echo "==> discover CoolStore (-l java --with-cfg --with-harmonic --export-migration-hints)"
 (
-  cd "$COOLSTORE"
+  cd "$WORK/coolstore"
+  rm -rf .rgctl
   rgctl discover . -l java --with-cfg --with-harmonic --export-migration-hints
   echo "==> semantic index"
   rgctl semantic index
   rgctl -f json status | jq '{status, nodes, edges, schema_version}'
 )
+rm -rf "$WORK/.rgctl.golden"
+cp -R "$WORK/coolstore/.rgctl" "$WORK/.rgctl.golden"
 
 echo "==> ready:"
 ls -la "$WORK"

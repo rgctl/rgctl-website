@@ -4,11 +4,11 @@ FastPageRank Hotspots (metrics --pagerank)
 Pull-based CSR ranking — production-aware centrality
 
 2
-00:00:06,788 --> 00:00:13,492
+00:00:06,788 --> 00:00:13,312
 Architectural Bridges (metrics --betweenness)
 Sampled Brandes pivots — high-risk cut vertices
 
 3
-00:00:13,572 --> 00:00:19,254
+00:00:13,392 --> 00:00:18,642
 Communities as Metrics (--communities)
 Same Fast-Leiden partition — scored for dashboards

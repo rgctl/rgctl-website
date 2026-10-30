@@ -41,7 +41,7 @@ Show
 # 1. Exact (Type-1) whole-function clones
 Type "# 1. Exact (Type-1) whole-function clones"
 Enter
-Type "rgctl -f json clones --mode exact --min-loc 5 --exclude test | jq '{mode, group_count, groups: (.groups|length)}'"
+Type "rgctl -f json clones --mode exact --min-loc 3 --exclude test | jq '{mode, group_count, groups: (.groups|length)}'"
 Enter
 Sleep 2.5s
 

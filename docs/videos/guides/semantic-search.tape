@@ -53,7 +53,7 @@ Show
 # 2. Natural-language code search
 Type "# 2. Natural-language code search"
 Enter
-Type "rgctl -f json semantic query 'shopping cart checkout' --limit 3 | jq '.hits | map({symbol, score, file_path})'"
+Type "rgctl -f json semantic query 'shopping cart checkout' --limit 3 | jq '.hits | map({name, score, file_path})'"
 Enter
 Sleep 2.5s
 
@@ -65,6 +65,6 @@ Show
 # 3. Community-scoped query
 Type "# 3. Community-scoped query"
 Enter
-Type "rgctl -f json semantic query 'checkout' --scope community --limit 3 | jq '.hits | map({symbol, score})'"
+Type "rgctl -f json semantic query 'checkout' --scope community --limit 3 | jq '.hits | map({name, qualified_name, score})'"
 Enter
 Sleep 2.5s

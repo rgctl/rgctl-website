@@ -155,7 +155,7 @@ const tapes = {
       {
         comment: "# 3. Natural-language endpoint search",
         cmds: [
-          "rgctl -f json semantic query 'hey give me all my end points' --limit 3 | jq '.hits[:3] | map({name: .symbol, score})'",
+          "rgctl -f json semantic query 'hey give me all my end points' --limit 3 | jq '.hits[:3] | map({name, qualified_name, score})'",
         ],
         sleep: "2.5s",
       },
@@ -295,7 +295,7 @@ const tapes = {
       {
         comment: "# 2. Blast-radius policy on a hot method",
         cmds: [
-          "rgctl -f json blast-radius priceShoppingCart --policy-file ../rgctl-pr-policy.json | jq '{metrics, violations: (.violations // [])}'",
+          "rgctl -f json blast-radius priceShoppingCart --policy-file ../rgctl-pr-policy.json | jq '{metrics, gatekeeping}'",
         ],
         sleep: "2.5s",
       },
@@ -320,14 +320,14 @@ const tapes = {
       {
         comment: "# 1. Backward slice — what influences sc?",
         cmds: [
-          "rgctl -f json slice src/main/java/com/redhat/coolstore/service/ShoppingCartService.java --line 68 --variable sc --direction backward | jq '{criterion, statements: (.statements|length), files: (.files|length)}'",
+          "rgctl -f json slice src/main/java/com/redhat/coolstore/service/ShoppingCartService.java --line 68 --variable sc --direction backward | jq '{criterion, file, lines, nodes: (.nodes|length), edges: (.edges|length)}'",
         ],
         sleep: "3.5s",
       },
       {
         comment: "# 2. Forward slice with alias tracking",
         cmds: [
-          "rgctl -f json slice src/main/java/com/redhat/coolstore/service/ShoppingCartService.java --line 68 --variable sc --direction forward --with-alias | jq '{direction, statements: (.statements|length)}'",
+          "rgctl -f json slice src/main/java/com/redhat/coolstore/service/ShoppingCartService.java --line 68 --variable sc --direction forward --with-alias | jq '{direction, lines, nodes: (.nodes|length), reduction_percent}'",
         ],
         sleep: "3s",
       },
@@ -351,13 +351,15 @@ const tapes = {
     scenes: [
       {
         comment: "# 1. Hybrid CPG archive status",
-        cmds: ["rgctl -f json cpg status | jq '{schema_version, functions, field_write_count, ready}'"],
+        cmds: [
+          "rgctl -f json cpg status | jq '{schema_version, field_write_count, field_write_index_present}'",
+        ],
         sleep: "2s",
       },
       {
         comment: "# 2. Call overlay + field mutations on ShoppingCart",
         cmds: [
-          "rgctl -f json cpg calls priceShoppingCart | jq '{callees: (.callees|length), callers: (.callers|length)}'",
+          "rgctl -f json cpg calls priceShoppingCart | jq '{function_name, edges: (.edges|length), sample: .edges[:2]}'",
           "rgctl -f json cpg mutations --type ShoppingCart --exclude-ctors | jq '{mutations: (.mutations|length)}'",
         ],
         sleep: "3s",
@@ -365,7 +367,7 @@ const tapes = {
       {
         comment: "# 3. Data-flow façade (cpg flows)",
         cmds: [
-          "rgctl -f json cpg flows src/main/java/com/redhat/coolstore/service/ShoppingCartService.java --line 68 --variable sc --direction forward --with-alias | jq '{statements: (.statements|length)}'",
+          "rgctl -f json cpg flows src/main/java/com/redhat/coolstore/service/ShoppingCartService.java --line 68 --variable sc --direction forward --with-alias | jq '{function, variable, lines, steps: (.steps|length)}'",
         ],
         sleep: "3s",
       },
@@ -437,7 +439,7 @@ const tapes = {
       {
         comment: "# 1. Exact (Type-1) whole-function clones",
         cmds: [
-          "rgctl -f json clones --mode exact --min-loc 5 --exclude test | jq '{mode, group_count, groups: (.groups|length)}'",
+          "rgctl -f json clones --mode exact --min-loc 3 --exclude test | jq '{mode, group_count, groups: (.groups|length)}'",
         ],
         sleep: "2.5s",
       },
@@ -476,14 +478,14 @@ const tapes = {
       {
         comment: "# 2. Manifest match — CoolStore fast-exit",
         cmds: [
-          "rgctl -f json deps check --osv ../osv/jackson-CVE-2022-42004.json | jq '{command, findings: (.findings|length), not_affected: (.not_affected // true)}'",
+          "rgctl -f json deps check --osv ../osv/jackson-CVE-2022-42004.json | jq '{command, osv_id, verdict, matched: (.matched|length)}'",
         ],
         sleep: "2.5s",
       },
       {
         comment: "# 3. Full exploitability verdict + OpenVEX path",
         cmds: [
-          "rgctl -f json vuln analyze --osv ../osv/jackson-CVE-2022-42004.json | jq '{verdict: .exploitability, vex_status: .vex.status}'",
+          "rgctl -f json vuln analyze --osv ../osv/jackson-CVE-2022-42004.json | jq '{verdict: .exploitability, vex_status: .openvex.statements[0].status}'",
         ],
         sleep: "3s",
       },
@@ -512,14 +514,14 @@ const tapes = {
       {
         comment: "# 1. Fast-Leiden domain communities",
         cmds: [
-          "rgctl -f json communities list | jq '.communities[:4] | map({id, label, size})'",
+          "rgctl -f json communities list | jq '.communities[:4] | map({id, label, member_count})'",
         ],
         sleep: "2.5s",
       },
       {
-        comment: "# 2. Community size inventory",
+        comment: "# 2. Community partition summary",
         cmds: [
-          "rgctl -f json inventory --by community | jq '.counts[:5]'",
+          "rgctl -f json metrics --communities | jq '.communities'",
         ],
         sleep: "2s",
       },
@@ -530,8 +532,8 @@ const tapes = {
         "Fast-Leiden clusters with μ+4σ hub stripping",
       ],
       [
-        "Community Sizes at a Glance (inventory --by community)",
-        "Pick extraction boundaries before a migration",
+        "Community Partition Summary (metrics --communities)",
+        "Assignments · cluster count · modularity score",
       ],
     ],
   },
@@ -551,14 +553,14 @@ const tapes = {
       {
         comment: "# 2. Sampled betweenness bridges",
         cmds: [
-          "rgctl -f json metrics --betweenness | jq '.betweenness.top[:3] | map({kind, qualified_name, betweenness})'",
+          "rgctl -f json metrics --betweenness | jq '.betweenness[:3] | map({kind, qualified_name, score})'",
         ],
         sleep: "2.5s",
       },
       {
         comment: "# 3. Community metrics overlay",
         cmds: [
-          "rgctl -f json metrics --communities | jq '{communities: (.communities|length)}'",
+          "rgctl -f json metrics --communities | jq '.communities'",
         ],
         sleep: "2s",
       },
@@ -592,14 +594,14 @@ const tapes = {
       {
         comment: "# 2. Natural-language code search",
         cmds: [
-          "rgctl -f json semantic query 'shopping cart checkout' --limit 3 | jq '.hits | map({symbol, score, file_path})'",
+          "rgctl -f json semantic query 'shopping cart checkout' --limit 3 | jq '.hits | map({name, score, file_path})'",
         ],
         sleep: "2.5s",
       },
       {
         comment: "# 3. Community-scoped query",
         cmds: [
-          "rgctl -f json semantic query 'checkout' --scope community --limit 3 | jq '.hits | map({symbol, score})'",
+          "rgctl -f json semantic query 'checkout' --scope community --limit 3 | jq '.hits | map({name, qualified_name, score})'",
         ],
         sleep: "2.5s",
       },
@@ -642,7 +644,7 @@ const tapes = {
       {
         comment: "# 3. Pair with communities + blast-radius",
         cmds: [
-          "rgctl -f json communities list | jq '.communities[:3] | map({id, label, size})'",
+          "rgctl -f json communities list | jq '.communities[:3] | map({id, label, member_count})'",
           "rgctl blast-radius getShoppingCart --depth 3",
         ],
         sleep: "3s",
