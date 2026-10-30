@@ -1,10 +1,10 @@
 import { withBase, cn } from "@/lib/utils";
 
 type DemoMediaProps = {
-  kind: "cli" | "dashboard";
+  kind?: "cli";
   className?: string;
   caption?: string;
-  /** Prefer looping GIF in hero; MP4 with controls elsewhere. */
+  /** Prefer looping GIF instead of HTML5 MP4 video. */
   preferGif?: boolean;
 };
 
@@ -14,21 +14,13 @@ const assets = {
     gif: "/demos/user-guide-cli.gif",
     label: "CLI walkthrough (VHS)",
     blurb:
-      "Recorded from docs/videos/user-guide-cli.tape — discover, find, Kantra, blast-radius, CPG, semantic.",
-    alt: "rgctl CLI demo: discover, query, Kantra rules, blast-radius, and semantic search",
-  },
-  dashboard: {
-    mp4: "/demos/feature-demo.mp4",
-    gif: null as string | null,
-    label: "Dashboard tour",
-    blurb:
-      "Tab montage over ecommerce-java after discover --with-dashboard (includes Migration Rules / Kantra).",
-    alt: "rgctl dashboard feature demo across main tabs",
+      "Recorded from docs/videos/user-guide-cli.tape — discover, find, callers, blast-radius, Fast-Leiden communities, PageRank, Hybrid CPG, program slicing, clones, semantic search, Kantra rules, PR review & AI agent skills.",
+    alt: "rgctl CLI demo: discover, structured queries, blast-radius, communities, CPG slicing, clones, semantic search, Kantra rules, and agent skills",
   },
 } as const;
 
 export function DemoMedia({
-  kind,
+  kind = "cli",
   className,
   caption,
   preferGif = false,
@@ -61,6 +53,9 @@ export function DemoMedia({
           <video
             className="block h-auto w-full"
             controls
+            autoPlay
+            loop
+            muted
             playsInline
             preload="metadata"
             aria-label={asset.alt}

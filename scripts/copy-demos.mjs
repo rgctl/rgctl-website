@@ -26,9 +26,8 @@ function resolveRgctlRepo() {
 mkdirSync(destDir, { recursive: true });
 
 const files = [
-  ["docs/videos/user-guide-cli-no-captions.gif", "user-guide-cli.gif"],
+  ["docs/videos/user-guide-cli.gif", "user-guide-cli.gif"],
   ["docs/videos/user-guide-cli.mp4", "user-guide-cli.mp4"],
-  ["docs/videos/rgctl-feature-demo.mp4", "feature-demo.mp4"],
 ];
 
 const rgctlRepo = resolveRgctlRepo();

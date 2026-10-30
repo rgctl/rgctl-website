@@ -114,6 +114,30 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="border-b border-[var(--hairline)] bg-[var(--canvas-soft)]/60">
+        <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-16">
+          <div className="mx-auto max-w-5xl">
+            <h2 className="mb-3 font-[family-name:var(--font-serif)] text-2xl font-semibold tracking-tight text-[var(--ink)]">
+              See it run in a real terminal
+            </h2>
+            <p className="mb-8 max-w-[65ch] text-[var(--body)]">
+              77-second VHS walkthrough on the in-tree{" "}
+              <code className="font-[family-name:var(--font-mono)] text-[0.9em] text-[var(--ink)]">
+                ecommerce-java
+              </code>{" "}
+              fixture — sub-second indexing, call-graph lookups, upstream blast
+              radius, Fast-Leiden communities, Hybrid CPG program slicing,
+              structural clones, offline semantic search, Konveyor Kantra rules,
+              and AI agent skill installation.
+            </p>
+            <DemoMedia
+              kind="cli"
+              caption="Recorded from docs/videos/user-guide-cli.tape — discover, status, find, callers, blast-radius, communities, PageRank, CPG slicing, clones, semantic search, Kantra & agent skills."
+            />
+          </div>
+        </div>
+      </section>
+
       <section className="border-b border-[var(--hairline)]">
         <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-16">
           <h2 className="mb-3 font-[family-name:var(--font-serif)] text-2xl font-semibold tracking-tight text-[var(--ink)]">
@@ -163,74 +187,73 @@ export default function HomePage() {
             </h3>
             <ul className="grid gap-3 text-sm text-[var(--body)] sm:grid-cols-2 lg:grid-cols-3">
               <li className="rounded-[4px] border border-[var(--hairline)] p-4">
-                Linux kernel · Kubernetes · LLVM · Roslyn · rustc cold discover
+                <b className="font-semibold text-[var(--ink)]">Linux kernel</b>{" "}
+                (72.4k files, 1.76M nodes) cold discover in{" "}
+                <b className="font-semibold text-[var(--ink)]">~48.1 s</b> ·{" "}
+                <b className="font-semibold text-[var(--ink)]">rustc</b> in{" "}
+                <b className="font-semibold text-[var(--ink)]">~23.5 s</b> ·{" "}
+                <b className="font-semibold text-[var(--ink)]">metasfresh</b> in{" "}
+                <b className="font-semibold text-[var(--ink)]">~9.3 s</b>
               </li>
               <li className="rounded-[4px] border border-[var(--hairline)] p-4">
-                Zero-hydration mmap queries on columnar snapshots
+                <b className="font-semibold text-[var(--ink)]">
+                  Zero-cold-touch mmap queries
+                </b>{" "}
+                on RGCL v2 columnar snapshots + content-addressed{" "}
+                <code className="font-mono text-xs">FileFacts</code> cache &{" "}
+                <code className="font-mono text-xs">rgctl watch</code>
               </li>
               <li className="rounded-[4px] border border-[var(--hairline)] p-4">
-                Tier-1 deep-analysis languages + full languages.toml catalog
+                <b className="font-semibold text-[var(--ink)]">
+                  60+ languages across two tiers
+                </b>{" "}
+                — 23 Tier-1 deep CFG/PDG plugins + Mainframe (COBOL/PL/I/JCL) +
+                35+ Tier-2 <code className="font-mono text-xs">tags.scm</code>{" "}
+                packs
               </li>
             </ul>
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-16">
-        <h2 className="mb-3 font-[family-name:var(--font-serif)] text-2xl font-semibold tracking-tight text-[var(--ink)]">
-          What sets it apart
-        </h2>
-        <p className="mb-10 max-w-[62ch] text-[var(--body)]">
-          Most code graphs stop at symbols, callers, and impact. rgctl adds
-          precomputed reachability, lazy hybrid CPG depth, FastPageRank,
-          Fast-Leiden communities, fragment clones, MRO/SCIP/git-churn overlays,
-          and migration/CI outputs — always as deterministic{" "}
-          <code className="font-[family-name:var(--font-mono)] text-[0.9em] text-[var(--ink)]">
-            -f json
-          </code>{" "}
-          for agents.
-        </p>
-        <div className="space-y-10">
-          {capabilityRows.map((row) => (
-            <div key={row.label}>
-              <div className="mb-4 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                <h3 className="font-[family-name:var(--font-serif)] text-lg font-semibold text-[var(--ink)]">
-                  {row.label}
-                </h3>
-                <p className="text-sm text-[var(--mute)]">{row.blurb}</p>
-              </div>
-              <div className="grid gap-6 border-t border-[var(--hairline)] pt-5 md:grid-cols-3">
-                {row.cells.map((cell) => (
-                  <div key={cell.title} className="space-y-2">
-                    <h4 className="font-[family-name:var(--font-mono)] text-sm text-[var(--primary)]">
-                      {cell.title}
-                    </h4>
-                    <p className="text-[15px] leading-relaxed text-[var(--body)]">
-                      {cell.body}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="border-y border-[var(--hairline)] bg-[var(--canvas-soft)]/60">
+      <section className="border-b border-[var(--hairline)]">
         <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-16">
           <h2 className="mb-3 font-[family-name:var(--font-serif)] text-2xl font-semibold tracking-tight text-[var(--ink)]">
-            See it run
+            What sets it apart
           </h2>
-          <p className="mb-8 max-w-[62ch] text-[var(--body)]">
-            The same path as the first hour of the user guide, on the
-            ecommerce-java fixture.
+          <p className="mb-10 max-w-[62ch] text-[var(--body)]">
+            Most code graphs stop at symbols, callers, and impact. rgctl adds
+            precomputed reachability, lazy hybrid CPG depth, FastPageRank,
+            Fast-Leiden communities, fragment clones, MRO/SCIP/git-churn overlays,
+            and migration/CI outputs — always as deterministic{" "}
+            <code className="font-[family-name:var(--font-mono)] text-[0.9em] text-[var(--ink)]">
+              -f json
+            </code>{" "}
+            for agents.
           </p>
-          <div className="max-w-4xl">
-            <DemoMedia
-              kind="cli"
-              preferGif
-              caption="CLI walkthrough — discover, query, blast-radius, semantic search."
-            />
+          <div className="space-y-10">
+            {capabilityRows.map((row) => (
+              <div key={row.label}>
+                <div className="mb-4 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                  <h3 className="font-[family-name:var(--font-serif)] text-lg font-semibold text-[var(--ink)]">
+                    {row.label}
+                  </h3>
+                  <p className="text-sm text-[var(--mute)]">{row.blurb}</p>
+                </div>
+                <div className="grid gap-6 border-t border-[var(--hairline)] pt-5 md:grid-cols-3">
+                  {row.cells.map((cell) => (
+                    <div key={cell.title} className="space-y-2">
+                      <h4 className="font-[family-name:var(--font-mono)] text-sm text-[var(--primary)]">
+                        {cell.title}
+                      </h4>
+                      <p className="text-[15px] leading-relaxed text-[var(--body)]">
+                        {cell.body}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>

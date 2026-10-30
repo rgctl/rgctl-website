@@ -96,10 +96,13 @@ const DISPLAY = {
   json: "JSON",
   julia: "Julia",
   make: "Makefile",
+  matlab: "MATLAB",
   nix: "Nix",
   objc: "Objective-C",
   ocaml: "OCaml",
   odin: "Odin",
+  pascal: "Pascal / Delphi",
+  perl: "Perl",
   powershell: "PowerShell",
   prisma: "Prisma",
   proto: "Protocol Buffers",
@@ -114,6 +117,12 @@ const DISPLAY = {
   vhdl: "VHDL",
   yaml: "YAML",
   zig: "Zig",
+  // Mainframe / enterprise migration (structural + Tier-2)
+  ada: "Ada",
+  apex: "Apex (Salesforce)",
+  cobol: "COBOL",
+  jcl: "JCL",
+  pli: "PL/I",
 };
 
 /**
@@ -253,6 +262,7 @@ for (const name of readdirSync(cratesDir).sort()) {
       aliases: langMeta.aliases || [],
       functionKinds: langMeta.function_kinds || [],
       classKinds: langMeta.class_kinds || [],
+      importKinds: langMeta.import_kinds || [],
       kindCount: Object.keys(handlers).length,
       handlerCounts: counts,
     });
@@ -278,10 +288,32 @@ for (const name of readdirSync(cratesDir).sort()) {
       aliases: langMeta.aliases || [],
       functionKinds: langMeta.function_kinds || [],
       classKinds: langMeta.class_kinds || [],
+      importKinds: langMeta.import_kinds || [],
       kindCount: captures.length,
       handlerCounts: {},
       captures,
       captureCounts,
+    });
+  } else if (langMeta.handler === "custom" && Object.keys(langMeta).length > 0) {
+    // Structural custom plugins without tree-sitter (e.g. COBOL / PL/I / JCL).
+    catalog.push({
+      id,
+      tier: 2,
+      displayName: DISPLAY[id] || id,
+      grammar: langMeta.crate || "",
+      crateDir: name,
+      manifestFile: "src/extract.rs",
+      plugin: langMeta.plugin || "",
+      grammarCrate: langMeta.crate || "",
+      handler: "custom",
+      extensions: langMeta.extensions || [],
+      aliases: langMeta.aliases || [],
+      functionKinds: langMeta.function_kinds || [],
+      classKinds: langMeta.class_kinds || [],
+      importKinds: langMeta.import_kinds || [],
+      kindCount: 0,
+      handlerCounts: {},
+      structural: true,
     });
   }
 }

@@ -16,7 +16,8 @@ export const metadata: Metadata = {
 export default function LanguagesIndexPage() {
   const languages = listLanguages();
   const tier1 = languages.filter((l) => (l.tier ?? 1) === 1);
-  const tier2 = languages.filter((l) => l.tier === 2);
+  const tier2 = languages.filter((l) => l.tier === 2 && !l.structural);
+  const structural = languages.filter((l) => l.structural);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
@@ -25,16 +26,26 @@ export default function LanguagesIndexPage() {
         Languages ({languages.length})
       </h1>
       <p className="mt-3 max-w-3xl text-[var(--body)]">
-        rgctl ships with <strong>{tier1.length} Tier-1 custom plugins</strong>{" "}
+        rgctl ships with <strong>{tier1.length} Tier-1 custom AST plugins</strong>{" "}
         (<code className="text-sm">handler = &quot;custom&quot;</code>, verified by{" "}
-        <code className="text-sm">*-ast-coverage.json</code> manifests) and{" "}
+        <code className="text-sm">*-ast-coverage.json</code> manifests),{" "}
         <strong>{tier2.length} Tier-2 declarative query plugins</strong> (
         <code className="text-sm">handler = &quot;queries&quot;</code>, powered by{" "}
         <code className="text-sm">QueryLanguagePlugin</code> and{" "}
-        <code className="text-sm">queries/tags.scm</code>).
+        <code className="text-sm">queries/tags.scm</code>)
+        {structural.length > 0 && (
+          <>
+            , and{" "}
+            <strong>
+              {structural.length} Mainframe &amp; batch structural extractors
+            </strong>{" "}
+            (COBOL, PL/I, and JCL)
+          </>
+        )}
+        .
       </p>
       <p className="mt-2 text-sm text-[var(--mute)]">
-         Architecture &amp; contributor docs:{" "}
+        Architecture &amp; contributor docs:{" "}
         <Link href="/docs/tier-1-language-support/" className="underline">
           Tier 1 language support
         </Link>
@@ -199,6 +210,80 @@ export default function LanguagesIndexPage() {
                       </td>
                       <td className="p-2 font-mono text-xs">
                         {(lang.captures ?? []).length} captures
+                      </td>
+                      <td className="p-2 font-mono text-xs text-[var(--mute)]">
+                        {kinds.length ? kinds.join(", ") : "—"}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
+
+      {structural.length > 0 && (
+        <section className="mt-14">
+          <div className="flex flex-wrap items-baseline justify-between gap-2">
+            <h2 className="text-xl font-medium text-[var(--ink)]">
+              Mainframe &amp; Batch Structural Plugins ({structural.length})
+            </h2>
+            <Link
+              href="/docs/tier-1-language-support/#mainframe-triad"
+              className="text-xs text-[var(--mute)] underline"
+            >
+              Mainframe triad architecture →
+            </Link>
+          </div>
+          <p className="mt-1 text-sm text-[var(--mute)]">
+            Custom structural extractors for z/OS mainframe modernization (COBOL,
+            PL/I, and JCL). Models inter-program batch execution (
+            <code className="text-xs">EXEC PGM=</code>,{" "}
+            <code className="text-xs">IKJEFT01 SYSTSIN RUN PROGRAM</code>,{" "}
+            <code className="text-xs">CALL</code>,{" "}
+            <code className="text-xs">PERFORM</code>,{" "}
+            <code className="text-xs">EXEC CICS LINK/XCTL</code>), copybook /{" "}
+            <code className="text-xs">%INCLUDE</code> imports, and{" "}
+            <code className="text-xs">DD DSN=</code> dataset producer→consumer
+            pipelines.
+          </p>
+
+          <div className="mt-4 overflow-x-auto">
+            <table className="w-full min-w-[44rem] border-collapse text-sm">
+              <thead>
+                <tr className="border-b border-[var(--hairline)] text-left text-[var(--mute)]">
+                  <th className="p-2 font-medium">Language</th>
+                  <th className="p-2 font-medium">Extensions</th>
+                  <th className="p-2 font-medium">Plugin Crate</th>
+                  <th className="p-2 font-medium">Extracted Constructs</th>
+                </tr>
+              </thead>
+              <tbody>
+                {structural.map((lang) => {
+                  const kinds = [
+                    ...(lang.functionKinds ?? []),
+                    ...(lang.classKinds ?? []),
+                    ...(lang.importKinds ?? []),
+                  ];
+                  return (
+                    <tr
+                      key={lang.id}
+                      className="border-b border-[var(--hairline)] text-[var(--body)]"
+                    >
+                      <td className="p-2">
+                        <Link
+                          href={`/docs/languages/${lang.id}/`}
+                          className="font-medium text-[var(--ink)] underline"
+                        >
+                          {lang.displayName}
+                        </Link>
+                      </td>
+                      <td className="p-2 font-mono text-xs">
+                        {formatExtensions(lang.extensions)}
+                      </td>
+                      <td className="p-2 font-mono text-xs">
+                        {lang.plugin ? `${lang.plugin} (${lang.crateDir})` : lang.crateDir}
                       </td>
                       <td className="p-2 font-mono text-xs text-[var(--mute)]">
                         {kinds.length ? kinds.join(", ") : "—"}

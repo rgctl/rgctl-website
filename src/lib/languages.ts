@@ -50,10 +50,13 @@ export const LANGUAGE_DISPLAY: Record<string, string> = {
   json: "JSON",
   julia: "Julia",
   make: "Makefile",
+  matlab: "MATLAB",
   nix: "Nix",
   objc: "Objective-C",
   ocaml: "OCaml",
   odin: "Odin",
+  pascal: "Pascal / Delphi",
+  perl: "Perl",
   powershell: "PowerShell",
   prisma: "Prisma",
   proto: "Protocol Buffers",
@@ -68,6 +71,11 @@ export const LANGUAGE_DISPLAY: Record<string, string> = {
   vhdl: "VHDL",
   yaml: "YAML",
   zig: "Zig",
+  ada: "Ada",
+  apex: "Apex (Salesforce)",
+  cobol: "COBOL",
+  jcl: "JCL",
+  pli: "PL/I",
 };
 
 export function displayNameFor(id: string, fallback?: string): string {
@@ -100,10 +108,12 @@ export type LanguageCatalogEntry = {
   aliases: string[];
   functionKinds?: string[];
   classKinds?: string[];
+  importKinds?: string[];
   kindCount: number;
   handlerCounts: Record<string, number>;
   captures?: string[];
   captureCounts?: Record<string, number>;
+  structural?: boolean;
 };
 
 export type AstCoverageManifest = {
