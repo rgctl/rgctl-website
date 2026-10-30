@@ -1,9 +1,9 @@
 1
-00:00:00,000 --> 00:00:07,622
+00:00:00,000 --> 00:00:08,256
 PR Call-Path Deltas Without Dual Snapshots
 review paths --synthetic-head worktree vs indexed HEAD
 
 2
-00:00:07,702 --> 00:00:14,928
-Agent-Ready JSON Envelope
-change_summary · symbols · unscored_files — schema_version 1
+00:00:08,336 --> 00:00:16,458
+Symbol-Level Call-Path Deltas
+Pinpoint added, removed, and retargeted call edges per symbol

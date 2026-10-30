@@ -41,6 +41,8 @@ Show
 # 1. Structural PR deltas vs indexed HEAD (worktree synth)
 Type "# 1. Structural PR deltas vs indexed HEAD (worktree synth)"
 Enter
+Type "git status -s"
+Enter
 Type "rgctl -f json review paths --synthetic-head worktree | jq '{schema_version, command, change_summary}'"
 Enter
 Sleep 3s
@@ -50,9 +52,9 @@ Type "clear"
 Enter
 Show
 
-# 2. Same envelope — ready for agents
-Type "# 2. Same envelope — ready for agents"
+# 2. Inspect symbol-level call-path deltas
+Type "# 2. Inspect symbol-level call-path deltas"
 Enter
-Type "rgctl -f json review paths --synthetic-head worktree | jq '{symbols: (.symbols|length), unscored_files: (.unscored_files|length)}'"
+Type `rgctl -f json review paths --synthetic-head worktree | jq '.symbols[] | select(.name=="priceShoppingCart") | {name, kind, deltas: .path_delta[:3]}'`
 Enter
-Sleep 2.5s
+Sleep 3s

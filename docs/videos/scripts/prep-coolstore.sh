@@ -95,7 +95,30 @@ fi
 echo "==> discover CoolStore (-l java --with-cfg --with-harmonic --export-migration-hints)"
 (
   cd "$WORK/coolstore"
-  rm -rf .rgctl
+  rm -rf .rgctl .git
+  python3 - <<'PY'
+from pathlib import Path
+p = Path("src/main/java/com/redhat/coolstore/utils/Transformers.java")
+s = p.read_text()
+if "com.fasterxml.jackson.databind.ObjectMapper" not in s:
+    s = s.replace(
+        "import com.redhat.coolstore.model.Order;",
+        "import com.fasterxml.jackson.databind.ObjectMapper;\nimport com.redhat.coolstore.model.Order;",
+        1,
+    )
+    s = s.replace(
+        "JsonReader jsonReader = Json.createReader(new StringReader(json));",
+        "ObjectMapper mapper = new ObjectMapper();\n        mapper.readValue(json, Order.class);\n        JsonReader jsonReader = Json.createReader(new StringReader(json));",
+        1,
+    )
+    p.write_text(s)
+PY
+  git init -q
+  git config user.email "demo@rgctl.io"
+  git config user.name "rgctl demo"
+  git config commit.gpgsign false
+  git add -A
+  git commit --no-gpg-sign -qm "Initial CoolStore commit"
   rgctl discover . -l java --with-cfg --with-harmonic --export-migration-hints
   echo "==> semantic index"
   rgctl semantic index

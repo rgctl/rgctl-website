@@ -29,6 +29,7 @@ docs/videos/.work/
 # Raw VHS outputs — commit captioned guides/<slug>.mp4 only
 docs/videos/guides/*-no-captions.*
 docs/videos/guides/*.gif
+docs/videos/guides/.*.scaled.srt
 
 # copied from docs/ at build/dev time
 content/docs/

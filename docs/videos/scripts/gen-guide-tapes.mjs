@@ -256,16 +256,17 @@ const tapes = {
       {
         comment: "# 1. Structural PR deltas vs indexed HEAD (worktree synth)",
         cmds: [
+          "git status -s",
           "rgctl -f json review paths --synthetic-head worktree | jq '{schema_version, command, change_summary}'",
         ],
         sleep: "3s",
       },
       {
-        comment: "# 2. Same envelope — ready for agents",
+        comment: "# 2. Inspect symbol-level call-path deltas",
         cmds: [
-          "rgctl -f json review paths --synthetic-head worktree | jq '{symbols: (.symbols|length), unscored_files: (.unscored_files|length)}'",
+          "rgctl -f json review paths --synthetic-head worktree | jq '.symbols[] | select(.name==\"priceShoppingCart\") | {name, kind, deltas: .path_delta[:3]}'",
         ],
-        sleep: "2.5s",
+        sleep: "3s",
       },
     ],
     captions: [
@@ -274,8 +275,8 @@ const tapes = {
         "review paths --synthetic-head worktree vs indexed HEAD",
       ],
       [
-        "Agent-Ready JSON Envelope",
-        "change_summary · symbols · unscored_files — schema_version 1",
+        "Symbol-Level Call-Path Deltas",
+        "Pinpoint added, removed, and retargeted call edges per symbol",
       ],
     ],
   },
@@ -471,37 +472,37 @@ const tapes = {
       {
         comment: "# 1. Normalize an OSV advisory (offline fixture)",
         cmds: [
-          "rgctl -f json vuln triage --osv ../osv/jackson-CVE-2022-42004.json | jq '{id, packages: [.packages[] | {name, introduced, fixed}]}'",
+          "rgctl -f json vuln triage --osv ../osv/jackson-CVE-2022-42004.json | jq '{id, packages: [.packages[] | {name, introduced, fixed, affected_methods}]}'",
         ],
         sleep: "2.5s",
       },
       {
-        comment: "# 2. Manifest match — CoolStore fast-exit",
+        comment: "# 2. Catch shaded vulnerable JARs in lib/ (--include-jars)",
         cmds: [
-          "rgctl -f json deps check --osv ../osv/jackson-CVE-2022-42004.json | jq '{command, osv_id, verdict, matched: (.matched|length)}'",
-        ],
-        sleep: "2.5s",
-      },
-      {
-        comment: "# 3. Full exploitability verdict + OpenVEX path",
-        cmds: [
-          "rgctl -f json vuln analyze --osv ../osv/jackson-CVE-2022-42004.json | jq '{verdict: .exploitability, vex_status: .openvex.statements[0].status}'",
+          "rgctl -f json deps check --osv ../osv/jackson-CVE-2022-42004.json --include-jars lib | jq '{verdict, matched: [.matched[] | {name, version, in_range}]}'",
         ],
         sleep: "3s",
+      },
+      {
+        comment: "# 3. Link OSV affected method to discovered code coordinates + call paths",
+        cmds: [
+          "rgctl -f json vuln analyze --osv ../osv/jackson-CVE-2022-42004.json --include-jars lib | jq '{deps_verdict, exploitability, vex_status: .openvex.statements[0].status, call_sites: .sink_taint.call_sites, paths: .sink_taint.paths}'",
+        ],
+        sleep: "4s",
       },
     ],
     captions: [
       [
         "Normalize OSV Advisories (vuln triage)",
-        "Affected packages · version ranges · method signatures",
+        "Affected packages · version ranges · vulnerable sink methods",
       ],
       [
-        "Manifest Match with Fast Exit (deps check)",
-        "not_affected when the vulnerable dep is absent",
+        "Catch Shaded Vulnerable JARs (deps check --include-jars)",
+        "Finds jackson-databind 2.13.5 shaded inside lib/*.jar → affected_candidate",
       ],
       [
-        "Exploitability Verdict → OpenVEX (vuln analyze)",
-        "Graph-backed justifications — kill SCA false positives",
+        "Link OSV Sinks to Your Code Coordinates (vuln analyze)",
+        "Transformers.jsonToOrder (Transformers.java:79) ← OrderServiceMDB.onMessage",
       ],
     ],
   },

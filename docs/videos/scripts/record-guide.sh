@@ -60,11 +60,28 @@ if [[ "$SLUG" != "markdown-context-graph" && "$SLUG" != "discovering-and-indexin
   rsync -a --delete "$SITE/docs/videos/.work/.rgctl.golden/" "$SITE/docs/videos/.work/coolstore/.rgctl/"
 fi
 
+if [[ "$SLUG" == "pr-review" ]]; then
+  python3 - "$SITE/docs/videos/.work/coolstore/src/main/java/com/redhat/coolstore/service/ShoppingCartService.java" <<'PY'
+import sys
+from pathlib import Path
+p = Path(sys.argv[1])
+s = p.read_text()
+target = "initShoppingCartForPricing(sc);"
+replacement = 'initShoppingCartForPricing(sc);\n            getProduct("329299");'
+if replacement not in s and target in s:
+    p.write_text(s.replace(target, replacement, 1))
+PY
+fi
+
 echo "==> rgctl: $(command -v rgctl) ($(rgctl --version))"
 echo "==> validating $TAPE"
 vhs validate "$TAPE"
 echo "==> recording $SLUG"
 vhs "$TAPE"
+
+if [[ "$SLUG" == "pr-review" ]]; then
+  (cd "$SITE/docs/videos/.work/coolstore" && git checkout -- src/main/java/com/redhat/coolstore/service/ShoppingCartService.java 2>/dev/null || true)
+fi
 
 if [[ ("$SLUG" == "discovering-and-indexing" || "$SLUG" == "watch-mode") && -d "$SITE/docs/videos/.work/.rgctl.golden" ]]; then
   mkdir -p "$SITE/docs/videos/.work/coolstore/.rgctl"
