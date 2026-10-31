@@ -55,9 +55,9 @@ Type "# 2. Call overlay + field mutations on ShoppingCart"
 Enter
 Type "rgctl -f json cpg calls priceShoppingCart | jq '{function_name, edges: (.edges|length), sample: .edges[:2]}'"
 Enter
-Type "rgctl -f json cpg mutations --type ShoppingCart --exclude-ctors | jq '{mutations: (.mutations|length)}'"
+Type "rgctl -f json cpg mutations --type ShoppingCart --exclude-ctors | jq '{type_name, count: (.mutations|length), sample: (.mutations[:3] | map({member, function, line}))}'"
 Enter
-Sleep 3s
+Sleep 3.5s
 
 Hide
 Type "clear"
@@ -67,6 +67,6 @@ Show
 # 3. Data-flow façade (cpg flows)
 Type "# 3. Data-flow façade (cpg flows)"
 Enter
-Type "rgctl -f json cpg flows src/main/java/com/redhat/coolstore/service/ShoppingCartService.java --line 68 --variable sc --direction forward --with-alias | jq '{function, variable, lines, steps: (.steps|length)}'"
+Type "rgctl -f json cpg flows src/main/java/com/redhat/coolstore/service/ShoppingCartService.java --line 68 --variable sc --direction forward --with-alias | jq '{function, variable, steps: (.steps | map({line, code}))}'"
 Enter
-Sleep 3s
+Sleep 3.5s

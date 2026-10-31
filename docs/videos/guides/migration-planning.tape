@@ -50,12 +50,12 @@ Type "clear"
 Enter
 Show
 
-# 2. First extraction steps
-Type "# 2. First extraction steps"
+# 2. Domain package extraction steps (strangler-fig order)
+Type "# 2. Domain package extraction steps (strangler-fig order)"
 Enter
-Type "jq '.steps[:3] | map({step, label, priority_score, schedule_step})' .rgctl/migration_plan.json"
+Type `jq '[.steps[] | select(.label != "root")][:4] | map({step, label, schedule_step, priority_rank, avg_pagerank})' .rgctl/migration_plan.json`
 Enter
-Sleep 2.5s
+Sleep 3s
 
 Hide
 Type "clear"

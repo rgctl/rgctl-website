@@ -53,7 +53,7 @@ Show
 # 2. Install the Cursor skill pack into CoolStore
 Type "# 2. Install the Cursor skill pack into CoolStore"
 Enter
-Type "rgctl -f json install --skill --tools cursor | jq '{schema_version, scope, writes: [.writes[] | {agent, kind, status}]}'"
+Type "rgctl -f json install --skill --tools cursor --force | jq '{schema_version, scope, writes: [.writes[] | {agent, kind, status}]}'"
 Enter
 Sleep 3s
 

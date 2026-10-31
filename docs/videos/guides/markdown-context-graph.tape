@@ -64,9 +64,9 @@ Type "clear"
 Enter
 Show
 
-# 3. Doc → Java class edge
-Type "# 3. Doc → Java class edge"
+# 3. Traverse Markdown section → Java file reference edges
+Type "# 3. Traverse Markdown section → Java file reference edges"
 Enter
-Type "rgctl -f json find CheckoutService --type class --exact | jq '.entities[0] | {name, file}'"
+Type `rgctl -f json relations 'Checkout Flow' --edge references --direction out | jq '.edges | map({source: .source.name, edge, target: (.target.name | split("/")[-1]), type: .target.type})'`
 Enter
-Sleep 2s
+Sleep 3s

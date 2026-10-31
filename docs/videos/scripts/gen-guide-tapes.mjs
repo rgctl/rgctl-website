@@ -182,17 +182,17 @@ const tapes = {
     prompt: "coolstore",
     scenes: [
       {
-        comment: "# 1. Is the index current?",
+        comment: "# 1. Detect modified source file (dirty_files: 1)",
         cmds: [
-          "rgctl -f json status | jq '{status, index_current, dirty_files}'",
+          "rgctl -f json status | jq '{status, index_current, dirty_files, files_changed, dirty_sample}'",
         ],
-        sleep: "2s",
+        sleep: "2.5s",
       },
       {
         comment: "# 2. One-shot incremental update (no full rediscover)",
         cmds: [
           "rgctl update --files src/main/java/com/redhat/coolstore/service/ShoppingCartService.java",
-          "rgctl -f json status | jq '{status, index_current}'",
+          "rgctl -f json status | jq '{status, index_current, dirty_files, files_changed}'",
         ],
         sleep: "3s",
       },
@@ -200,11 +200,11 @@ const tapes = {
     captions: [
       [
         "Check Index Freshness (rgctl status)",
-        "index_current + dirty file counts — agents skip blind rediscover",
+        "Detects modified ShoppingCartService.java (dirty_files: 1)",
       ],
       [
         "Patch the Graph in Place (rgctl update --files)",
-        "DeltaSegment + GraphCompactor — keep .rgctl warm while you edit",
+        "Sub-200ms incremental update → index_current: true",
       ],
     ],
   },
@@ -287,28 +287,28 @@ const tapes = {
     prompt: "coolstore",
     scenes: [
       {
-        comment: "# 1. Local policy gate on git-scoped changes",
+        comment: "# 1. Local policy gate catches high-impact diff changes",
         cmds: [
-          "rgctl -f json check --policy-file ../rgctl-pr-policy.json | jq '{passed, violations: (.violations|length), schema_version}'",
+          "rgctl -f json check --policy-file ../rgctl-pr-policy.json | jq '{passed, violations: (.violations|length), sample: .violations[:2]}'",
         ],
         sleep: "3s",
       },
       {
-        comment: "# 2. Blast-radius policy on a hot method",
+        comment: "# 2. Blast-radius policy gate on priceShoppingCart",
         cmds: [
           "rgctl -f json blast-radius priceShoppingCart --policy-file ../rgctl-pr-policy.json | jq '{metrics, gatekeeping}'",
         ],
-        sleep: "2.5s",
+        sleep: "3s",
       },
     ],
     captions: [
       [
         "CI Policy Gate on Diff Scope (rgctl check)",
-        "max_impact_nodes · centrality alerts — fail the build early",
+        "Catches symbols exceeding max_impact_nodes: 10 → passed: false",
       ],
       [
         "Same Policy on a Single Symbol (blast-radius --policy-file)",
-        "Pre-merge guardrails without waiting for the PR bot",
+        "Impact zone 13 > max 10 → policy_status: VIOLATED",
       ],
     ],
   },
@@ -361,16 +361,16 @@ const tapes = {
         comment: "# 2. Call overlay + field mutations on ShoppingCart",
         cmds: [
           "rgctl -f json cpg calls priceShoppingCart | jq '{function_name, edges: (.edges|length), sample: .edges[:2]}'",
-          "rgctl -f json cpg mutations --type ShoppingCart --exclude-ctors | jq '{mutations: (.mutations|length)}'",
+          "rgctl -f json cpg mutations --type ShoppingCart --exclude-ctors | jq '{type_name, count: (.mutations|length), sample: (.mutations[:3] | map({member, function, line}))}'",
         ],
-        sleep: "3s",
+        sleep: "3.5s",
       },
       {
         comment: "# 3. Data-flow façade (cpg flows)",
         cmds: [
-          "rgctl -f json cpg flows src/main/java/com/redhat/coolstore/service/ShoppingCartService.java --line 68 --variable sc --direction forward --with-alias | jq '{function, variable, lines, steps: (.steps|length)}'",
+          "rgctl -f json cpg flows src/main/java/com/redhat/coolstore/service/ShoppingCartService.java --line 68 --variable sc --direction forward --with-alias | jq '{function, variable, steps: (.steps | map({line, code}))}'",
         ],
-        sleep: "3s",
+        sleep: "3.5s",
       },
     ],
     captions: [
@@ -380,11 +380,11 @@ const tapes = {
       ],
       [
         "Calls Overlay & Domain Mutations (cpg calls · mutations)",
-        "Every statement that writes ShoppingCart fields",
+        "Pinpoints exact fields & lines mutating ShoppingCart",
       ],
       [
         "Flow-Sensitive Slice Façade (cpg flows)",
-        "Same criterion API as slice — agent-friendly JSON",
+        "Traces statement-by-statement data flow across priceShoppingCart",
       ],
     ],
   },
@@ -397,37 +397,37 @@ const tapes = {
       {
         comment: "# 1. Control-flow blocks for priceShoppingCart",
         cmds: [
-          "rgctl -f json inspect priceShoppingCart cfg | jq '{symbol, layer, blocks: (.nodes|length), edges: (.edges|length)}'",
+          "rgctl -f json inspect priceShoppingCart cfg | jq '{symbol, layer, blocks: (.nodes|length), edges: (.edges|length), sample_blocks: (.nodes[1:3] | map({id, start_line, statements}))}'",
         ],
-        sleep: "2.5s",
+        sleep: "3s",
       },
       {
-        comment: "# 2. Program dependence graph",
+        comment: "# 2. Program dependence graph (data + control edges)",
         cmds: [
-          "rgctl -f json inspect priceShoppingCart pdg | jq '{layer, nodes: (.nodes|length), edges: (.edges|length)}'",
+          "rgctl -f json inspect priceShoppingCart pdg | jq '{layer, nodes: (.nodes|length), edges: (.edges|length), sample_edges: .edges[:3]}'",
         ],
-        sleep: "2.5s",
+        sleep: "3s",
       },
       {
-        comment: "# 3. Dominator tree",
+        comment: "# 3. Immediate dominator tree (idom)",
         cmds: [
-          "rgctl -f json inspect priceShoppingCart dom | jq '{layer, nodes: (.nodes|length), edges: (.edges|length)}'",
+          "rgctl -f json inspect priceShoppingCart dom | jq '{symbol, layer, blocks: (.nodes|length), idom_sample: .idom[:4]}'",
         ],
-        sleep: "2.5s",
+        sleep: "3s",
       },
     ],
     captions: [
       [
         "Per-Function CFG (inspect … cfg)",
-        "Basic blocks & edges — foundation for slice and taint",
+        "Basic blocks, branch conditions & statements",
       ],
       [
         "Program Dependence Graph (inspect … pdg)",
-        "Control + data dependence in one view",
+        "Variable-level data + control dependence edges",
       ],
       [
-        "Dominator Tree (inspect … dom)",
-        "Cooper–Harvey–Kennedy / Lengauer–Tarjan over the CFG",
+        "Immediate Dominator Tree (inspect … dom)",
+        "Block-to-immediate-dominator (idom) relationships over the CFG",
       ],
     ],
   },
@@ -440,14 +440,21 @@ const tapes = {
       {
         comment: "# 1. Exact (Type-1) whole-function clones",
         cmds: [
-          "rgctl -f json clones --mode exact --min-loc 3 --exclude test | jq '{mode, group_count, groups: (.groups|length)}'",
+          "rgctl -f json clones --mode exact --min-loc 3 --exclude test | jq '{mode, group_count, top_group: (.groups[0].members | map({name, start_line, loc}))}'",
         ],
         sleep: "2.5s",
       },
       {
         comment: "# 2. Token-bloom structural similarity",
         cmds: [
-          "rgctl -f json clones --mode bloom --threshold 0.85 --min-loc 8 --exclude test | jq '{mode, group_count, top: .groups[0].members[:2] | map(.name)}'",
+          "rgctl -f json clones --mode bloom --threshold 0.85 --min-loc 8 --exclude test | jq '{mode, group_count, score: .groups[0].score, members: (.groups[0].members | map({name, start_line, loc}))}'",
+        ],
+        sleep: "3s",
+      },
+      {
+        comment: "# 3. Sub-function SESE/WL fragment clones",
+        cmds: [
+          "rgctl -f json clones --mode fragment --min-statements 2 --threshold 0.8 | jq '{mode, group_count, top_hash: .groups[0].structural_hash, members: (.groups[0].members[:3] | map({enclosing_function, start_line, end_line}))}'",
         ],
         sleep: "3s",
       },
@@ -455,11 +462,15 @@ const tapes = {
     captions: [
       [
         "Exact Copy-Paste Clones (clones --mode exact)",
-        "Type-1 whole-function matches — min-loc gated",
+        "Type-1 whole-function matches with line numbers & LOC",
       ],
       [
         "Structural Near-Duplicates (clones --mode bloom)",
-        "Token-bloom candidates at threshold 0.85 — refactor bait",
+        "calculateShipping vs calculateShippingInsurance",
+      ],
+      [
+        "Sub-Function Fragment Clones (clones --mode fragment)",
+        "SESE regions + 1-WL Weisfeiler-Lehman structural hashing",
       ],
     ],
   },
@@ -513,24 +524,24 @@ const tapes = {
     prompt: "coolstore",
     scenes: [
       {
-        comment: "# 1. Fast-Leiden domain communities",
+        comment: "# 1. Fast-Leiden domain communities (non-singleton clusters)",
         cmds: [
-          "rgctl -f json communities list | jq '.communities[:4] | map({id, label, member_count})'",
+          "rgctl -f json communities list | jq '{modularity, non_singleton_clusters: ([.communities[] | select(.member_count > 1)] | length), top: (.communities[:4] | map({id, label, member_count}))}'",
         ],
-        sleep: "2.5s",
+        sleep: "3s",
       },
       {
         comment: "# 2. Community partition summary",
         cmds: [
           "rgctl -f json metrics --communities | jq '.communities'",
         ],
-        sleep: "2s",
+        sleep: "2.5s",
       },
     ],
     captions: [
       [
         "Map Domain Architecture (communities list)",
-        "Fast-Leiden clusters with μ+4σ hub stripping",
+        "12 multi-member Fast-Leiden clusters with μ+4σ hub stripping",
       ],
       [
         "Community Partition Summary (metrics --communities)",
@@ -600,11 +611,11 @@ const tapes = {
         sleep: "2.5s",
       },
       {
-        comment: "# 3. Community-scoped query",
+        comment: "# 3. Named domain communities matching query (--scope community)",
         cmds: [
-          "rgctl -f json semantic query 'checkout' --scope community --limit 3 | jq '.hits | map({name, qualified_name, score})'",
+          "rgctl -f json semantic query 'checkout' --scope community --limit 500 | jq '[.hits[] | select(.name | startswith(\"Community \") | not)][:3] | map({name, qualified_name, score})'",
         ],
-        sleep: "2.5s",
+        sleep: "3s",
       },
     ],
     captions: [
@@ -617,8 +628,8 @@ const tapes = {
         "Graph-distance score fusion in ~30ms",
       ],
       [
-        "Scope Hits to a Domain Community (--scope community)",
-        "Keep search inside the Fast-Leiden cluster that matters",
+        "Scope Hits to Domain Communities (--scope community)",
+        "Ranks named Fast-Leiden clusters matching 'checkout'",
       ],
     ],
   },
@@ -636,11 +647,11 @@ const tapes = {
         sleep: "2s",
       },
       {
-        comment: "# 2. First extraction steps",
+        comment: "# 2. Domain package extraction steps (strangler-fig order)",
         cmds: [
-          "jq '.steps[:3] | map({step, label, priority_score, schedule_step})' .rgctl/migration_plan.json",
+          "jq '[.steps[] | select(.label != \"root\")][:4] | map({step, label, schedule_step, priority_rank, avg_pagerank})' .rgctl/migration_plan.json",
         ],
-        sleep: "2.5s",
+        sleep: "3s",
       },
       {
         comment: "# 3. Pair with communities + blast-radius",
@@ -657,8 +668,8 @@ const tapes = {
         "Written by discover --export-migration-hints",
       ],
       [
-        "Dependency-Aware Extraction Order",
-        "Foundational-first or dense-cluster presets",
+        "Dependency-Aware Package Extraction Order",
+        "model → persistence → utils → rest strangler-fig sequence",
       ],
       [
         "Validate Before You Extract (communities · blast-radius)",
@@ -685,11 +696,11 @@ const tapes = {
         sleep: "2s",
       },
       {
-        comment: "# 3. Doc → Java class edge",
+        comment: "# 3. Traverse Markdown section → Java file reference edges",
         cmds: [
-          "rgctl -f json find CheckoutService --type class --exact | jq '.entities[0] | {name, file}'",
+          "rgctl -f json relations 'Checkout Flow' --edge references --direction out | jq '.edges | map({source: .source.name, edge, target: (.target.name | split(\"/\")[-1]), type: .target.type})'",
         ],
-        sleep: "2s",
+        sleep: "3s",
       },
     ],
     captions: [
@@ -702,8 +713,8 @@ const tapes = {
         "Checkout* modules — agent-ready EntityRows",
       ],
       [
-        "Follow Doc Links into Java Classes",
-        "Cross-language context without pasting whole READMEs",
+        "Follow Doc Links into Java Code (relations --edge references)",
+        "Checkout Flow section → CheckoutService.java & ADR modules",
       ],
     ],
   },
@@ -714,15 +725,15 @@ const tapes = {
     prompt: "coolstore",
     scenes: [
       {
-        comment: "# 1. Export a Mermaid slice for ShoppingCartService",
+        comment: "# 1. Export connected Mermaid call graph (157 nodes, 119 edges)",
         cmds: [
-          "rgctl export --export-format mermaid --export-output /tmp/coolstore-cart.mmd --query 'name:ShoppingCartService'",
-          "wc -l /tmp/coolstore-cart.mmd && head -12 /tmp/coolstore-cart.mmd",
+          "rgctl export --export-format mermaid --export-output /tmp/coolstore-fns.mmd --query 'type:Function'",
+          "wc -l /tmp/coolstore-fns.mmd && grep -- '-->' /tmp/coolstore-fns.mmd | head -8",
         ],
         sleep: "3s",
       },
       {
-        comment: "# 2. GraphML for Function nodes",
+        comment: "# 2. GraphML for external network tools (Gephi / Cytoscape)",
         cmds: [
           "rgctl export --export-format graphml --export-output /tmp/coolstore-fns.graphml --query 'type:Function'",
           "wc -c /tmp/coolstore-fns.graphml",
@@ -732,8 +743,8 @@ const tapes = {
     ],
     captions: [
       [
-        "Mermaid for PRs & Docs (export --export-format mermaid)",
-        "Query-scoped diagrams — paste into Markdown immediately",
+        "Mermaid Call Graph for PRs & Docs (export --export-format mermaid)",
+        "Exports 157 functions & 119 directed call edges (A --> B)",
       ],
       [
         "GraphML for External Tools (export --export-format graphml)",
@@ -757,7 +768,7 @@ const tapes = {
       {
         comment: "# 2. Install the Cursor skill pack into CoolStore",
         cmds: [
-          "rgctl -f json install --skill --tools cursor | jq '{schema_version, scope, writes: [.writes[] | {agent, kind, status}]}'",
+          "rgctl -f json install --skill --tools cursor --force | jq '{schema_version, scope, writes: [.writes[] | {agent, kind, status}]}'",
         ],
         sleep: "3s",
       },

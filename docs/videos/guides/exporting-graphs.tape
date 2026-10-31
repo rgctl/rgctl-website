@@ -38,12 +38,12 @@ Type "clear"
 Enter
 Show
 
-# 1. Export a Mermaid slice for ShoppingCartService
-Type "# 1. Export a Mermaid slice for ShoppingCartService"
+# 1. Export connected Mermaid call graph (157 nodes, 119 edges)
+Type "# 1. Export connected Mermaid call graph (157 nodes, 119 edges)"
 Enter
-Type "rgctl export --export-format mermaid --export-output /tmp/coolstore-cart.mmd --query 'name:ShoppingCartService'"
+Type "rgctl export --export-format mermaid --export-output /tmp/coolstore-fns.mmd --query 'type:Function'"
 Enter
-Type "wc -l /tmp/coolstore-cart.mmd && head -12 /tmp/coolstore-cart.mmd"
+Type "wc -l /tmp/coolstore-fns.mmd && grep -- '-->' /tmp/coolstore-fns.mmd | head -8"
 Enter
 Sleep 3s
 
@@ -52,8 +52,8 @@ Type "clear"
 Enter
 Show
 
-# 2. GraphML for Function nodes
-Type "# 2. GraphML for Function nodes"
+# 2. GraphML for external network tools (Gephi / Cytoscape)
+Type "# 2. GraphML for external network tools (Gephi / Cytoscape)"
 Enter
 Type "rgctl export --export-format graphml --export-output /tmp/coolstore-fns.graphml --query 'type:Function'"
 Enter

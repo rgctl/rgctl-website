@@ -9,6 +9,6 @@ Ask the Codebase in English (semantic query)
 Graph-distance score fusion in ~30ms
 
 3
-00:00:12,794 --> 00:00:19,606
-Scope Hits to a Domain Community (--scope community)
-Keep search inside the Fast-Leiden cluster that matters
+00:00:12,794 --> 00:00:21,834
+Scope Hits to Domain Communities (--scope community)
+Ranks named Fast-Leiden clusters matching 'checkout'

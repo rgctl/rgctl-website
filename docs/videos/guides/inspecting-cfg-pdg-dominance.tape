@@ -41,30 +41,30 @@ Show
 # 1. Control-flow blocks for priceShoppingCart
 Type "# 1. Control-flow blocks for priceShoppingCart"
 Enter
-Type "rgctl -f json inspect priceShoppingCart cfg | jq '{symbol, layer, blocks: (.nodes|length), edges: (.edges|length)}'"
+Type "rgctl -f json inspect priceShoppingCart cfg | jq '{symbol, layer, blocks: (.nodes|length), edges: (.edges|length), sample_blocks: (.nodes[1:3] | map({id, start_line, statements}))}'"
 Enter
-Sleep 2.5s
+Sleep 3s
 
 Hide
 Type "clear"
 Enter
 Show
 
-# 2. Program dependence graph
-Type "# 2. Program dependence graph"
+# 2. Program dependence graph (data + control edges)
+Type "# 2. Program dependence graph (data + control edges)"
 Enter
-Type "rgctl -f json inspect priceShoppingCart pdg | jq '{layer, nodes: (.nodes|length), edges: (.edges|length)}'"
+Type "rgctl -f json inspect priceShoppingCart pdg | jq '{layer, nodes: (.nodes|length), edges: (.edges|length), sample_edges: .edges[:3]}'"
 Enter
-Sleep 2.5s
+Sleep 3s
 
 Hide
 Type "clear"
 Enter
 Show
 
-# 3. Dominator tree
-Type "# 3. Dominator tree"
+# 3. Immediate dominator tree (idom)
+Type "# 3. Immediate dominator tree (idom)"
 Enter
-Type "rgctl -f json inspect priceShoppingCart dom | jq '{layer, nodes: (.nodes|length), edges: (.edges|length)}'"
+Type "rgctl -f json inspect priceShoppingCart dom | jq '{symbol, layer, blocks: (.nodes|length), idom_sample: .idom[:4]}'"
 Enter
-Sleep 2.5s
+Sleep 3s

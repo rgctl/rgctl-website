@@ -4,11 +4,11 @@ Hybrid CPG Archive Ready (cpg status)
 Call graph + per-function CFG/PDG in one mmap-backed store
 
 2
-00:00:06,072 --> 00:00:15,908
+00:00:06,072 --> 00:00:17,578
 Calls Overlay & Domain Mutations (cpg calls · mutations)
-Every statement that writes ShoppingCart fields
+Pinpoints exact fields & lines mutating ShoppingCart
 
 3
-00:00:15,988 --> 00:00:25,028
+00:00:17,658 --> 00:00:27,306
 Flow-Sensitive Slice Façade (cpg flows)
-Same criterion API as slice — agent-friendly JSON
+Traces statement-by-statement data flow across priceShoppingCart

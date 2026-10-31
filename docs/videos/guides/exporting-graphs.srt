@@ -1,9 +1,9 @@
 1
-00:00:00,000 --> 00:00:09,246
-Mermaid for PRs & Docs (export --export-format mermaid)
-Query-scoped diagrams — paste into Markdown immediately
+00:00:00,000 --> 00:00:09,480
+Mermaid Call Graph for PRs & Docs (export --export-format mermaid)
+Exports 157 functions & 119 directed call edges (A --> B)
 
 2
-00:00:09,326 --> 00:00:16,934
+00:00:09,560 --> 00:00:17,672
 GraphML for External Tools (export --export-format graphml)
 Interchange format for Function-node subgraphs

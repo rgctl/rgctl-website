@@ -38,10 +38,10 @@ Type "clear"
 Enter
 Show
 
-# 1. Local policy gate on git-scoped changes
-Type "# 1. Local policy gate on git-scoped changes"
+# 1. Local policy gate catches high-impact diff changes
+Type "# 1. Local policy gate catches high-impact diff changes"
 Enter
-Type "rgctl -f json check --policy-file ../rgctl-pr-policy.json | jq '{passed, violations: (.violations|length), schema_version}'"
+Type "rgctl -f json check --policy-file ../rgctl-pr-policy.json | jq '{passed, violations: (.violations|length), sample: .violations[:2]}'"
 Enter
 Sleep 3s
 
@@ -50,9 +50,9 @@ Type "clear"
 Enter
 Show
 
-# 2. Blast-radius policy on a hot method
-Type "# 2. Blast-radius policy on a hot method"
+# 2. Blast-radius policy gate on priceShoppingCart
+Type "# 2. Blast-radius policy gate on priceShoppingCart"
 Enter
 Type "rgctl -f json blast-radius priceShoppingCart --policy-file ../rgctl-pr-policy.json | jq '{metrics, gatekeeping}'"
 Enter
-Sleep 2.5s
+Sleep 3s

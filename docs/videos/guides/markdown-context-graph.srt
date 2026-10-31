@@ -9,6 +9,6 @@ Find Headings Like Code Symbols (find --type module)
 Checkout* modules — agent-ready EntityRows
 
 3
-00:00:13,320 --> 00:00:19,128
-Follow Doc Links into Java Classes
-Cross-language context without pasting whole READMEs
+00:00:13,320 --> 00:00:22,396
+Follow Doc Links into Java Code (relations --edge references)
+Checkout Flow section → CheckoutService.java & ADR modules

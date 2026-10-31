@@ -60,7 +60,11 @@ if [[ "$SLUG" != "markdown-context-graph" && "$SLUG" != "discovering-and-indexin
   rsync -a --delete "$SITE/docs/videos/.work/.rgctl.golden/" "$SITE/docs/videos/.work/coolstore/.rgctl/"
 fi
 
-if [[ "$SLUG" == "pr-review" ]]; then
+if [[ "$SLUG" == "agent-skill" ]]; then
+  rm -rf "$SITE/docs/videos/.work/coolstore/.cursor"
+fi
+
+if [[ "$SLUG" == "pr-review" || "$SLUG" == "ci-policy-checks" || "$SLUG" == "watch-mode" ]]; then
   python3 - "$SITE/docs/videos/.work/coolstore/src/main/java/com/redhat/coolstore/service/ShoppingCartService.java" <<'PY'
 import sys
 from pathlib import Path
@@ -79,7 +83,7 @@ vhs validate "$TAPE"
 echo "==> recording $SLUG"
 vhs "$TAPE"
 
-if [[ "$SLUG" == "pr-review" ]]; then
+if [[ "$SLUG" == "pr-review" || "$SLUG" == "ci-policy-checks" || "$SLUG" == "watch-mode" ]]; then
   (cd "$SITE/docs/videos/.work/coolstore" && git checkout -- src/main/java/com/redhat/coolstore/service/ShoppingCartService.java 2>/dev/null || true)
 fi
 

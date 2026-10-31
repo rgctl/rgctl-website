@@ -4,11 +4,11 @@ Drop-In Skills for Every Agent Host (install --list-agents)
 Cursor · Claude · Codex · Antigravity · AGENTS.md
 
 2
-00:00:05,820 --> 00:00:13,582
+00:00:05,820 --> 00:00:13,726
 One Command Pack Install (install --skill)
 SKILL.md + workflows — NL intents → rgctl verbs
 
 3
-00:00:13,662 --> 00:00:20,204
+00:00:13,806 --> 00:00:20,348
 The Agent Loop Starts With Structure
 blast-radius / find / slice — not whole-file greps

@@ -38,12 +38,12 @@ Type "clear"
 Enter
 Show
 
-# 1. Is the index current?
-Type "# 1. Is the index current?"
+# 1. Detect modified source file (dirty_files: 1)
+Type "# 1. Detect modified source file (dirty_files: 1)"
 Enter
-Type "rgctl -f json status | jq '{status, index_current, dirty_files}'"
+Type "rgctl -f json status | jq '{status, index_current, dirty_files, files_changed, dirty_sample}'"
 Enter
-Sleep 2s
+Sleep 2.5s
 
 Hide
 Type "clear"
@@ -55,6 +55,6 @@ Type "# 2. One-shot incremental update (no full rediscover)"
 Enter
 Type "rgctl update --files src/main/java/com/redhat/coolstore/service/ShoppingCartService.java"
 Enter
-Type "rgctl -f json status | jq '{status, index_current}'"
+Type "rgctl -f json status | jq '{status, index_current, dirty_files, files_changed}'"
 Enter
 Sleep 3s

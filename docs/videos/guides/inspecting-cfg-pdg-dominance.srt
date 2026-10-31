@@ -1,14 +1,14 @@
 1
-00:00:00,000 --> 00:00:07,158
+00:00:00,000 --> 00:00:08,846
 Per-Function CFG (inspect … cfg)
-Basic blocks & edges — foundation for slice and taint
+Basic blocks, branch conditions & statements
 
 2
-00:00:07,238 --> 00:00:13,888
+00:00:08,926 --> 00:00:16,958
 Program Dependence Graph (inspect … pdg)
-Control + data dependence in one view
+Variable-level data + control dependence edges
 
 3
-00:00:13,968 --> 00:00:20,438
-Dominator Tree (inspect … dom)
-Cooper–Harvey–Kennedy / Lengauer–Tarjan over the CFG
+00:00:17,038 --> 00:00:24,476
+Immediate Dominator Tree (inspect … dom)
+Block-to-immediate-dominator (idom) relationships over the CFG

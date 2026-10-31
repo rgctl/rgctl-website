@@ -38,12 +38,12 @@ Type "clear"
 Enter
 Show
 
-# 1. Fast-Leiden domain communities
-Type "# 1. Fast-Leiden domain communities"
+# 1. Fast-Leiden domain communities (non-singleton clusters)
+Type "# 1. Fast-Leiden domain communities (non-singleton clusters)"
 Enter
-Type "rgctl -f json communities list | jq '.communities[:4] | map({id, label, member_count})'"
+Type "rgctl -f json communities list | jq '{modularity, non_singleton_clusters: ([.communities[] | select(.member_count > 1)] | length), top: (.communities[:4] | map({id, label, member_count}))}'"
 Enter
-Sleep 2.5s
+Sleep 3s
 
 Hide
 Type "clear"
@@ -55,4 +55,4 @@ Type "# 2. Community partition summary"
 Enter
 Type "rgctl -f json metrics --communities | jq '.communities'"
 Enter
-Sleep 2s
+Sleep 2.5s

@@ -62,9 +62,9 @@ Type "clear"
 Enter
 Show
 
-# 3. Community-scoped query
-Type "# 3. Community-scoped query"
+# 3. Named domain communities matching query (--scope community)
+Type "# 3. Named domain communities matching query (--scope community)"
 Enter
-Type "rgctl -f json semantic query 'checkout' --scope community --limit 3 | jq '.hits | map({name, qualified_name, score})'"
+Type `rgctl -f json semantic query 'checkout' --scope community --limit 500 | jq '[.hits[] | select(.name | startswith("Community ") | not)][:3] | map({name, qualified_name, score})'`
 Enter
-Sleep 2.5s
+Sleep 3s

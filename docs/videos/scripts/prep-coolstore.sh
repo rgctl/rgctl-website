@@ -82,6 +82,14 @@ fi
 POLICY="$RGCTL_REPO/rgctl-tests/rgctl-pr-policy.json"
 if [[ -f "$POLICY" ]]; then
   cp -f "$POLICY" "$WORK/rgctl-pr-policy.json"
+  python3 - "$WORK/rgctl-pr-policy.json" <<'PY'
+import json, sys
+from pathlib import Path
+p = Path(sys.argv[1])
+d = json.loads(p.read_text())
+d["max_impact_nodes"] = 10
+p.write_text(json.dumps(d, indent=2) + "\n")
+PY
 else
   echo "warn: missing $POLICY" >&2
 fi
@@ -96,6 +104,21 @@ echo "==> discover CoolStore (-l java --with-cfg --with-harmonic --export-migrat
 (
   cd "$WORK/coolstore"
   rm -rf .rgctl .git
+  cat <<'EOF' > .gitignore
+.rgctl/
+.cursor/
+.vscode/
+src/main/webapp/
+src/main/resources/
+weblogic-config/
+rules/
+assets/
+*.sh
+*.json
+*.yml
+*.md
+pom.xml
+EOF
   python3 - <<'PY'
 from pathlib import Path
 p = Path("src/main/java/com/redhat/coolstore/utils/Transformers.java")

@@ -1,9 +1,14 @@
 1
-00:00:00,000 --> 00:00:07,032
+00:00:00,000 --> 00:00:07,716
 Exact Copy-Paste Clones (clones --mode exact)
-Type-1 whole-function matches — min-loc gated
+Type-1 whole-function matches with line numbers & LOC
 
 2
-00:00:07,112 --> 00:00:15,144
+00:00:07,796 --> 00:00:16,638
 Structural Near-Duplicates (clones --mode bloom)
-Token-bloom candidates at threshold 0.85 — refactor bait
+calculateShipping vs calculateShippingInsurance
+
+3
+00:00:16,718 --> 00:00:26,154
+Sub-Function Fragment Clones (clones --mode fragment)
+SESE regions + 1-WL Weisfeiler-Lehman structural hashing

@@ -1,9 +1,9 @@
 1
-00:00:00,000 --> 00:00:07,766
+00:00:00,000 --> 00:00:08,126
 CI Policy Gate on Diff Scope (rgctl check)
-max_impact_nodes · centrality alerts — fail the build early
+Catches symbols exceeding max_impact_nodes: 10 → passed: false
 
 2
-00:00:07,846 --> 00:00:14,802
+00:00:08,206 --> 00:00:15,842
 Same Policy on a Single Symbol (blast-radius --policy-file)
-Pre-merge guardrails without waiting for the PR bot
+Impact zone 13 > max 10 → policy_status: VIOLATED
