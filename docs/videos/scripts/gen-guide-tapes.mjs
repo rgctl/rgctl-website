@@ -787,7 +787,7 @@ const tapes = {
       ],
       [
         "One Command Pack Install (install --skill)",
-        "SKILL.md + workflows — NL intents → rgctl verbs",
+        "rgctl + /rgctl:review · /rgctl:vuln · /rgctl:migrate",
       ],
       [
         "The Agent Loop Starts With Structure",

@@ -49,14 +49,25 @@ export default function InstallPage() {
           , put <code className="font-mono text-[var(--body-strong)]">rgctl</code>{" "}
           on your <code className="font-mono">PATH</code>, then install the{" "}
           <strong className="font-medium text-[var(--ink)]">agent pack</strong>{" "}
-          (single skill{" "}
-          <code className="font-mono text-[var(--body-strong)]">rgctl</code>
+          (core skill{" "}
+          <code className="font-mono text-[var(--body-strong)]">rgctl</code>{" "}
+          plus{" "}
+          <code className="font-mono text-[var(--body-strong)]">rgctl-review</code>
+          ,{" "}
+          <code className="font-mono text-[var(--body-strong)]">rgctl-vuln</code>
+          ,{" "}
+          <code className="font-mono text-[var(--body-strong)]">rgctl-migrate</code>
+          {" "}
+          and slash commands{" "}
+          <code className="font-mono">/rgctl:review</code> ·{" "}
+          <code className="font-mono">/rgctl:vuln</code> ·{" "}
+          <code className="font-mono">/rgctl:migrate</code>
           ).
         </p>
         <p className="text-sm text-[var(--mute)]">
-          Installs <code className="font-mono">rgctl</code> under each adapter
-          (e.g. <code className="font-mono">.cursor/skills/rgctl/</code>). See
-          the{" "}
+          Writes under each adapter (e.g.{" "}
+          <code className="font-mono">.cursor/skills/rgctl/</code> and{" "}
+          <code className="font-mono">.cursor/commands/</code>). See the{" "}
           <Link href="/docs/guides/agent-skill/" className="underline">
             agent pack guide
           </Link>

@@ -269,9 +269,12 @@ export default function HomePage() {
               <code className="font-mono text-sm">
                 rgctl install --skill
               </code>
-              ) for a single skill named{" "}
-              <code className="font-mono text-sm">rgctl</code> —
-              or drop{" "}
+              ): core skill{" "}
+              <code className="font-mono text-sm">rgctl</code> plus{" "}
+              <code className="font-mono text-sm">/rgctl:review</code>,{" "}
+              <code className="font-mono text-sm">/rgctl:vuln</code>, and{" "}
+              <code className="font-mono text-sm">/rgctl:migrate</code> — or
+              drop{" "}
               <Link
                 href="/agents/"
                 className="font-medium text-[var(--primary)] underline"

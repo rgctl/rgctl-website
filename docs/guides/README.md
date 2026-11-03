@@ -32,7 +32,7 @@ Most CLI how-tos embed a short **VHS walkthrough** (captioned) at the top of the
 | [Migration Planning](migration-planning.md) | `discover --export-migration-hints` | Generate a dependency-aware migration roadmap |
 | [Clone Detection](clone-detection.md) | `clones` | Detect exact (Type-1), bloom, and sub-function fragment clones |
 | [Vulnerability and OSV Supply-Chain Analysis](vulnerability-and-osv-analysis.md) | `vuln`, `deps`, `taint`, `security` | End-to-end OSV advisory triage, manifest scanning, call-path reachability, and OpenVEX generation |
-| [Agent pack](agent-skill.md) | CoolStore install walkthrough | Use cases; NL → `rgctl` skill → CLI |
+| [Agent pack](agent-skill.md) | CoolStore install walkthrough | NL → `rgctl` + `/rgctl:review` · `/rgctl:vuln` · `/rgctl:migrate` → CLI |
 
 ## Prerequisites
 
@@ -49,5 +49,5 @@ cd coolstore
 
 - [User Guide](../user-guide.md) -- full CLI reference and tutorial
 - [JSON API Reference](../json-api.md) -- schema details for `-f json` output
-- [Agent pack](agent-skill.md) -- install skills and route natural-language intents to `rgctl`
+- [Agent pack](agent-skill.md) -- install `rgctl` + review/vuln/migrate skills (and slash commands)
 - [Introduction](../Introduction.md) -- definitions of key terms

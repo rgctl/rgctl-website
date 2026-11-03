@@ -12,8 +12,8 @@ export const metadata: Metadata = {
 const steps = [
   {
     n: "1",
-    title: "Install the skill",
-    body: "rgctl install --skill writes a single skill named rgctl into your IDE skill dirs.",
+    title: "Install the pack",
+    body: "rgctl install --skill writes rgctl plus rgctl-review / rgctl-vuln / rgctl-migrate (and /rgctl:* slash commands).",
   },
   {
     n: "2",
@@ -23,7 +23,7 @@ const steps = [
   {
     n: "3",
     title: "Ask in natural language",
-    body: "The agent loads the rgctl skill and runs rgctl -f json structured verbs.",
+    body: "The agent loads the rgctl skill (or /rgctl:review · /rgctl:vuln · /rgctl:migrate) and runs rgctl -f json.",
   },
   {
     n: "4",
@@ -55,18 +55,18 @@ const topics = [
   },
   {
     title: "Migration",
-    blurb: "Dependency-aware extraction order.",
-    cli: "discover --export-migration-hints",
+    blurb: "Strangler-Fig brief and extraction order.",
+    cli: "/rgctl:migrate · discover --export-migration-hints",
   },
   {
-    title: "Kantra",
-    blurb: "Konveyor rules and violations.",
-    cli: "discover --with-kantra · rules",
+    title: "Vuln / OSV",
+    blurb: "Advisory triage, reachability, OpenVEX.",
+    cli: "/rgctl:vuln · vuln · deps · taint",
   },
   {
-    title: "CI gates",
-    blurb: "Policy checks on PRs and diffs.",
-    cli: "review paths · review check",
+    title: "PR review",
+    blurb: "Call-path deltas and REVIEW_REPORT.md.",
+    cli: "/rgctl:review · review paths · review check",
   },
 ];
 
@@ -78,11 +78,14 @@ export default function AgentsPage() {
         Built for coding agents
       </h1>
       <p className="mt-3 max-w-2xl text-[var(--body)]">
-        Install <strong className="font-medium text-[var(--ink)]">one skill</strong>{" "}
-        — <code className="font-mono text-sm">rgctl</code> — not a family of
-        slash commands or per-workflow skill folders. It teaches the agent to
-        answer structural questions with{" "}
-        <code className="font-mono text-sm">rgctl -f json</code> instead of
+        Install the{" "}
+        <strong className="font-medium text-[var(--ink)]">agent pack</strong>:
+        core skill <code className="font-mono text-sm">rgctl</code> for
+        day-to-day graph questions, plus three slash workflows —{" "}
+        <code className="font-mono text-sm">/rgctl:review</code>,{" "}
+        <code className="font-mono text-sm">/rgctl:vuln</code>,{" "}
+        <code className="font-mono text-sm">/rgctl:migrate</code>. Agents answer
+        with <code className="font-mono text-sm">rgctl -f json</code> instead of
         dumping whole files into context.
       </p>
 
@@ -98,8 +101,10 @@ export default function AgentsPage() {
         />
         <p className="text-sm text-[var(--mute)]">
           Writes{" "}
-          <code className="font-mono">.cursor/skills/rgctl/</code> (and the
-          equivalent path for other adapters). Optional{" "}
+          <code className="font-mono">.cursor/skills/rgctl/</code>, companion
+          skills, and{" "}
+          <code className="font-mono">.cursor/commands/rgctl-*.md</code> (and
+          the equivalent paths for other adapters). Optional{" "}
           <code className="font-mono">--with-policy</code> adds a Cursor
           structural-rules snippet. Full flags:{" "}
           <Link href="/docs/guides/agent-skill/" className="underline">
@@ -125,11 +130,13 @@ export default function AgentsPage() {
       </ol>
 
       <section className="mt-12">
-        <h2 className="text-lg text-[var(--ink)]">What the skill covers</h2>
+        <h2 className="text-lg text-[var(--ink)]">What the pack covers</h2>
         <p className="mt-2 max-w-2xl text-sm text-[var(--body)]">
-          Routing tables and worked scenarios live inside the skill (
-          <code className="font-mono text-xs">references/workflows.md</code>
-          ). The engine is still the terminal CLI.
+          Day-to-day routing lives in meta skill{" "}
+          <code className="font-mono text-xs">rgctl</code> (
+          <code className="font-mono text-xs">references/workflows.md</code>).
+          Review, vuln, and migrate use dedicated skills / slash commands. The
+          engine is still the terminal CLI.
         </p>
         <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {topics.map((w) => (

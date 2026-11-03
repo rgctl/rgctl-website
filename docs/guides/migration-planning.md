@@ -6,6 +6,8 @@ rgctl can generate a **dependency-aware migration roadmap** that tells you the o
 
 Migration planning answers the critical question: "In what order should we extract pieces of this monolith so that each step is safe and dependencies are respected?"
 
+For AI agents, prefer slash command **`/rgctl:migrate`** (skill `rgctl-migrate`) after `rgctl install --skill` — see the [agent pack guide](agent-skill.md). The CLI deliverable is still `.rgctl/migration_plan.json` from `discover --export-migration-hints`.
+
 ## Use Cases
 
 - **Monolith decomposition.** Generate a step-by-step plan for breaking a monolith into microservices.
@@ -259,6 +261,7 @@ See [Migration Algorithms](../migration-algorithms.md) for the academic backgrou
 
 ## Related Guides
 
+- [Agent pack](agent-skill.md) -- prefer **`/rgctl:migrate`** (skill `rgctl-migrate`)
 - [Discovering and Indexing a Codebase](discovering-and-indexing.md) -- `discover` with migration flags
 - [Graph Metrics](graph-metrics.md) -- the metrics that feed into migration scoring
 - [Community Detection](community-detection.md) -- communities define the extraction units

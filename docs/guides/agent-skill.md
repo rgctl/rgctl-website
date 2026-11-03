@@ -2,14 +2,17 @@
 
 ## Introduction
 
-The rgctl **agent pack** teaches AI coding agents (Claude Code, Antigravity, Codex, Cursor, …) how to answer structural questions with the rgctl CLI. Install writes **one skill** named `rgctl`:
+The rgctl **agent pack** teaches AI coding agents (Claude Code, Antigravity, Codex, Cursor, …) how to answer structural questions with the rgctl CLI. `rgctl install --skill` installs a **core router skill** plus **three on-demand workflow skills** (and matching slash commands where the adapter supports them):
 
 | Piece | What it is | Example (Cursor, repo-local) |
 |-------|------------|------------------------------|
-| **Skill `rgctl`** | Single skill + `references/` (command encyclopedia, workflow scenarios) | `.cursor/skills/rgctl/SKILL.md` |
+| **Skill `rgctl`** | Core structural router + `references/` (command encyclopedia, workflow scenarios) | `.cursor/skills/rgctl/SKILL.md` |
+| **Skill `rgctl-review`** + **`/rgctl:review`** | PR / branch / worktree review → `REVIEW_REPORT.md` | `.cursor/skills/rgctl-review/` · `.cursor/commands/rgctl-review.md` |
+| **Skill `rgctl-vuln`** + **`/rgctl:vuln`** | OSV / CVE triage → deps check → analyze / OpenVEX | `.cursor/skills/rgctl-vuln/` · `.cursor/commands/rgctl-vuln.md` |
+| **Skill `rgctl-migrate`** + **`/rgctl:migrate`** | Strangler-Fig migration brief (`--export-migration-hints`) | `.cursor/skills/rgctl-migrate/` · `.cursor/commands/rgctl-migrate.md` |
 | **Policy snippet** | Optional structural bias | `.cursor/rules/rgctl-structural.mdc` (`--with-policy`) |
 
-The pack is **embedded in the `rgctl` binary**. `rgctl install --skill` installs the meta skill **`rgctl`**, additional skills declared with commands (today **`rgctl-review`**), and **slash commands** for adapters that support them (OpenSpec-style dual install — no separate `--with-commands` flag). Retired per-workflow skills (`rgctl-discover`, `rgctl-gql`, …) are **not** reintroduced. Agents load skills / invoke `/rgctl:review` and run `rgctl -f json` structured verbs. Scenario playbooks live under `references/workflows.md` inside the meta skill.
+The pack is **embedded in the `rgctl` binary** (OpenSpec-style dual install — no separate `--with-commands` flag). Retired per-workflow skills (`rgctl-discover`, `rgctl-gql`, `rgctl-impact`, …) are **not** reintroduced. Atomic lookups (`find`, `callers`, `blast-radius`, `slice`, …) stay in the meta skill **`rgctl`**; keep the slash palette to the three high-ceremony commands above. Agents load skills / invoke `/rgctl:review` · `/rgctl:vuln` · `/rgctl:migrate` and run `rgctl -f json` structured verbs. Scenario playbooks live under `references/workflows.md` inside the meta skill.
 
 ## Use Cases
 
@@ -51,7 +54,7 @@ rgctl -r example/coolstore discover -l java
 
 ### 1. Install the pack
 
-Install the `rgctl` skill into your repository:
+Install the agent pack into your repository:
 
 ```bash
 rgctl -r example/coolstore install --skill --tools cursor,claude,codex,antigravity,agents
@@ -59,18 +62,22 @@ rgctl -r example/coolstore install --skill --tools cursor,claude,codex,antigravi
 
 Text mode lists each created or updated path. Typical layout (Cursor example):
 
-- `.cursor/skills/rgctl/SKILL.md` — the meta skill
+- `.cursor/skills/rgctl/SKILL.md` — core structural router
 - `.cursor/skills/rgctl/references/` — command encyclopedia, workflows, communities & policy
 - `.cursor/skills/rgctl-review/SKILL.md` — PR/branch review protocol
-- `.cursor/commands/rgctl-review.md` — slash command `/rgctl:review` (writes `REVIEW_REPORT.md`)
+- `.cursor/skills/rgctl-vuln/SKILL.md` — OSV / CVE triage protocol
+- `.cursor/skills/rgctl-migrate/SKILL.md` — Strangler-Fig migration protocol
+- `.cursor/commands/rgctl-review.md` — slash `/rgctl:review` (writes `REVIEW_REPORT.md`)
+- `.cursor/commands/rgctl-vuln.md` — slash `/rgctl:vuln`
+- `.cursor/commands/rgctl-migrate.md` — slash `/rgctl:migrate`
 
 **What happened:**
 
-- rgctl unpacked the embedded **agent pack** (generated at build time from `skills/rgctl/`, including `references/workflows.md`).
-- **Claude** uses `.claude/skills/`.
+- rgctl unpacked the embedded **agent pack** (codegen from `skills/rgctl/`, `skills/rgctl-{review,vuln,migrate}/`, and `agent-pack/`).
+- **Claude** uses `.claude/skills/` (+ commands where supported).
 - **Codex / agents / zed** share `.agents/skills/` (install dedupes).
-- **Cursor** uses `.cursor/skills/`.
-- Scenario prose lives in `skills/rgctl/references/workflows.md` and is copied into the installed skill.
+- **Cursor** uses `.cursor/skills/` and `.cursor/commands/`.
+- Scenario prose lives in `skills/rgctl/references/workflows.md` and is copied into the installed meta skill.
 - No network — content matches your `rgctl` binary version.
 
 See [Install options reference](#install-options-reference) below for the full flag table and registry (`install --list-agents`).
@@ -508,7 +515,9 @@ The skill embeds a decision table that maps natural-language patterns to CLI com
 | "Where is ShoppingCart mutated?" | `cpg mutations --type ShoppingCart` |
 | "Trace variable X forward" | `cpg flows FILE --line N --variable X --direction forward` |
 | "Validate against policies" | `check --policy-file policy.json` or `review check --policy-file …` |
-| "PR call-path review" | `review paths --base-ref origin/main` |
+| "PR call-path review" | Prefer `/rgctl:review` · or `review paths --base-ref origin/main` |
+| "Are we affected by this CVE?" | Prefer `/rgctl:vuln` · or `vuln triage` → `deps check` → `vuln analyze` |
+| "Generate a Strangler-Fig brief" | Prefer `/rgctl:migrate` · or `discover . --export-migration-hints` |
 | "Find fragment clones of this block" | `clones --mode fragment --seed FILE:START-END` |
 
 The agent handles disambiguation (e.g., adding `--class` or `--file` when a symbol name is ambiguous). For slicing, prefer lazy `rgctl slice` (no upfront `--with-cfg`); reserve `discover --with-cfg` for `taint --sink`, `cpg mutations`, and batch `inspect`.
@@ -523,7 +532,7 @@ You must pass at least one of **`--skill`** or **`--with-policy`**.
 
 | Flag | Effect |
 |------|--------|
-| **`--skill`** | Install meta skill **`rgctl`**, companion skills (e.g. **`rgctl-review`**), and slash **commands** (e.g. `/rgctl:review`) for commands-enabled adapters. |
+| **`--skill`** | Install meta skill **`rgctl`**, companion skills **`rgctl-review`**, **`rgctl-vuln`**, **`rgctl-migrate`**, and slash **commands** `/rgctl:review` · `/rgctl:vuln` · `/rgctl:migrate` for commands-enabled adapters. |
 | **`--with-policy`** | Structural bias snippet (e.g. `.cursor/rules/rgctl-structural.mdc`). Optional; does not replace skills. |
 | **`--tools id1,id2`** or **`--tools all`** | Which **registry adapters** receive files. **Default (omit flag):** `cursor`, `claude`, `codex`, `agents`, `antigravity`. **`all`** = full registry (~40 products). Unknown ids: stderr warning; if none valid, exit **1**. |
 | **`-g` / `--global`** | Install under your **home** (e.g. `~/.cursor/skills/…`) instead of repo-local paths. Only agents with `supports_global: true` (see `--list-agents`). |
@@ -558,20 +567,29 @@ Paths come from **`agent-pack/agents/registry.toml`**.
 
 | Kind | Example (Cursor, repo-local) |
 |------|------------------------------|
-| Skill | `.cursor/skills/rgctl/SKILL.md` + `references/` |
+| Meta skill | `.cursor/skills/rgctl/SKILL.md` + `references/` |
+| Workflow skills | `.cursor/skills/rgctl-review/`, `rgctl-vuln/`, `rgctl-migrate/` |
+| Slash commands | `.cursor/commands/rgctl-{review,vuln,migrate}.md` → `/rgctl:review` · `/rgctl:vuln` · `/rgctl:migrate` |
 | Policy | `.cursor/rules/rgctl-structural.mdc` (with `--with-policy`) |
 
 **Shared dedup:** `codex`, `agents`, and `zed` share `.agents/skills/` — install writes each destination once. Run `rgctl install --list-agents` for the full adapter table.
 
 ### Scenarios inside the skill
 
-Intent → CLI mappings live in the skill’s NL routing table and `references/workflows.md` (discover, impact, flow, search, migrate, gate, vuln). There are **no** separate `rgctl-*` skill directories — one skill covers all of them.
+Intent → CLI mappings for day-to-day structural work live in the meta skill’s NL routing table and `references/workflows.md` (discover, impact, flow, search, migrate, gate, vuln). High-ceremony workflows prefer the dedicated skills / slash commands:
 
-**Migrate** uses `--export-migration-hints` → `.rgctl/migration_plan.json` as the agent-facing migration deliverable.
+| Intent | Prefer |
+|--------|--------|
+| PR / branch / worktree review | **`/rgctl:review`** → skill `rgctl-review` |
+| OSV / CVE / OpenVEX triage | **`/rgctl:vuln`** → skill `rgctl-vuln` |
+| Strangler-Fig migration brief | **`/rgctl:migrate`** → skill `rgctl-migrate` |
+| Find / callers / blast-radius / slice / … | Meta skill **`rgctl`** (no slash command) |
+
+**Migrate** uses `--export-migration-hints` → `.rgctl/migration_plan.json` as the agent-facing migration deliverable. Retired folders (`rgctl-discover`, `rgctl-impact`, …) are not recreated.
 
 ## How the pack is distributed
 
-At **rgctl build** time, `rgctl-agent-pack-codegen` generates the pack from `agent-pack/manifest.yaml`, `agent-pack/agents/registry.toml`, and `skills/rgctl/` (including `references/workflows.md`), then embeds it as a zip in the binary. This means:
+At **rgctl build** time, `rgctl-agent-pack-codegen` generates the pack from `agent-pack/manifest.yaml`, `agent-pack/agents/registry.toml`, and `skills/{rgctl,rgctl-review,rgctl-vuln,rgctl-migrate}/` (including `references/workflows.md`), then embeds it as a zip in the binary. This means:
 
 - No network access needed to install.
 - Pack version matches the CLI version.
@@ -582,7 +600,7 @@ At **rgctl build** time, `rgctl-agent-pack-codegen` generates the pack from `age
 
 - **Zero-configuration AI integration.** One command installs everything the agent needs to understand your codebase structurally.
 - **Natural-language interface.** Developers ask questions in English; the agent translates to CLI commands.
-- **Language-independent analysis.** Data-flow graphs, call neighborhoods, and mutation tracking work across all 9 Tier 1 languages.
+- **Language-independent analysis.** Data-flow graphs, call neighborhoods, and mutation tracking work across Tier-1 languages (≥98% AST coverage).
 - **Refactoring safety net.** Blast radius, call tracing, and mutation analysis catch breaking changes before they ship.
 - **Test case generation.** CFG branch analysis and data dependencies produce higher-coverage tests.
 - **Migration guidance.** The agent can generate, explain, and walk through a complete migration roadmap.

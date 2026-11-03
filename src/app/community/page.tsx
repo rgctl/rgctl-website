@@ -61,13 +61,18 @@ const tracks = [
   },
   {
     title: "Agent Host Adapters & Skills",
-    body: "Pack skills for Cursor/Claude/Codex, keep dogfood `.agents/skills/` in sync.",
+    body: "Install rgctl + /rgctl:review · /rgctl:vuln · /rgctl:migrate for Cursor/Claude/Codex.",
     links: [
       { href: "/docs/guides/agent-skill/", label: "Agent pack guide" },
       { href: "/agents/", label: "Agents page" },
       {
         href: `${GITHUB_REPO}/blob/main/skills/rgctl/SKILL.md`,
         label: "skills/rgctl",
+        external: true,
+      },
+      {
+        href: `${GITHUB_REPO}/tree/main/skills`,
+        label: "skills/ (all four)",
         external: true,
       },
     ],

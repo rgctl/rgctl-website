@@ -163,7 +163,7 @@ Install: \`curl -fsSL https://rgctl.io/install.sh | sh\`
 - Cross-language MRO (\`relations -e overrides\`), SCIP overlay (\`discover --scip\`), frameworks / DI routes
 - Semantic search over functions and docs
 - OSV / vuln reachability and OpenVEX
-- Agent skills via \`rgctl install --skill\`
+- Agent pack via \`rgctl install --skill\` (core \`rgctl\` + \`/rgctl:review\` · \`/rgctl:vuln\` · \`/rgctl:migrate\`)
 
 ## CLI (JSON-first)
 
