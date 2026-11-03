@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import {
-  coverageHandledCount,
   formatExtensions,
   HANDLER_ORDER,
   listLanguages,
+  semanticCoverage,
 } from "@/lib/languages";
 import { GITHUB_REPO } from "@/lib/utils";
 
@@ -80,26 +80,28 @@ export default function LanguagesIndexPage() {
         <p className="mt-1 text-sm text-[var(--mute)]">
           Dedicated <code className="text-xs">LanguagePlugin</code>{" "}
           implementations with grammar-verified{" "}
-          <code className="text-xs">*-ast-coverage.json</code> manifests, call
-          graphs, inheritance/MRO, CFG/PDG, taint rules, and hybrid CPG support.
+          <code className="text-xs">*-ast-coverage.json</code> manifests (≥98%
+          semantic <code className="text-xs">A+</code>, raw{" "}
+          <code className="text-xs">Skip</code> banned), call graphs,
+          inheritance/MRO, CFG/PDG, taint rules, and hybrid CPG support.
         </p>
 
         <div className="mt-4 overflow-x-auto">
-          <table className="w-full min-w-[40rem] border-collapse text-sm">
+          <table className="w-full min-w-[48rem] border-collapse text-sm">
             <thead>
               <tr className="border-b border-[var(--hairline)] text-left text-[var(--mute)]">
                 <th className="p-2 font-medium">Language</th>
                 <th className="p-2 font-medium">Extensions</th>
                 <th className="p-2 font-medium">Grammar</th>
                 <th className="p-2 font-medium">Kinds</th>
-                <th className="p-2 font-medium">Handled</th>
-                <th className="p-2 font-medium">Skip</th>
+                <th className="p-2 font-medium">Semantic</th>
+                <th className="p-2 font-medium">Grade</th>
+                <th className="p-2 font-medium">Passive</th>
               </tr>
             </thead>
             <tbody>
               {tier1.map((lang) => {
-                const handled = coverageHandledCount(lang.handlerCounts);
-                const skip = lang.handlerCounts.Skip ?? 0;
+                const cov = semanticCoverage(lang.handlerCounts);
                 return (
                   <tr
                     key={lang.id}
@@ -120,8 +122,18 @@ export default function LanguagesIndexPage() {
                       {lang.grammar || "—"}
                     </td>
                     <td className="p-2">{lang.kindCount}</td>
-                    <td className="p-2">{handled}</td>
-                    <td className="p-2">{skip}</td>
+                    <td className="p-2 font-mono text-xs">
+                      {cov.handled}/{cov.denom} ({cov.pct.toFixed(1)}%)
+                    </td>
+                    <td className="p-2 font-medium text-[var(--ink)]">
+                      {cov.grade}
+                    </td>
+                    <td className="p-2 font-mono text-xs text-[var(--mute)]">
+                      {cov.wrapperOrType}
+                      {cov.unimplemented
+                        ? ` +${cov.unimplemented} unimp`
+                        : ""}
+                    </td>
                   </tr>
                 );
               })}
@@ -320,10 +332,18 @@ function handlerBlurb(h: string): string {
       return "Feeds CFG / control-flow construction.";
     case "AstSkeleton":
       return "Kept for analysis skeleton / field-write paths.";
+    case "Property":
+      return "Property / attribute metadata (e.g. GraphQL directive bodies).";
     case "Literal":
       return "Leaf / literal tokens walked but not promoted to symbols.";
+    case "SkipWrapper":
+      return "Structural syntax containers — excluded from the semantic denominator.";
+    case "SkipTypeToken":
+      return "Leaf type / modifier tokens consumed by parent handlers.";
+    case "Unimplemented":
+      return "Tracked backlog with a required skip_justifications entry.";
     case "Skip":
-      return "Named grammar kind intentionally not mapped.";
+      return "Legacy label — banned in Tier-1 manifests (use SkipWrapper / SkipTypeToken / Unimplemented).";
     default:
       return "";
   }

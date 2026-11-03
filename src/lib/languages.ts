@@ -87,9 +87,22 @@ export const HANDLER_ORDER = [
   "Relation",
   "CfgStatement",
   "AstSkeleton",
+  "Property",
   "Literal",
-  "Skip",
+  "SkipWrapper",
+  "SkipTypeToken",
+  "Unimplemented",
 ] as const;
+
+/** Labels counted as handled for semantic coverage (mirrors rgctl-ast-coverage). */
+export const HANDLED_HANDLERS = new Set([
+  "Symbol",
+  "Relation",
+  "Property",
+  "CfgStatement",
+  "AstSkeleton",
+  "Literal",
+]);
 
 export type HandlerKind = (typeof HANDLER_ORDER)[number] | string;
 
@@ -186,10 +199,45 @@ export function formatExtensions(exts: string[]): string {
   return exts.map((e) => (e.startsWith(".") ? e : `.${e}`)).join(", ");
 }
 
+/** Handled kind count (Symbol/Relation/Property/Cfg/AstSkeleton/Literal). */
 export function coverageHandledCount(counts: Record<string, number>): number {
   let n = 0;
   for (const [k, v] of Object.entries(counts)) {
-    if (k !== "Skip") n += v;
+    if (HANDLED_HANDLERS.has(k)) n += v;
   }
   return n;
+}
+
+/**
+ * Semantic coverage: handled / (total − SkipWrapper − SkipTypeToken).
+ * Grade floor A+ is ≥98% (raw `"Skip"` is banned in Tier-1 manifests).
+ */
+export function semanticCoverage(counts: Record<string, number>): {
+  handled: number;
+  denom: number;
+  pct: number;
+  grade: "A+" | "A" | "B" | "C";
+  wrapperOrType: number;
+  unimplemented: number;
+  rawSkip: number;
+} {
+  const skipW = counts.SkipWrapper ?? 0;
+  const skipT = counts.SkipTypeToken ?? 0;
+  const rawSkip = counts.Skip ?? 0;
+  const unimplemented = counts.Unimplemented ?? 0;
+  const total = Object.values(counts).reduce((a, b) => a + b, 0);
+  const denom = Math.max(0, total - skipW - skipT);
+  const handled = coverageHandledCount(counts);
+  const pct = denom === 0 ? 100 : (100 * handled) / denom;
+  const grade: "A+" | "A" | "B" | "C" =
+    pct >= 98 ? "A+" : pct >= 75 ? "A" : pct >= 50 ? "B" : "C";
+  return {
+    handled,
+    denom,
+    pct,
+    grade,
+    wrapperOrType: skipW + skipT,
+    unimplemented,
+    rawSkip,
+  };
 }

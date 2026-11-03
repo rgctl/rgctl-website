@@ -10,6 +10,7 @@ import {
   listLanguages,
   loadCoverage,
   loadTagsScm,
+  semanticCoverage,
 } from "@/lib/languages";
 import { GITHUB_REPO } from "@/lib/utils";
 
@@ -210,6 +211,7 @@ export default async function LanguageSupportPage({ params }: Props) {
 
   if (coverage) {
     const groups = groupHandlers(coverage.handlers);
+    const cov = semanticCoverage(entry.handlerCounts);
     const manifestPath = `crates/${entry.crateDir}/${entry.manifestFile}`;
     const githubManifest = `${GITHUB_REPO}/blob/main/${manifestPath}`;
 
@@ -231,7 +233,9 @@ export default async function LanguageSupportPage({ params }: Props) {
           </a>
         </p>
 
-        <Badge className="mb-4">Tier 1 · AST coverage</Badge>
+        <Badge className="mb-4">
+          Tier 1 · AST coverage · {cov.grade}
+        </Badge>
         <h1 className="text-3xl tracking-tight text-[var(--ink)] sm:text-4xl">
           {entry.displayName}
         </h1>
@@ -239,6 +243,11 @@ export default async function LanguageSupportPage({ params }: Props) {
           Support matrix rendered from{" "}
           <code className="text-sm">{entry.manifestFile}</code>. Update that
           file when bumping the grammar; the site regenerates on the next build.
+          Semantic coverage floor is <strong>≥98% A+</strong>; raw{" "}
+          <code className="text-sm">Skip</code> is banned (use{" "}
+          <code className="text-sm">SkipWrapper</code> /{" "}
+          <code className="text-sm">SkipTypeToken</code> /{" "}
+          <code className="text-sm">Unimplemented</code>).
         </p>
 
         <dl className="mt-8 grid gap-3 text-sm sm:grid-cols-2">
@@ -255,6 +264,11 @@ export default async function LanguageSupportPage({ params }: Props) {
           <Meta
             label="Extensions"
             value={formatExtensions(entry.extensions)}
+            mono
+          />
+          <Meta
+            label="Semantic coverage"
+            value={`${cov.handled}/${cov.denom} (${cov.pct.toFixed(1)}%) · ${cov.grade}`}
             mono
           />
           <Meta

@@ -187,7 +187,7 @@ rgctl -r example/coolstore discover --languages java
 
 Omit `-l` / `--languages` only when you intentionally want a multi-language index of the full tree (much larger; vendor JS dominates).
 
-**Language catalog:** Tier-1 deep-extraction & CFG/PDG languages ship with 100% grammar-verified `*-ast-coverage.json` manifests; the full plugin catalog in `languages.toml` covers **~60** languages and config/IaC formats (not all are Tier-1 deep analysis).
+**Language catalog:** Tier-1 deep-extraction & CFG/PDG languages ship with grammar-verified `*-ast-coverage.json` manifests at **≥98% semantic Grade `A+`** (raw `"Skip"` banned — use `SkipWrapper` / `SkipTypeToken` / `Unimplemented`). The full plugin catalog in `languages.toml` covers **~60** languages and config/IaC formats (not all are Tier-1 deep analysis). Live tables: [Languages](/docs/languages/).
 
 ### 7. Excluding Directories
 
