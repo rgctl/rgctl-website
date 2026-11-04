@@ -67,7 +67,7 @@ const paths: Path[] = [
   },
   {
     title: "Impact, PR Review & CI Gates",
-    blurb: "Measure change impact and gate merges with policy.",
+    blurb: "Measure change impact, gate merges with policy, and score Konveyor migration rules.",
     guides: [
       {
         title: "Blast radius analysis",
@@ -86,6 +86,13 @@ const paths: Path[] = [
         feature: "review check · check",
         blurb: "PR temporal gates and local policy checks.",
         href: "/docs/guides/ci-policy-checks/",
+      },
+      {
+        title: "Kantra migration rules",
+        feature: "discover --with-kantra · rules run / findings / targets",
+        blurb:
+          "Embedded Konveyor Kantra eval and target-filtered findings on a large Java corpus.",
+        href: "/docs/guides/kantra-migration-rules/",
       },
     ],
   },
@@ -221,6 +228,16 @@ export default function GuidesIndexPage() {
               konveyor-ecosystem/coolstore
             </a>
             ) — larger Java EE app used in the step-by-step guides below.
+          </li>
+          <li>
+            <strong className="text-[var(--ink)]">Kantra at scale:</strong>{" "}
+            <code className="text-xs">example/metasfresh-4.9.8b</code> — old public
+            snapshot used as a large-corpus stress test (not a judgment of current
+            metasfresh). See{" "}
+            <Link href="/docs/guides/kantra-migration-rules/" className="underline">
+              Kantra migration rules
+            </Link>
+            .
           </li>
         </ul>
       </aside>

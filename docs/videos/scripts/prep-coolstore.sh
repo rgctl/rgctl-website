@@ -79,6 +79,25 @@ else
   echo "warn: missing $MD (markdown-context tape will fail)" >&2
 fi
 
+# metasfresh is large — symlink the example tree (do not rsync).
+METASFRESH="${METASFRESH:-}"
+if [[ -z "$METASFRESH" ]]; then
+  for c in "$RGCTL_REPO/example/metasfresh-4.9.8b" "$RGCTL_REPO/example/metasfresh"; do
+    if [[ -d "$c" ]]; then
+      METASFRESH="$c"
+      break
+    fi
+  done
+fi
+if [[ -n "${METASFRESH:-}" && -d "$METASFRESH" ]]; then
+  METASFRESH="$(cd "$METASFRESH" && pwd)"
+  ln -sfn "$METASFRESH" "$WORK/metasfresh"
+  echo "==> metasfresh symlink → $METASFRESH"
+else
+  echo "warn: metasfresh not found (kantra-migration-rules tape will fail)" >&2
+  echo "  set METASFRESH=/path/to/metasfresh-4.9.8b or run fetch-profile-repos.sh" >&2
+fi
+
 POLICY="$RGCTL_REPO/rgctl-tests/rgctl-pr-policy.json"
 if [[ -f "$POLICY" ]]; then
   cp -f "$POLICY" "$WORK/rgctl-pr-policy.json"
@@ -93,6 +112,39 @@ PY
 else
   echo "warn: missing $POLICY" >&2
 fi
+
+ensure_metasfresh_kantra() {
+  if [[ ! -L "$WORK/metasfresh" && ! -d "$WORK/metasfresh" ]]; then
+    return 0
+  fi
+  if [[ "${SKIP_KANTRA:-0}" == "1" ]]; then
+    echo "==> SKIP_KANTRA=1 — leaving metasfresh .rgctl as-is"
+    return 0
+  fi
+  echo "==> ensure metasfresh has embedded Kantra findings (rules run if missing)"
+  (
+    cd "$WORK/metasfresh"
+    if [[ ! -f .rgctl/graph.snapshot.bin ]]; then
+      echo "==> discover metasfresh (--full) — this can take ~1 minute"
+      rgctl discover . --full
+    fi
+    NEED_KANTRA=1
+    if [[ -f .rgctl/kantra_findings.json ]]; then
+      if rgctl -f json status 2>/dev/null | jq -e '.kantra_findings == true' >/dev/null 2>&1; then
+        NEED_KANTRA=0
+      fi
+    fi
+    if [[ "$NEED_KANTRA" == "1" ]]; then
+      echo "==> rgctl rules run (embedded stable/java) — ~1 minute on this corpus"
+      rgctl -f json rules run | jq '{summary, evaluated_rules, skipped_rules_count, catalog_id}'
+    else
+      echo "==> kantra_findings already present"
+    fi
+    rgctl -f json status | jq '{status, nodes, edges, kantra_findings, schema_version}'
+  )
+}
+
+ensure_metasfresh_kantra
 
 if [[ "${SKIP_DISCOVER:-0}" == "1" ]]; then
   echo "==> SKIP_DISCOVER=1 — workspace wired only"

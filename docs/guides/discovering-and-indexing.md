@@ -60,7 +60,7 @@ rgctl -r example/coolstore discover -l java
 | **Taint / mutations / batch inspect** | `--with-cfg` (+ `--with-taint` / `--with-ast-skeleton` if needed) |
 | **SCIP overlay** | `--scip index.scip` |
 | **Git churn / co-change** | `--with-git [--git-since 90.days]` then `metrics --churn` |
-| **Full staged pipeline** | `--full` (CFG + dashboard + harmonic + semantic; not taint/security) |
+| **Full staged pipeline** | `--full` (CFG + Universe + harmonic + taint + Kantra + semantic; not security/git/SCIP/migration export) |
 | **Migration roadmap** | `--export-migration-hints --with-harmonic` (+ preset/order) |
 | **Kantra** | `--with-kantra` (+ `--kantra-target` …) |
 | **Constrained / cgroup** | `--with-limits max-mem-mb=4096,threads=1` (or `RGCTL_WITH_LIMITS`) |
@@ -74,7 +74,7 @@ rgctl -r example/coolstore discover -l java
 rgctl -r example/coolstore discover -l java --full
 ```
 
-This prints a plan, finishes a basic (queryable) index, then runs CFG + dashboard + harmonic centrality and a vocab semantic index. `--full` does not enable taint or secret scanning.
+This prints a plan, finishes a basic (queryable) index, then runs CFG + Universe dashboard + harmonic centrality + discover-time taint + Kantra, then a vocab semantic index. `--full` does not imply secret scanning, git churn, SCIP, or migration roadmap export.
 
 ### Constrained / container discover
 
@@ -232,7 +232,7 @@ After discovery, artifacts live under **`{repo}/.rgctl/`**:
 | `-l, --languages` | Restrict to specific languages |
 | `-e, --exclude` | Exclude directories by name |
 | `-v, --verbose` | Debug logging with stage profiling |
-| `--full` | Staged pipeline: basic → CFG/dashboard/harmonic → semantic index |
+| `--full` | Staged pipeline: basic → CFG/Universe/harmonic/taint/Kantra → semantic index |
 
 Also: `rgctl merge <REPOS>... --output-dir <DIR>` (Lifecycle) after per-repo discovers.
 
@@ -250,5 +250,6 @@ Also: `rgctl merge <REPOS>... --output-dir <DIR>` (Lifecycle) after per-repo dis
 - [Graph Metrics](graph-metrics.md) — PageRank, betweenness, Fast-Leiden, churn
 - [Program Slicing](program-slicing.md) — lazy CFG/PDG slicing
 - [Migration Planning](migration-planning.md) — use the `--export-migration-hints` output
+- [Kantra Migration Rules](kantra-migration-rules.md) — embedded Kantra eval + `rules findings --target`
 - [HTTP Server and Dashboard](http-server-and-dashboard.md) — serve the `--with-dashboard` output in a browser
 - [CLI Command Reference](cli-command-reference.md) — full Lifecycle flag map

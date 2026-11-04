@@ -50,12 +50,21 @@ if ! command -v rgctl >/dev/null 2>&1; then
   exit 1
 fi
 
-if [[ ! -e "$SITE/docs/videos/.work/coolstore" && "$SLUG" != "markdown-context-graph" ]]; then
+if [[ "$SLUG" == "kantra-migration-rules" ]]; then
+  if [[ ! -e "$SITE/docs/videos/.work/metasfresh" ]]; then
+    echo "error: missing docs/videos/.work/metasfresh — run prep-coolstore.sh first" >&2
+    exit 1
+  fi
+  if [[ ! -f "$SITE/docs/videos/.work/metasfresh/.rgctl/kantra_findings.json" ]]; then
+    echo "error: metasfresh missing kantra_findings.json — re-run prep-coolstore.sh (or SKIP_KANTRA=0)" >&2
+    exit 1
+  fi
+elif [[ ! -e "$SITE/docs/videos/.work/coolstore" && "$SLUG" != "markdown-context-graph" ]]; then
   echo "error: missing docs/videos/.work/coolstore — run prep-coolstore.sh first" >&2
   exit 1
 fi
 
-if [[ "$SLUG" != "markdown-context-graph" && "$SLUG" != "discovering-and-indexing" && -d "$SITE/docs/videos/.work/.rgctl.golden" ]]; then
+if [[ "$SLUG" != "markdown-context-graph" && "$SLUG" != "discovering-and-indexing" && "$SLUG" != "kantra-migration-rules" && -d "$SITE/docs/videos/.work/.rgctl.golden" ]]; then
   mkdir -p "$SITE/docs/videos/.work/coolstore/.rgctl"
   rsync -a --delete "$SITE/docs/videos/.work/.rgctl.golden/" "$SITE/docs/videos/.work/coolstore/.rgctl/"
 fi

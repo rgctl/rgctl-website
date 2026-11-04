@@ -10,6 +10,7 @@ Deliverables live in this website repo and are copied into `public/demos/` at bu
 
 **Fixture:** CoolStore (`example/coolstore` in the product repo), wired via `docs/videos/.work/`.
 Markdown guide uses `tests/fixtures/markdown-context`. OSV guide uses `tests/fixtures/osv`.
+Kantra guide uses **metasfresh 4.9.8b** (`example/metasfresh-4.9.8b`, symlinked — not rsynced).
 
 ---
 

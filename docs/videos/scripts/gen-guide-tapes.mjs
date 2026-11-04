@@ -19,7 +19,7 @@ const manifest = JSON.parse(
 
 const only = process.argv[2];
 
-const HEADER = `# {{TITLE}} — CoolStore CLI demo
+const HEADER = `# {{TITLE}} — CLI demo
 #
 # Record: ./docs/videos/scripts/record-guide.sh {{SLUG}}
 # Burn:   ./docs/videos/scripts/burn-guide-captions.sh {{SLUG}}
@@ -674,6 +674,61 @@ const tapes = {
       [
         "Validate Before You Extract (communities · blast-radius)",
         "Confirm boundaries and upstream risk on CoolStore",
+      ],
+    ],
+  },
+
+  "kantra-migration-rules": {
+    slug: "kantra-migration-rules",
+    workdir: "docs/videos/.work/metasfresh",
+    prompt: "metasfresh-4.9.8b",
+    scenes: [
+      {
+        comment: "# 1. Large Java corpus (old metasfresh snapshot — scale test, not a product scorecard)",
+        cmds: [
+          "rgctl -f json status | jq '{status, nodes, edges, kantra_findings, schema_version}'",
+          "rgctl -f json inventory --by type | jq '[.counts[] | select(.key==\"file\" or .key==\"function\" or .key==\"class\")]'",
+        ],
+        sleep: "3s",
+      },
+      {
+        comment: "# 2. Catalog targets with hit counts (one embedded rules run already on disk)",
+        cmds: [
+          "rgctl -f json rules targets | jq '{findings_present, catalog_id, targets: [.targets[] | select(.name==\"quarkus\" or .name==\"eap8\" or .name==\"openjdk17+\" or .name==\"cloud-readiness\") | {name, rules, hits}]}'",
+        ],
+        sleep: "3s",
+      },
+      {
+        comment: "# 3. Token-compact findings for quarkus (summary before --limit sample)",
+        cmds: [
+          "rgctl -f json rules findings --target quarkus --limit 2 | jq '{total_matched, summary, rules: [.per_rule[].rule_id], sample: [.violations[] | {rule_id, file: (.file|split(\"/\")[-1]), line}]}'",
+        ],
+        sleep: "3s",
+      },
+      {
+        comment: "# 4. Mandatory openjdk17+ hits (illustrative on this ancient tree)",
+        cmds: [
+          "rgctl -f json rules findings --target openjdk17+ --category mandatory --limit 2 | jq '{total_matched, summary, per_rule: [.per_rule[] | {rule_id, category, effort, targets}]}'",
+        ],
+        sleep: "3s",
+      },
+    ],
+    captions: [
+      [
+        "Scale Corpus: metasfresh 4.9.8b",
+        "~11k files · ~322k nodes · ~1.1M edges — old snapshot for load, not judgment",
+      ],
+      [
+        "Embedded Kantra Targets (rules targets)",
+        "quarkus · eap8 · openjdk17+ · cloud-readiness hit counts",
+      ],
+      [
+        "Filter Findings Without Re-Eval (rules findings --target)",
+        "summary + per_rule metadata · capped violation sample",
+      ],
+      [
+        "Category Filters for Migration Waves",
+        "openjdk17+ mandatory — illustrative hits on a legacy tree",
       ],
     ],
   },

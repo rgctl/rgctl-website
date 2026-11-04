@@ -1,0 +1,19 @@
+1
+00:00:00,000 --> 00:00:10,218
+Scale Corpus: metasfresh 4.9.8b
+~11k files · ~322k nodes · ~1.1M edges — old snapshot for load, not judgment
+
+2
+00:00:10,298 --> 00:00:20,094
+Embedded Kantra Targets (rules targets)
+quarkus · eap8 · openjdk17+ · cloud-readiness hit counts
+
+3
+00:00:20,174 --> 00:00:29,592
+Filter Findings Without Re-Eval (rules findings --target)
+summary + per_rule metadata · capped violation sample
+
+4
+00:00:29,672 --> 00:00:38,730
+Category Filters for Migration Waves
+openjdk17+ mandatory — illustrative hits on a legacy tree

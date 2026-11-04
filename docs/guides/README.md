@@ -6,7 +6,8 @@ Most CLI how-tos embed a short **VHS walkthrough** (captioned) at the top of the
 
 > **Which fixture?**  
 > - **In-tree quickstart:** `rgctl-tests/ecommerce-java` (ships with the product repo — no extra clone). Best for first `discover` / `find` / `blast-radius` runs and the [User Guide](../user-guide.md).  
-> - **Full feature guides + demos:** **CoolStore** (`example/coolstore` or [konveyor-ecosystem/coolstore](https://github.com/konveyor-ecosystem/coolstore)) — larger Java EE app used in the how-tos below.
+> - **Full feature guides + demos:** **CoolStore** (`example/coolstore` or [konveyor-ecosystem/coolstore](https://github.com/konveyor-ecosystem/coolstore)) — larger Java EE app used in the how-tos below.  
+> - **Kantra at scale:** **metasfresh 4.9.8b** (`example/metasfresh-4.9.8b`) — old public snapshot used as a large-corpus stress test (not a judgment of current metasfresh). See [Kantra Migration Rules](kantra-migration-rules.md).
 
 ## Guides
 
@@ -30,6 +31,7 @@ Most CLI how-tos embed a short **VHS walkthrough** (captioned) at the top of the
 | [HTTP Server and Dashboard](http-server-and-dashboard.md) | `serve` | Run an HTTP API and browser-based dashboard |
 | [Watch mode and incremental update](watch-mode.md) | `update`, `watch`, `serve --watch` | Keep the graph fresh without full rediscover |
 | [Migration Planning](migration-planning.md) | `discover --export-migration-hints` | Generate a dependency-aware migration roadmap |
+| [Kantra Migration Rules](kantra-migration-rules.md) | `discover --with-kantra`, `rules run` / `findings` / `targets` | Embedded Konveyor Kantra eval + target-filtered findings (metasfresh scale) |
 | [Clone Detection](clone-detection.md) | `clones` | Detect exact (Type-1), bloom, and sub-function fragment clones |
 | [Vulnerability and OSV Supply-Chain Analysis](vulnerability-and-osv-analysis.md) | `vuln`, `deps`, `taint`, `security` | End-to-end OSV advisory triage, manifest scanning, call-path reachability, and OpenVEX generation |
 | [Agent pack](agent-skill.md) | CoolStore install walkthrough | NL → `rgctl` + `/rgctl:review` · `/rgctl:vuln` · `/rgctl:migrate` → CLI |

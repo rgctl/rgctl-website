@@ -22,6 +22,10 @@ export const DOCS_NAV: NavSection[] = [
       { href: "/docs/guides/blast-radius-analysis/", label: "Blast radius analysis" },
       { href: "/docs/guides/pr-review/", label: "Pull request review" },
       { href: "/docs/guides/ci-policy-checks/", label: "CI policy checks" },
+      {
+        href: "/docs/guides/kantra-migration-rules/",
+        label: "Kantra migration rules",
+      },
     ],
   },
   {

@@ -6,7 +6,7 @@ rgctl can generate a **dependency-aware migration roadmap** that tells you the o
 
 Migration planning answers the critical question: "In what order should we extract pieces of this monolith so that each step is safe and dependencies are respected?"
 
-For AI agents, prefer slash command **`/rgctl:migrate`** (skill `rgctl-migrate`) after `rgctl install --skill` — see the [agent pack guide](agent-skill.md). The CLI deliverable is still `.rgctl/migration_plan.json` from `discover --export-migration-hints`.
+For AI agents, prefer slash command **`/rgctl:migrate`** (skill `rgctl-migrate`) after `rgctl install --skill` — see the [agent pack guide](agent-skill.md). The CLI deliverable is still `.rgctl/migration_plan.json` from `discover --export-migration-hints`. For Konveyor-style rule hits (`rules run` / `rules findings --target`), see [Kantra Migration Rules](kantra-migration-rules.md).
 
 ## Use Cases
 
