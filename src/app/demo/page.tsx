@@ -35,7 +35,7 @@ export default function DemoPage() {
         <DemoMedia
           kind="cli"
           className="mx-auto max-w-5xl"
-          caption="CLI (VHS) — discover, status, find, callers, blast-radius, communities, PageRank, Hybrid CPG, program slicing, clones, semantic search, Kantra rules, CI policy gates, PR review & AI agent skills."
+          caption="CLI (VHS) — discover, status, find, callers, blast-radius, communities, PageRank, Hybrid CPG, program slicing, clones, semantic search, CI policy gates, PR review & AI agent skills."
         />
       </div>
 

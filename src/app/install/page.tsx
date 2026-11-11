@@ -113,8 +113,8 @@ export default function InstallPage() {
           ]}
         />
         <p className="text-sm text-[var(--mute)]">
-          Dashboard and migration JSON are opt-in: add{" "}
-          <code className="font-mono">--with-dashboard</code> /{" "}
+          Universe dashboard and migration JSON are opt-in: add{" "}
+          <code className="font-mono">--with-universe</code> /{" "}
           <code className="font-mono">--export-migration-hints</code>.{" "}
           <code className="font-mono">slice</code> builds CFG/PDG lazily;
           use <code className="font-mono">discover --with-cfg</code> to

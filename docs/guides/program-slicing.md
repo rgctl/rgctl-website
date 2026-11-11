@@ -8,7 +8,7 @@ Slicing works in two directions: **backward** (what statements contributed to th
 
 ## Lazy CFG/PDG (no upfront `discover --with-cfg`)
 
-`rgctl slice` does **not** require a whole-repo `discover --with-cfg` first. When the target function is missing from the v3 indexed archive (`.rgctl/analysis/cfg_pdg.bin` / on-disk `cfg_pdg.archive.bin`), `ensure_cfg_pdg_for_source` parses only that file, builds a **single function** CFG/PDG, and **atomically appends** its `TocEntry` to the archive.
+`rgctl slice` does **not** require a whole-repo `discover --with-cfg` first. When the target function is missing from the v3 indexed archive (`.rgctl/analysis/cfg_pdg.archive.bin`), `ensure_cfg_pdg_for_source` parses only that file, builds a **single function** CFG/PDG, and **atomically appends** its `TocEntry` to the archive.
 
 - **`--function` is optional:** when omitted, `slice` auto-resolves the innermost enclosing function from `file:line`.
 - **`--with-alias`:** expands the criterion via intra-procedural may-alias heuristics (copies / field bases).

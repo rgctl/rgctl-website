@@ -67,7 +67,7 @@ const paths: Path[] = [
   },
   {
     title: "Impact, PR Review & CI Gates",
-    blurb: "Measure change impact, gate merges with policy, and score Konveyor migration rules.",
+    blurb: "Measure change impact, review PR call-path deltas, and gate merges with declarative policy.",
     guides: [
       {
         title: "Blast radius analysis",
@@ -86,13 +86,6 @@ const paths: Path[] = [
         feature: "review check · check",
         blurb: "PR temporal gates and local policy checks.",
         href: "/docs/guides/ci-policy-checks/",
-      },
-      {
-        title: "Kantra migration rules",
-        feature: "discover --with-kantra · rules run / findings / targets",
-        blurb:
-          "Embedded Konveyor Kantra eval and target-filtered findings on a large Java corpus.",
-        href: "/docs/guides/kantra-migration-rules/",
       },
     ],
   },
@@ -230,12 +223,11 @@ export default function GuidesIndexPage() {
             ) — larger Java EE app used in the step-by-step guides below.
           </li>
           <li>
-            <strong className="text-[var(--ink)]">Kantra at scale:</strong>{" "}
-            <code className="text-xs">example/metasfresh-4.9.8b</code> — old public
-            snapshot used as a large-corpus stress test (not a judgment of current
-            metasfresh). See{" "}
-            <Link href="/docs/guides/kantra-migration-rules/" className="underline">
-              Kantra migration rules
+            <strong className="text-[var(--ink)]">Large-scale corpus:</strong>{" "}
+            <code className="text-xs">example/metasfresh-4.9.8b</code> — public
+            ERP snapshot used as a ~10k-file Java cold-profile benchmark. See{" "}
+            <Link href="/docs/guides/migration-planning/" className="underline">
+              Migration planning
             </Link>
             .
           </li>

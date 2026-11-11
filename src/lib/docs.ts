@@ -126,6 +126,8 @@ export function extractDocMeta(md: string, fallbackSlug: string): DocMeta {
   return { title, description };
 }
 
+const GITHUB_BLOB_BASE = "https://github.com/rgctl/rgctl/blob/main";
+
 /** Rewrite repo-relative markdown links for the site `/docs/` tree. */
 export function rewriteDocLinks(md: string, slug?: string[]): string {
   const base = process.env.NEXT_PUBLIC_BASE_PATH || "";
@@ -133,33 +135,84 @@ export function rewriteDocLinks(md: string, slug?: string[]): string {
 
   // Determine the directory context from the slug so relative links resolve
   // correctly for documents in subdirectories (e.g. guides/README → guides/).
+  const isAgentsRoot = slug?.length === 1 && slug[0] === "AGENTS";
   const dirParts = slug ? slugDir(slug) : [];
   const dirPrefix = dirParts.length > 0 ? dirParts.join("/") + "/" : "";
 
   return md.replace(/\]\(([^)]+)\)/g, (full, target: string) => {
+    // Rewrite local file:// links pointing into the rgctl repo to GitHub blob URLs
+    const fileMatch = target.match(
+      /^file:\/\/\/.*?\/(?:rbuilder|rgctl)\/((?:crates|docs|tests|scripts|rgctl-tests|\.github|languages\.toml|Cargo\.toml|AGENTS\.md)[^#]*)(#.*)?$/,
+    );
+    if (fileMatch) {
+      return `](${GITHUB_BLOB_BASE}/${fileMatch[1]}${fileMatch[2] ?? ""})`;
+    }
+
     if (/^(https?:|mailto:|#|\/)/i.test(target)) return full;
     const hashIdx = target.indexOf("#");
     const pathPart = hashIdx >= 0 ? target.slice(0, hashIdx) : target;
     const hash = hashIdx >= 0 ? target.slice(hashIdx) : "";
-    if (!pathPart.endsWith(".md") && pathPart !== "../AGENTS.md") {
-      return full;
-    }
+
     let rel = pathPart.replace(/^\.\//, "");
     if (rel === "../AGENTS.md" || rel === "AGENTS.md") {
       return `](${prefix}/AGENTS/${hash})`;
     }
 
-    // Resolve parent-directory references (../) against the current directory
-    let resolvedDir = dirPrefix;
-    while (rel.startsWith("../")) {
-      rel = rel.slice(3);
-      // Strip one directory level from resolvedDir
-      const parts = resolvedDir.replace(/\/$/, "").split("/").filter(Boolean);
-      parts.pop();
-      resolvedDir = parts.length > 0 ? parts.join("/") + "/" : "";
+    // AGENTS.md lives at the repository root in rbuilder
+    if (isAgentsRoot) {
+      if (rel.startsWith("docs/")) {
+        const docRel = rel.slice("docs/".length).replace(/\.md$/, "");
+        if (docRel === "languages/README" || docRel === "languages") {
+          return `](${prefix}/languages/${hash})`;
+        }
+        if (
+          existsSync(join(contentRoot, docRel + ".md")) ||
+          existsSync(join(contentRoot, docRel, "README.md"))
+        ) {
+          return `](${prefix}/${docRel}/${hash})`;
+        }
+      }
+      return `](${GITHUB_BLOB_BASE}/${rel}${hash})`;
     }
 
-    rel = rel.replace(/\.md$/, "");
-    return `](${prefix}/${resolvedDir}${rel}/${hash})`;
+    // Resolve parent-directory references (../) against the current directory inside docs/
+    const parts = dirPrefix.replace(/\/$/, "").split("/").filter(Boolean);
+    let escapedDocsRoot = false;
+    while (rel.startsWith("../")) {
+      rel = rel.slice(3);
+      if (parts.length > 0) {
+        parts.pop();
+      } else {
+        escapedDocsRoot = true;
+      }
+    }
+
+    if (escapedDocsRoot) {
+      return `](${GITHUB_BLOB_BASE}/${rel}${hash})`;
+    }
+
+    const resolvedDir = parts.length > 0 ? parts.join("/") + "/" : "";
+    const resolvedDocPath = `${resolvedDir}${rel}`;
+
+    if (
+      resolvedDocPath === "languages/README.md" ||
+      resolvedDocPath === "languages/README"
+    ) {
+      return `](${prefix}/languages/${hash})`;
+    }
+
+    if (!pathPart.endsWith(".md")) {
+      return `](${GITHUB_BLOB_BASE}/docs/${resolvedDocPath}${hash})`;
+    }
+
+    const stem = resolvedDocPath.replace(/\.md$/, "");
+    if (
+      existsSync(join(contentRoot, stem + ".md")) ||
+      existsSync(join(contentRoot, stem, "README.md"))
+    ) {
+      return `](${prefix}/${stem}/${hash})`;
+    }
+
+    return `](${GITHUB_BLOB_BASE}/docs/${resolvedDocPath}${hash})`;
   });
 }

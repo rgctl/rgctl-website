@@ -43,7 +43,7 @@ rgctl -r example/coolstore -f json status | jq '{status, nodes, edges, schema_ve
 }
 ```
 
-Returns `status: "ok"` when a snapshot exists, plus node/edge counts and optional Kantra findings path.
+Returns `status: "ok"` when a snapshot exists, plus node/edge counts, snapshot digest, and source staleness flags.
 
 ### 2. Function inventory
 

@@ -7,7 +7,7 @@ import { GITHUB_DISCUSSIONS, GITHUB_REPO, GITHUB_RELEASES } from "@/lib/utils";
 export const metadata: Metadata = {
   title: "Community",
   description:
-    "Contribute to rgctl — language plugins, taint/Kantra rules, agent host adapters, and graph/CPG algorithms.",
+    "Contribute to rgctl — language plugins, taint & OSV rules, agent host adapters, and graph/CPG algorithms.",
   alternates: { canonical: "/community/" },
 };
 
@@ -51,8 +51,8 @@ const tracks = [
     ],
   },
   {
-    title: "Declarative Taint & Kantra Rules",
-    body: "Source→sink rules, Kantra integration, and security/OSV workflows.",
+    title: "Declarative Taint & Policy Rules",
+    body: "Source→sink taint specifications, architectural policy checks, and security/OSV workflows.",
     links: [
       { href: "/docs/guides/vulnerability-and-osv-analysis/", label: "OSV / vuln guide" },
       { href: "/docs/analysis-architecture/", label: "Analysis architecture" },

@@ -12,7 +12,7 @@ Global flags apply to every `rgctl` command and can be passed before or after th
 |------|-------------|---------|-------------|
 | `-r, --repo <PATH>` | — | Current directory (`.`) | Target repository root containing `.rgctl/` |
 | `-d, --db <PATH>` | — | `<repo>/.rgctl/graph.snapshot.bin` | Explicit path to the graph snapshot artifact |
-| `-f, --format <FMT>` | `RGCTL_FORMAT` | `text` | Output format (`text`, `json`, `table`, `compact`). Agents should always pass `-f json`. |
+| `-f, --format <FMT>` | `RGCTL_FORMAT` | `text` | Output format (`text`, `json`, `graphviz`, `mermaid`). Agents should always pass `-f json`. |
 | `-o, --output <FILE>` | — | `stdout` | Write command output to `<FILE>` instead of `stdout` |
 
 ---
@@ -29,16 +29,15 @@ Lifecycle:
   update        Incremental structural graph update for changed files (not a full discover / analysis rebuild)
   watch         Watch the repo and apply incremental graph updates on save (notify, default 25ms debounce)
   merge         Merge multiple discovered repos, resolving parked cross-repo relations
-  serve         Serve the analysis dashboard and GQL query API over HTTP
+  serve         Serve the interactive Universe architecture dashboard and HTTP query API
   diff          Diff two columnar graph snapshots (cold diff profiling / compare path)
 
 Query:
-  find          Find symbols by name/type over the mmap graph index (no GQL)
+  find          Find symbols by name/type over the mmap graph index
   callers       Incoming CALLS neighbors for a symbol
   callees       Outgoing CALLS neighbors for a symbol
   relations     Typed edge traversal; omit SYMBOL for seedless set-wide scan
   inventory     Aggregate symbol/edge counts (includes zero-count schema kinds for type/edge)
-  gql           Experimental graph query language — prefer find / callers / relations / inventory for common queries
 
 Analysis:
   blast-radius  Macro impact / blast radius for a symbol
@@ -59,11 +58,12 @@ Security:
 Policy:
   check         CI policy gateway
   review        Temporal PR analysis (review paths / review check)
-  rules         Evaluate Konveyor-shaped rules against the session (Kantra engine)
 
 Meta:
+  writeback     Lossless Red-Green CST verification, source export, and span-safe patching (requires discover --lossless)
   export        Export graph or projections
   install       Install bundled agent pack (skills, optional policy)
+  completions   Generate shell completion scripts (bash, zsh, fish, elvish, powershell)
   help          Print this message or the help of the given subcommand(s)
 ```
 
@@ -78,10 +78,11 @@ Several commands have historical or namespace aliases for backwards compatibilit
 | Traverse any typed edge (`Overrides`, `CoChangesWith`, `Extends`, …) | `rgctl relations` | `rgctl query relations` | Supports seeded (`<SYMBOL>`) or seedless repo-wide scans |
 | Count symbols/edges by type, language, file, or community | `rgctl inventory` | `rgctl query inventory` | Includes zero-count schema kinds for `--by type` / `--by edge` |
 | Incremental file re-indexing | `rgctl update --files <PATHS>` | `rgctl discover --files <PATHS>` | `update` coordinates with live `watch` / `serve --watch` locks |
-| Statement-level backward/forward program slicing | `rgctl slice` | `rgctl cpg slice`, `rgctl cpg flows` | `slice` auto-resolves enclosing function from `file:line`, lazily caches `cfg_pdg.bin`, and supports `--with-alias` and `--taint` |
+| Statement-level backward/forward program slicing | `rgctl slice` | `rgctl cpg slice`, `rgctl cpg flows` | `slice` auto-resolves enclosing function from `file:line`, lazily caches `cfg_pdg.archive.bin`, and supports `--with-alias` and `--taint` |
 | Inspect function PDG / CFG / Dominator tree | `rgctl inspect <SYM> cfg\|pdg\|dom` | `rgctl cpg pdg <SYM>` | `inspect` covers all 3 procedural layers (`cfg`, `pdg`, `dom`) |
 | Temporal PR policy gate | `rgctl review check` | `rgctl pr-check`, `rgctl check --temporal` | Evaluates `New` vs `Existing` vs `Resolved` violations + calendar grace windows |
 | OSV vulnerability & dependency reachability | `rgctl vuln`, `rgctl deps`, `rgctl taint` | `rgctl security {vuln, deps, taint}` | Top-level verbs and `security` subcommands share identical flags |
+| Lossless CST source verification & patching | `rgctl writeback verify\|export\|patch` | — | Operates on `.rgctl/source.rgcs.bin` + `.rgctl/trivia.rgct.bin` (from `discover --lossless`) |
 
 ---
 
@@ -108,13 +109,18 @@ Indexes source files, resolves cross-file & cross-language symbols (including C3
   rgctl discover . --with-git --git-since 90.days
   ```
 - **Deep procedural analysis (`--with-cfg`, `--with-taint`, `--with-dfg-loops`, `--with-ast-skeleton`):**
-  Pre-builds the indexed v3 `cfg_pdg.bin` archive and `field_write.bin` mutation index across all functions (note: single-function `rgctl slice` works lazily even without `--with-cfg`):
+  Pre-builds the indexed v3 `.rgctl/analysis/cfg_pdg.archive.bin` archive and `field_write.bin` mutation index across all functions (note: single-function `rgctl slice` works lazily even without `--with-cfg`):
   ```bash
   rgctl discover . --with-cfg --with-taint
   ```
-- **Migration roadmap & dashboard (`--export-migration-hints`, `--with-harmonic`, `--with-dashboard`):**
+- **Lossless Red-Green CST streams (`--lossless`):**
+  Emits `.rgctl/source.rgcs.bin` (`RGCS`) and `.rgctl/trivia.rgct.bin` (`RGCT`) alongside exact green-node spans for byte-identical `rgctl writeback` verification, reconstruction, and span-safe patching:
   ```bash
-  rgctl discover . --with-harmonic --export-migration-hints --migration-preset risk_mitigation
+  rgctl discover . --lossless
+  ```
+- **Migration roadmap & Universe dashboard (`--export-migration-hints`, `--with-harmonic`, `--with-universe`):**
+  ```bash
+  rgctl discover . --with-universe --with-harmonic --export-migration-hints --migration-preset risk_mitigation
   ```
 - **Staged full pipeline (`--full`) & container resource budgets (`--with-limits`):**
   ```bash
@@ -144,9 +150,9 @@ rgctl merge services/auth services/billing --output-dir .rgctl-merged
 rgctl -r .rgctl-merged -f json callers validateToken
 ```
 
-#### `rgctl serve [PATH]` & `rgctl diff --base <BASE> --head <HEAD>`
-- `rgctl serve --open --watch`: Serves the interactive web dashboard (`http://127.0.0.1:8080`) and HTTP query API with live incremental file watching.
-- `rgctl diff --base <BASE_SNAP> --head <HEAD_SNAP>`: Zero-cold-touch columnar snapshot diffing by `StableEntityKey`.
+#### `rgctl serve [PATH]` & `rgctl diff <BASE> <HEAD>`
+- `rgctl serve --open --watch`: Serves the interactive web dashboard (`http://127.0.0.1:8080`) and read-only HTTP query API over `.rgctl/` with optional live incremental file watching.
+- `rgctl diff <BASE> <HEAD>`: Zero-cold-touch columnar snapshot diffing by `StableEntityKey` (supports git refs or snapshot paths, `--cached`, `--stat`, `--fail-on-breaking`, `--fail-on-cycles`).
 
 ---
 
@@ -209,7 +215,7 @@ rgctl -f json blast-radius ChargeCard --depth 3 --with-slices
 
 #### `rgctl slice <FILE> --line <N> --variable <VAR>`
 Computes lexical-scope-aware backward or forward program slices over the function's Program Dependence Graph (PDG).
-- **Zero upfront CFG pass needed:** If `.rgctl/analysis/cfg_pdg.bin` does not exist or does not yet contain the target function, `rgctl slice` parses only `<FILE>`, builds the single function's CFG/PDG, and atomically appends its `TocEntry` to `cfg_pdg.bin`.
+- **Zero upfront CFG pass needed:** If `.rgctl/analysis/cfg_pdg.archive.bin` does not exist or does not yet contain the target function, `rgctl slice` parses only `<FILE>`, builds the single function's CFG/PDG, and atomically appends its `TocEntry` to `.rgctl/analysis/cfg_pdg.archive.bin`.
 - **Auto-resolves enclosing function:** When `--function` is omitted, `slice` selects the innermost function span containing `--line`.
 ```bash
 # Backward slice (what statements affect `total` at line 42?)
@@ -293,7 +299,7 @@ rgctl -f json taint --sink "ObjectMapper.readValue" --source external --depth 8
 
 ---
 
-### 3.5 Policy, PR Review & Governance Commands (`review`, `check`, `rules`)
+### 3.5 Policy, PR Review & Governance Commands (`review`, `check`)
 
 #### `rgctl review <paths|check|export>`
 - `rgctl review paths`: Computes structural before/after call-path deltas between a base snapshot/ref (`--base-ref origin/main`) and head (`--head-ref HEAD` or `--synthetic-head worktree`), reporting upstream caller spines, downstream callee spines, and blast-radius shifts.
@@ -305,23 +311,38 @@ rgctl -f json review check --policy-file policy.json --base-ref origin/main --st
 rgctl -f json review export --base-ref origin/main --policy-file policy.json --stdout
 ```
 
-#### `rgctl check` & `rgctl rules run`
+#### `rgctl check`
 ```bash
 # Whole-repo static policy check (or temporal with --temporal)
 rgctl -f json check --policy-file policy.json --strict
-
-# Konveyor Kantra ruleset evaluation against the session graph
-rgctl -f json rules run ./rulesets/springboot --target quarkus
 ```
 
 ---
 
-### 3.6 Meta Commands (`export`, `install`)
+### 3.6 Meta & Writeback Commands (`writeback`, `export`, `install`, `completions`)
 
+#### `rgctl writeback <verify|export|patch>`
+Operates on `.rgctl/source.rgcs.bin` (`RGCS`) and `.rgctl/trivia.rgct.bin` (`RGCT`) generated by `rgctl discover . --lossless`:
+```bash
+# Verify byte-identical BLAKE3 round-trip across all indexed files
+rgctl -f json writeback verify
+
+# Reconstruct indexed source files purely from .rgctl/ streams
+rgctl -f json writeback export --output ./reconstructed
+
+# Preview or apply span-safe identifier renames and JSON mutation plans
+rgctl -f json writeback patch --rename old_fn=new_fn --dry-run
+rgctl -f json writeback patch --plan mutations.json --output ./patched
+```
+
+#### `rgctl export`, `rgctl install`, & `rgctl completions`
 ```bash
 # Export graph to JSON, GraphML, DOT (Graphviz), Mermaid, or Obsidian vault
 rgctl export --export-format mermaid --export-output architecture.mmd
 
-# Install bundled AI agent skills (Cursor, Claude Code, Codex, AGENTS.md)
+# Install bundled AI agent skills (Cursor, Claude Code, Codex, Antigravity, AGENTS.md)
 rgctl install --skill --tools all
+
+# Generate shell completion scripts (bash, zsh, fish, elvish, powershell)
+rgctl completions zsh > ~/.zfunc/_rgctl
 ```

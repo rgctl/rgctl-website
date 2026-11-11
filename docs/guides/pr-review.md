@@ -44,7 +44,7 @@ flowchart TD
    - Endpoints of modified `Calls` edges discovered by snapshot diffing.
    - Base-only functions that were deleted in the PR branch.
 2. **Stable Node Identity:**
-   - Functions are tracked across commits using [`StableNodeKey`](../../crates/rgctl-graph/src/stable_key.rs) (UUID-independent identities derived from qualified names and signatures).
+   - Functions are tracked across commits using `StableNodeKey` (`crates/rgctl-graph/src/stable_key.rs` — UUID-independent identities derived from qualified names and signatures).
 3. **Spine Construction:**
    - For each changed symbol, `rgctl` extracts a representative **before** and **after** call spine:
      - **Upstream:** Traverses reverse `Calls` edges up to `--upstream-depth` (default 2), prioritizing paths involved in edge deltas.
@@ -373,5 +373,5 @@ rgctl -f json review paths --base-ref origin/main --head-ref HEAD \
 - [CI Policy Checks Guide](ci-policy-checks.md)
 - [Blast Radius Analysis Guide](blast-radius-analysis.md)
 - [JSON API Reference: `review` (§8b–8c)](../json-api.md#8b-review-check--pr-check)
-- [Command Encyclopedia: `review`](../../skills/rgctl/references/command-encyclopedia.md)
-- [Agent Workflows: PR Review](../../skills/rgctl/references/workflows.md#pr-review--call-paths-review-paths)
+- [CLI Command Reference](cli-command-reference.md)
+- [Agent Pack Guide](agent-skill.md)

@@ -22,10 +22,6 @@ export const DOCS_NAV: NavSection[] = [
       { href: "/docs/guides/blast-radius-analysis/", label: "Blast radius analysis" },
       { href: "/docs/guides/pr-review/", label: "Pull request review" },
       { href: "/docs/guides/ci-policy-checks/", label: "CI policy checks" },
-      {
-        href: "/docs/guides/kantra-migration-rules/",
-        label: "Kantra migration rules",
-      },
     ],
   },
   {
@@ -76,6 +72,21 @@ export const DOCS_NAV: NavSection[] = [
       { href: "/docs/language-testing-guide/", label: "Language Testing Guide" },
       { href: "/docs/analysis-architecture/", label: "Analysis Architecture" },
       { href: "/docs/graph-storage-architecture/", label: "Graph Storage Architecture" },
+    ],
+  },
+  {
+    title: "Engineering Design",
+    links: [
+      { href: "/docs/design/README/", label: "Design Index" },
+      { href: "/docs/design/lossless-writeback-architecture/", label: "Lossless CST & Write-Back" },
+      { href: "/docs/design/cfg-design/", label: "CFG Architecture" },
+      { href: "/docs/design/pdg-design/", label: "PDG & Dataflow" },
+      { href: "/docs/design/blast-radius-design/", label: "Blast Radius & Reachability" },
+      { href: "/docs/design/taint-analysis-design/", label: "Taint Analysis" },
+      { href: "/docs/design/clone-detection-design/", label: "Clone Detection" },
+      { href: "/docs/design/semantic-search-design/", label: "Semantic Search" },
+      { href: "/docs/design/graph-diff-design/", label: "Snapshot Diff" },
+      { href: "/docs/design/ci-policy-checks-design/", label: "CI Policy Checks" },
     ],
   },
 ];

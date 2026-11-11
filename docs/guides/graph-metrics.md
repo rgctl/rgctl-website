@@ -84,7 +84,7 @@ rgctl -r example/coolstore -f json metrics --pagerank --include-tests --iteratio
 
 ### 2. Betweenness Centrality (SampledBetweenness)
 
-**SampledBetweenness** uses $K=256$ degree-stratified Brandes pivots (sequential Brandes below ~4,096 nodes). High-betweenness functions are architectural bridges — removing them would disconnect parts of the call graph.
+**SampledBetweenness** runs exact Brandes shortest-path betweenness for small graphs ($V \le 500$, `DEFAULT_EXACT_CENTRALITY_LIMIT = 500`) and samples $K=512$ active non-isolated pivots (`DEFAULT_SAMPLE_PIVOTS = 512`, SplitMix64 seed `0x5247_4354_4C5F_4254` `"RGCTL_BT"`) on larger graphs. High-betweenness functions are architectural bridges — removing them would disconnect parts of the call graph.
 
 ```bash
 rgctl -r example/coolstore -f json metrics --betweenness
@@ -151,7 +151,7 @@ rgctl -r example/coolstore -f json metrics --communities
 
 ### 4. Harmonic centrality (HyperBallHarmonic)
 
-Harmonic centrality is computed at discover time with **HyperBallHarmonic** ($p=6$ HLL) when you pass `--with-harmonic`. It feeds migration ranking; re-run discover to refresh:
+Harmonic centrality is computed at discover time with **HyperBallHarmonic** (exact 64-bit bitset BFS for $V \le 8,192$ nodes, and adaptive HyperLogLog registers $p = 14 / 12 / 10$ across `16` diffusion rounds above that) when you pass `--with-harmonic`. It feeds migration ranking; re-run discover to refresh:
 
 ```bash
 rgctl -r example/coolstore discover -l java --with-harmonic
@@ -186,9 +186,9 @@ rgctl -r example/coolstore blast-radius priceShoppingCart
 | Metric | Implementation | High Score Means |
 |--------|----------------|-----------------|
 | **PageRank** | Pull CSR FastPageRank + `NodeRole` filter | Many important production callers depend on this symbol |
-| **Betweenness** | SampledBetweenness ($K=256$ Brandes pivots) | Bridges otherwise disconnected modules |
+| **Betweenness** | Exact Brandes ($V \le 500$) / SampledBetweenness ($K=512$ active pivots) | Bridges otherwise disconnected modules |
 | **Communities** | Fast-Leiden + HubStripPolicy | Strong, well-separated functional clusters (modularity) |
-| **Harmonic** | HyperBallHarmonic (`discover --with-harmonic`) | Reachable / central for migration ordering |
+| **Harmonic** | Exact bitset BFS ($V \le 8,192$) / HyperBallHarmonic ($p = 14/12/10$, `discover --with-harmonic`) | Reachable / central for migration ordering |
 | **Churn** | `git_hotspot_score` (`discover --with-git`) | Recently / frequently edited hotspots |
 
 ## Benefits

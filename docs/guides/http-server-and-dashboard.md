@@ -15,17 +15,17 @@ For **structural** questions (symbols, callers, relations, inventories), agents 
 
 ## Example Project
 
-This guide uses the **CoolStore** (`example/coolstore`). `rgctl serve` can start the full pipeline itself. To only serve existing artifacts:
+This guide uses the **CoolStore** (`example/coolstore`). `rgctl serve` is serve-only (it does not run `discover` or a background pipeline). Index first with `--with-universe`, then start `serve`:
 
 CoolStore examples use `-l java` to index the Java backend only (skip Angular/bower).
 
 ```bash
-rgctl -r example/coolstore discover -l java --with-dashboard
+rgctl -r example/coolstore discover -l java --with-universe
 # Optional: --with-cfg for CFG previews in the dashboard
-rgctl -r example/coolstore serve --no-pipeline --open
+rgctl -r example/coolstore serve --open
 ```
 
-The `--with-dashboard` flag exports the static dashboard bundle to `.rgctl/dashboard/`.
+The `--with-universe` flag exports the static Universe dashboard bundle to `.rgctl/dashboard/`.
 
 ## Step-by-Step
 
@@ -67,15 +67,7 @@ rgctl -r example/coolstore serve --query-only
 
 This starts a lighter server with `/api/status` and `/api/semantic/*` (no static files).
 
-### 4. Dashboard Only
-
-If you only need the visual dashboard:
-
-```bash
-rgctl -r example/coolstore serve --dashboard-only
-```
-
-### 5. Structural queries from the CLI
+### 4. Structural queries from the CLI
 
 While the server is running, issue graph queries in another terminal (same repo root):
 
@@ -84,7 +76,7 @@ rgctl -r example/coolstore -f json find priceShoppingCart --exact | jq '.entitie
 rgctl -r example/coolstore -f json callers priceShoppingCart | jq '.callers[].name'
 ```
 
-### 6. Semantic Search via API
+### 5. Semantic Search via API
 
 Query the semantic index over HTTP:
 
@@ -96,7 +88,7 @@ curl -s http://127.0.0.1:8080/api/semantic/query \
 
 Build the index first: `rgctl semantic index` (then restart `serve`).
 
-### 7. Dashboard tabs
+### 6. Dashboard tabs
 
 When the dashboard opens in your browser, you will see several tabs:
 
@@ -127,10 +119,9 @@ When the dashboard opens in your browser, you will see several tabs:
 |--------|---------|-------------|
 | `--host` | `127.0.0.1` | Bind host |
 | `--port` | `8080` | HTTP port |
-| `--open` | off | Open dashboard in browser (preparing page if the bundle is not ready) |
-| `--query-only` | off | Serve API only, no dashboard |
-| `--dashboard-only` | off | Serve dashboard only, no API |
-| `--no-pipeline` | off | Fail fast if artifacts are missing (old `serve` behavior) |
+| `--open` | off | Open Universe dashboard in the default browser |
+| `--query-only` | off | Serve API only, no dashboard static files |
+| `--watch` | off | Watch source files and apply incremental graph updates |
 | `--dashboard-dir` | `.rgctl/dashboard` | Dashboard directory |
 
 ## Benefits
@@ -143,7 +134,7 @@ When the dashboard opens in your browser, you will see several tabs:
 
 ## Related Guides
 
-- [Discovering and Indexing a Codebase](discovering-and-indexing.md) -- `discover --with-dashboard` generates the dashboard bundle
+- [Discovering and Indexing a Codebase](discovering-and-indexing.md) -- `discover --with-universe` generates the dashboard bundle
 - [Structured graph queries](structured-query.md) -- CLI verbs for agents
 - [Semantic Search](semantic-search.md) -- semantic queries available via `/api/semantic/*`
 - [Blast Radius Analysis](blast-radius-analysis.md) -- blast-radius visualization in the dashboard

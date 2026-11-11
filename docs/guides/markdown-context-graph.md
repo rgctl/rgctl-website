@@ -39,9 +39,9 @@ export RGCTL_NO_DAEMON=1   # write artifacts to $REPO/.rgctl/ (see Installation)
 
 Maintainers who already fetch profile corpora can skip the clone: `./scripts/fetch-profile-repos.sh` then `export REPO="$(pwd)/example/k8s-website"`.
 
-**Prerequisites:** `rgctl` on your `PATH`. For large exports (17k+ Obsidian notes), use a **release** binary — [download the latest release](https://github.com/sshaaf/rgctl/releases) or [build from source](../installation.md) (`cargo build --release --bin rgctl`). See [Installation](../installation.md).
+**Prerequisites:** `rgctl` on your `PATH`. For large exports (17k+ Obsidian notes), use a **release** binary — [download the latest release](https://github.com/rgctl/rgctl/releases) or [build from source](/install/) (`cargo build --release --bin rgctl`). See [Install page](/install/).
 
-Artifacts are written to `{repo}/.rgctl/` next to the checkout. See [Installation](../installation.md).
+Artifacts are written to `{repo}/.rgctl/` next to the checkout. See [Install page](/install/).
 
 ## What rgctl indexes
 
@@ -71,13 +71,11 @@ rgctl parses markdown with official `tree-sitter-md` (block + inline grammars). 
 
 **Fragments are literal:** `[link](./adr.md#payments)` targets `adr.md#payments`, not a slugified variant. Prefer slug fragments (`#checkout-flow`) over visible titles (`#Checkout Flow`).
 
-For the full node model and query patterns, see [markdown-context.md](../markdown-context.md).
-
 ## Step-by-Step
 
 ### 1. Discover documentation (kubernetes/website)
 
-If you built from source, ensure `target/release/rgctl` is on your `PATH` (see [Add to PATH](../installation.md#add-to-path)).
+If you built from source, ensure `target/release/rgctl` is on your `PATH` (see [Install page](/install/)).
 
 ```bash
 export REPO="$(pwd)/example/k8s-website"
@@ -353,7 +351,7 @@ cargo test --release --test cold_profile_gates k8s_website_markdown_cold_discove
 cargo test --release --test cold_profile_gates k8s_website_obsidian_export_to_vault -- --ignored --nocapture
 ```
 
-Ceilings: cold discover 3.0s wall, warm Obsidian export 30.0s wall (+10% tolerance). Details: [markdown-context.md § Cold profile](../markdown-context.md#cold-profile-kuberneteswebsite).
+Ceilings: cold discover 3.0s wall, warm Obsidian export 30.0s wall (+10% tolerance).
 
 ## Export formats for documentation
 
@@ -374,11 +372,10 @@ Code-graph formats (`json`, `graphml`, `graphviz`, `mermaid`) also include doc n
 
 ## Related Guides
 
-- [Installation](../installation.md) — `rgctl` binary, PATH, artifact layout
+- [Install page](/install/) — `rgctl` binary, PATH, artifact layout
 - [Discovering and Indexing a Codebase](discovering-and-indexing.md) — `discover` flags and artifacts
 - [Structured graph queries](structured-query.md)
 - [Exporting Graphs](exporting-graphs.md) — JSON, GraphML, Mermaid, and filter queries
 - [Semantic Search](semantic-search.md) — function and doc-scoped NL search
 - [Community Detection](community-detection.md) — how communities are detected and named
-- [Markdown context reference](../markdown-context.md) — node model, cold profiles, dashboard filter
-- [Agent recipes](../agent-recipes.md) — copy-paste doc queries for LLM agents
+- [Agent pack](agent-skill.md) — copy-paste doc queries and skills for LLM agents

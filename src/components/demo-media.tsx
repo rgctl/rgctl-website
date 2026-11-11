@@ -14,8 +14,8 @@ const assets = {
     gif: "/demos/user-guide-cli.gif",
     label: "CLI walkthrough (VHS)",
     blurb:
-      "Recorded from docs/videos/user-guide-cli.tape — discover, find, callers, blast-radius, Fast-Leiden communities, PageRank, Hybrid CPG, program slicing, clones, semantic search, Kantra rules, PR review & AI agent skills.",
-    alt: "rgctl CLI demo: discover, structured queries, blast-radius, communities, CPG slicing, clones, semantic search, Kantra rules, and agent skills",
+      "Recorded from docs/videos/user-guide-cli.tape — discover, find, callers, blast-radius, Fast-Leiden communities, PageRank, Hybrid CPG, program slicing, clones, semantic search, CI policy gates, PR review & AI agent skills.",
+    alt: "rgctl CLI demo: discover, structured queries, blast-radius, communities, CPG slicing, clones, semantic search, policy gates, and agent skills",
   },
 } as const;
 

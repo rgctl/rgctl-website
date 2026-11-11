@@ -2,7 +2,7 @@
 
 Practical, step-by-step guides for every major rgctl feature.
 
-Most CLI how-tos embed a short **VHS walkthrough** (captioned) at the top of the page. Tapes live in [`docs/videos/`](../videos/README.md) and record against **CoolStore**.
+Most CLI how-tos embed a short **VHS walkthrough** (captioned) at the top of the page. Tapes live in [`docs/videos/`](https://github.com/rgctl/rgctl/tree/main/docs/videos) and record against **CoolStore**.
 
 > **Which fixture?**  
 > - **In-tree quickstart:** `rgctl-tests/ecommerce-java` (ships with the product repo — no extra clone). Best for first `discover` / `find` / `blast-radius` runs and the [User Guide](../user-guide.md).  
@@ -36,7 +36,7 @@ Most CLI how-tos embed a short **VHS walkthrough** (captioned) at the top of the
 
 ## Prerequisites
 
-All guides assume you have rgctl installed. See the [Installation guide](../installation.md) to get started.
+All guides assume you have rgctl installed. See the [Install page](/install/) to get started.
 
 To follow the examples, clone the repository and navigate to the example project:
 

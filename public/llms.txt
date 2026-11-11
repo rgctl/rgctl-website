@@ -1,6 +1,6 @@
 # rgctl
 
-> Open-source code knowledge graph for LLM agents. Index once (`discover`), then query compact JSON — callers, blast radius, CFG/PDG slices, communities, semantic search, OSV reachability, and migration planning.
+> Open-source code knowledge graph for LLM agents. Index once (`discover`), then query compact JSON — callers, blast radius, CFG/PDG slices, communities, semantic search, OSV reachability, lossless CST write-back, and migration planning.
 
 Website: https://rgctl.io/
 Repository: https://github.com/rgctl/rgctl
@@ -9,27 +9,30 @@ Install: `curl -fsSL https://rgctl.io/install.sh | sh`
 
 ## Capabilities
 
-- Typed code knowledge graph across 61 language plugins: 24 Tier-1 custom AST plugins (Bash, C, C++, C#, Dart, Elixir, ERB, Go, Groovy, HCL, Java, JavaScript, Kotlin, Lua, Markdown, PHP, Puppet, Python, Ruby, Rust, Scala, SQL, Swift, TypeScript) and 37 Tier-2 declarative `tags.scm` query plugins (Clojure, CMake, CSS, CUDA, D, Emacs Lisp, Elm, Erlang, Fortran, F#, GDScript, Gleam, GLSL, GraphQL, Haskell, HTML, JSON, Julia, Makefile, Nix, Objective-C, OCaml, Odin, PowerShell, Prisma, Protocol Buffers, R, Racket, Scheme, Solidity, Starlark, Svelte, TOML, Verilog/SystemVerilog, VHDL, YAML, Zig)
-- Structured queries: `find`, `callers`, `callees`, `relations`, `inventory`
-- Blast radius; Fast-Leiden communities; PageRank / betweenness / harmonic metrics; git churn (`discover --with-git`, `metrics --churn`)
-- Hybrid CPG / CFG / PDG: `rgctl slice` builds single-function CFG/PDG lazily on demand; `discover --with-cfg` pre-builds the full repo archive
+- Typed code knowledge graph across 69 language plugins: 24 Tier-1 custom AST plugins (Bash, C, C++, C#, Dart, Elixir, ERB, Go, Groovy, HCL, Java, JavaScript, Kotlin, Lua, Markdown, PHP, Puppet, Python, Ruby, Rust, Scala, SQL, Swift, TypeScript) and 45 Tier-2 & Mainframe plugins (Ada, Apex, Clojure, CMake, COBOL, CSS, CUDA, D, Emacs Lisp, Elm, Erlang, Fortran, F#, GDScript, Gleam, GLSL, GraphQL, Haskell, HTML, JCL, JSON, Julia, Makefile, MATLAB, Nix, Objective-C, OCaml, Odin, Pascal/Delphi, Perl, PL/I, PowerShell, Prisma, Protocol Buffers, R, Racket, Scheme, Solidity, Starlark, Svelte, TOML, Verilog/SystemVerilog, VHDL, YAML, Zig)
+- Structured queries: `find`, `callers`, `callees`, `relations`, `inventory`, `diff`
+- Blast radius; Fast-Leiden communities; PageRank / sampled betweenness ($K=512$) / HyperBall harmonic metrics; git churn (`discover --with-git`, `metrics --churn`)
+- Hybrid CPG / CFG / PDG: `rgctl slice` builds single-function CFG/PDG lazily on demand; `discover --with-cfg` pre-builds the full repo archive (`.rgctl/analysis/cfg_pdg.archive.bin`)
 - Cross-language MRO (`relations -e overrides`), SCIP overlay (`discover --scip`), frameworks / DI routes
+- Lossless Red-Green CST streams (`discover --lossless` → `source.rgcs.bin` + `trivia.rgct.bin`) and byte-exact `rgctl writeback` (`verify`, `export`, `patch`)
 - Semantic search over functions and docs
-- OSV / vuln reachability and OpenVEX
+- OSV / vuln reachability and OpenVEX (`rgctl vuln`, `rgctl deps`)
 - Agent pack via `rgctl install --skill` (core `rgctl` + `/rgctl:review` · `/rgctl:vuln` · `/rgctl:migrate`)
 
 ## CLI (JSON-first)
 
-- `rgctl discover .` — index repo → `.rgctl/` (optional `--with-git`, `--scip <PATH.scip>`, `--with-cfg`)
+- `rgctl discover .` — index repo → `.rgctl/` (optional `--with-git`, `--scip <PATH.scip>`, `--with-cfg`, `--with-universe`, `--lossless`)
 - `rgctl update` / `rgctl watch` / `rgctl merge` — incremental refresh, file watch, multi-repo park-and-resolve
-- `rgctl -f json find|callers|callees|relations|inventory|blast-radius|cpg|slice|metrics|status`
+- `rgctl -f json find|callers|callees|relations|inventory|blast-radius|cpg|slice|metrics|status|diff`
 - `rgctl relations <SYM> -e overrides` / `rgctl relations <FILE> -e cochangeswith`
 - `rgctl metrics --pagerank` / `--churn` / `--communities`
 - `rgctl slice <FILE> --line <N> --variable <VAR>` — lazy CFG/PDG (optional `--with-alias`, `--taint`)
 - `rgctl clones --mode exact|bloom|fragment` — Type 1–4 (SESE + 1-WL fragment)
+- `rgctl writeback verify|export|patch` — lossless source verification, reconstruction, and span-safe refactoring
 - `rgctl semantic index` / `rgctl semantic query`
 - `rgctl review paths` / `rgctl review check` (PR gates; `pr-check` is a compatibility alias)
-- `rgctl rules` / `discover --with-kantra` — Konveyor-style rules
+- `rgctl check --policy policy.toml` — declarative architectural policy enforcement
+- `rgctl completions <bash|zsh|fish|elvish|powershell>` — shell completion script generation
 
 ## Guides
 
@@ -46,17 +49,19 @@ Install: `curl -fsSL https://rgctl.io/install.sh | sh`
 - https://rgctl.io/docs/guides/vulnerability-and-osv-analysis/
 - https://rgctl.io/docs/guides/migration-planning/
 
-## Reference
+## Reference & Architecture
 
 - https://rgctl.io/docs/user-guide/
 - https://rgctl.io/docs/json-api/
 - https://rgctl.io/docs/policy-format/
 - https://rgctl.io/docs/languages/
+- https://rgctl.io/docs/analysis-architecture/
+- https://rgctl.io/docs/graph-storage-architecture/
+- https://rgctl.io/docs/design/
 
 ## Optional
 
 - https://rgctl.io/docs/contributor-checklist/
 - https://rgctl.io/docs/tier-1-language-support/
 - https://rgctl.io/docs/tier-2-language-support/
-- https://rgctl.io/docs/analysis-architecture/
 - https://rgctl.io/llms.txt

@@ -40,11 +40,11 @@ flowchart TD
   S2 --> MATCH["Emit Schema v2 Matches<br/>start_line, end_line, enclosing_function"]
 ```
 
-1. **SESE Hammock Extraction:** Bounded by statement count ($3 \le |S| \le 15$), CFG regions are identified using dominator trees and post-dominator trees ([`crates/rgctl-analysis/src/sese.rs`](../../crates/rgctl-analysis/src/sese.rs)). Every path entering the region enters through node $u$, and every path exiting leaves through node $v$.
-2. **Weisfeiler-Lehman (1-WL) Canonical Hashing:** Subgraphs are assigned invariant 64-bit structural hashes using 2 iterations of 1-WL color refinement ([`crates/rgctl-analysis/src/wl_hash.rs`](../../crates/rgctl-analysis/src/wl_hash.rs)). Statements are categorized into normalized kinds (`If`, `Loop`, `Call`, `Assign`, `Decl`, `Return`) and combined with directed edge tags (`Next`, `IfTrue`, `IfFalse`, Def-Use). Renaming variables, adding comments, or reformatting whitespace does not alter the hash.
+1. **SESE Hammock Extraction:** Bounded by statement count ($3 \le |S| \le 15$), CFG regions are identified using dominator trees and post-dominator trees (`crates/rgctl-analysis/src/sese.rs`). Every path entering the region enters through node $u$, and every path exiting leaves through node $v$.
+2. **Weisfeiler-Lehman (1-WL) Canonical Hashing:** Subgraphs are assigned invariant 64-bit structural hashes using 2 iterations of 1-WL color refinement (`crates/rgctl-analysis/src/wl_hash.rs`). Statements are categorized into normalized kinds (`If`, `Loop`, `Call`, `Assign`, `Decl`, `Return`) and combined with directed edge tags (`Next`, `IfTrue`, `IfFalse`, Def-Use). Renaming variables, adding comments, or reformatting whitespace does not alter the hash.
 3. **Two-Stage Filtering:**
    - **Stage 1 (Bitwise Pre-Filter):** Evaluates `(func.bloom & seed_bloom) == seed_bloom` in $\mathcal{O}(N)$ bitwise time across all functions in `graph.snapshot.bin`, pruning $>95\%$ of functions before any parsing occurs.
-   - **Stage 2 (CFG Matching):** Evaluates candidate functions by reading the v3 CFG/PDG archive (`.rgctl/analysis/cfg_pdg.bin` / `cfg_pdg.archive.bin` when pre-built with `discover --with-cfg`) or performing fast, ephemeral tree-sitter parses. Fragment mode does **not** require a whole-repo `--with-cfg` upfront.
+   - **Stage 2 (CFG Matching):** Evaluates candidate functions by reading the v3 CFG/PDG archive (`.rgctl/analysis/cfg_pdg.archive.bin` when pre-built with `discover --with-cfg`) or performing fast, ephemeral tree-sitter parses. Fragment mode does **not** require a whole-repo `--with-cfg` upfront.
 
 ---
 
@@ -263,5 +263,5 @@ rgctl -r example/coolstore -f json clones \
 
 - [JSON API Reference (`clones`)](../json-api.md#16b-clones)
 - [Clone Detection Design](../design/clone-detection-design.md)
-- [Command Encyclopedia: `clones`](../../skills/rgctl/references/command-encyclopedia.md#clones)
+- [CLI Command Reference](cli-command-reference.md)
 - [Inspecting CFG, PDG, and Dominance](inspecting-cfg-pdg-dominance.md)

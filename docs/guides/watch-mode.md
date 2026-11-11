@@ -10,7 +10,7 @@ Keep the structural graph aligned with the working tree **without** re-running f
 | `rgctl watch` | Foreground filesystem watcher → same incremental updater (`notify`, default **25ms** debounce) |
 | `rgctl serve --watch` | Same watcher plus HTTP dashboard / query API |
 | `rgctl status` | Reports `index_current` / dirty file counts (no extract); also `watcher_alive` / queue depth (`-f json` → `schema_version` 3) |
-| `rgctl discover` | Cold index + optional analysis (`--with-cfg`, `--scip`, `--with-git`, migration, Kantra, …) |
+| `rgctl discover` | Cold index + optional analysis (`--with-cfg`, `--scip`, `--with-git`, `--with-universe`, migration, …) |
 
 `discover --files path1,path2` remains a compatible alias for `update --files`.
 
@@ -35,7 +35,7 @@ rgctl watch .
 # or with dashboard:
 rgctl serve --watch --open
 # or query-only:
-rgctl serve --watch --query-only --no-pipeline
+rgctl serve --watch --query-only
 ```
 
 Behavior:
@@ -81,7 +81,7 @@ debounce_ms = 25
 
 ## Related
 
-- Issues [#69](https://github.com/sshaaf/rgctl/issues/69) / [#58](https://github.com/sshaaf/rgctl/issues/58) (hooks still follow-on)
+- Issues [#69](https://github.com/rgctl/rgctl/issues/69) / [#58](https://github.com/rgctl/rgctl/issues/58) (hooks still follow-on)
 - [JSON API](../json-api.md) — `status` / `update` schemas
 - [Discovering and Indexing a Codebase](discovering-and-indexing.md) — cold discover, SCIP, git, merge
 - [HTTP Server and Dashboard](http-server-and-dashboard.md)

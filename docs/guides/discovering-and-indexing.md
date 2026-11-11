@@ -58,11 +58,12 @@ rgctl -r example/coolstore discover -l java
 | **Structural** (query find/callers/…) | `discover .` (default columnar `graph.snapshot.bin`) |
 | **Slice / flows** | structural discover is enough (lazy single-fn CFG/PDG); optional `--with-cfg` to pre-warm |
 | **Taint / mutations / batch inspect** | `--with-cfg` (+ `--with-taint` / `--with-ast-skeleton` if needed) |
+| **Lossless CST & writeback** | `--lossless` (writes `source.rgcs.bin` + `trivia.rgct.bin` for `rgctl writeback`) |
 | **SCIP overlay** | `--scip index.scip` |
 | **Git churn / co-change** | `--with-git [--git-since 90.days]` then `metrics --churn` |
-| **Full staged pipeline** | `--full` (CFG + Universe + harmonic + taint + Kantra + semantic; not security/git/SCIP/migration export) |
+| **Full staged pipeline** | `--full` (CFG + Universe + harmonic + taint + semantic; not security/git/SCIP/migration export) |
 | **Migration roadmap** | `--export-migration-hints --with-harmonic` (+ preset/order) |
-| **Kantra** | `--with-kantra` (+ `--kantra-target` …) |
+| **Universe dashboard** | `--with-universe` (then `rgctl serve --open`) |
 | **Constrained / cgroup** | `--with-limits max-mem-mb=4096,threads=1` (or `RGCTL_WITH_LIMITS`) |
 | **Dirty tree refresh** | prefer `rgctl update` / `rgctl watch` / `serve --watch` — not full rediscover |
 
@@ -74,7 +75,7 @@ rgctl -r example/coolstore discover -l java
 rgctl -r example/coolstore discover -l java --full
 ```
 
-This prints a plan, finishes a basic (queryable) index, then runs CFG + Universe dashboard + harmonic centrality + discover-time taint + Kantra, then a vocab semantic index. `--full` does not imply secret scanning, git churn, SCIP, or migration roadmap export.
+This prints a plan, finishes a basic (queryable) index, then runs CFG + Universe dashboard + harmonic centrality + discover-time taint, then a vocab semantic index. `--full` does not imply secret scanning, git churn, SCIP, or migration roadmap export.
 
 ### Constrained / container discover
 
@@ -137,7 +138,7 @@ rgctl -r example/coolstore discover -l java --with-cfg
 
 - In addition to the basic graph, rgctl built a CFG, PDG, and dominator tree for each analyzed Java function (**150** on this tree; inventory still lists **152** function symbols).
 - It indexed **41** field-write sites (`cpg status.field_write_count`), enabling `cpg mutations`.
-- The v3 analysis archive was written to `.rgctl/analysis/cfg_pdg.archive.bin` (`cfg_pdg.bin` TOC layout).
+- The v3 analysis archive was written to `.rgctl/analysis/cfg_pdg.archive.bin`.
 - Per-file extraction facts land under `.rgctl/facts/` for incremental update/watch reuse.
 - A small number of functions may be skipped for analysis errors.
 
@@ -154,14 +155,14 @@ rgctl -r .rgctl-merged -f json callers validateToken
 
 Four-tier resolution: `ExactFqn` → `ImportScopedSuffix` → `UniqueBareName` → `AmbiguousStub`.
 
-### 5. Full Analysis with Dashboard and Migration
+### 5. Full Analysis with Universe Dashboard and Migration
 
 For the most complete analysis, combine all the deep-analysis flags:
 
 ```bash
 rgctl -r example/coolstore discover -l java \
   --with-cfg \
-  --with-dashboard \
+  --with-universe \
   --with-harmonic \
   --export-migration-hints
 ```
@@ -171,7 +172,7 @@ This enables:
 | Flag | Purpose |
 |------|---------|
 | `--with-cfg` | Build CFG, PDG, and dominator trees for every function |
-| `--with-dashboard` | Export a static dashboard bundle to `.rgctl/dashboard/` |
+| `--with-universe` | Export the static Universe dashboard bundle to `.rgctl/dashboard/` |
 | `--with-harmonic` | Compute harmonic centrality (needed for migration ranking) |
 | `--export-migration-hints` | Write `.rgctl/migration_plan.json`; with `-f json`, stdout is the migration plan (`schema_version` 2, `steps`) instead of DiscoverResponse telemetry |
 
@@ -187,7 +188,7 @@ rgctl -r example/coolstore discover --languages java
 
 Omit `-l` / `--languages` only when you intentionally want a multi-language index of the full tree (much larger; vendor JS dominates).
 
-**Language catalog:** Tier-1 deep-extraction & CFG/PDG languages ship with grammar-verified `*-ast-coverage.json` manifests at **≥98% semantic Grade `A+`** (raw `"Skip"` banned — use `SkipWrapper` / `SkipTypeToken` / `Unimplemented`). The full plugin catalog in `languages.toml` covers **~60** languages and config/IaC formats (not all are Tier-1 deep analysis). Live tables: [Languages](/docs/languages/).
+**Language catalog:** Tier-1 deep-extraction & CFG/PDG languages (**24 languages**) ship with grammar-verified `*-ast-coverage.json` manifests at **≥98% semantic Grade `A+`** (raw `"Skip"` banned — use `SkipWrapper` / `SkipTypeToken` / `Unimplemented`). The full plugin catalog in `languages.toml` covers **69** languages across 24 Tier-1 custom AST plugins and 45 Tier-2 & Mainframe (`COBOL`, `PL/I`, `JCL`) plugins. Live tables: [Languages](/docs/languages/).
 
 ### 7. Excluding Directories
 
@@ -204,11 +205,12 @@ After discovery, artifacts live under **`{repo}/.rgctl/`**:
 | Path | Content |
 |------|---------|
 | `.rgctl/graph.snapshot.bin` | Default **RGCL** v2 columnar mmap snapshot |
+| `.rgctl/source.rgcs.bin` & `.rgctl/trivia.rgct.bin` | Lossless Red-Green CST source & trivia streams (`--lossless`) |
 | `.rgctl/facts/` | Per-file `FileExtractionFacts` cache (incremental update/watch) |
 | `.rgctl/parked_relations.bin` | Unresolved cross-repo relations (`RBPK`) for `merge` |
 | `.rgctl/analysis/cfg_pdg.archive.bin` | v3 CFG/PDG/dominance archive (`--with-cfg` and/or lazy slice/flows append) |
 | `.rgctl/analysis/git_churn.json` | Git churn overlay (`--with-git`) |
-| `.rgctl/dashboard/manifest.json` | Dashboard metadata (with `--with-dashboard`) |
+| `.rgctl/dashboard/manifest.json` | Universe dashboard metadata (with `--with-universe`) |
 | `.rgctl/migration_plan.json` | Migration roadmap (with `--export-migration-hints`) |
 
 `--write-json-graph` is an **opt-in** legacy export; it is not the default discover output (`graph.db` / `graph.json` are not the primary store).
@@ -221,10 +223,11 @@ After discovery, artifacts live under **`{repo}/.rgctl/`**:
 | `--with-taint` | Discover-time taint analysis (implies `--with-cfg`) |
 | `--with-dfg-loops` | Classify loop-carried data dependencies on PDGs |
 | `--with-ast-skeleton` | Write coarse AST skeleton archive |
+| `--lossless` | Emit `source.rgcs.bin` (`RGCS`) and `trivia.rgct.bin` (`RGCT`) for `rgctl writeback` |
 | `--scip <PATH.scip>` | SCIP protobuf overlay for compiler-exact call resolution |
 | `--with-git` / `--git-since` | Co-change edges + churn hotspots (default window `90.days`) |
 | `--with-security` | Secret scanning |
-| `--with-dashboard` | Export static dashboard bundle |
+| `--with-universe` | Export static Universe dashboard bundle |
 | `--with-harmonic` | HyperBallHarmonic centrality for migration ranking |
 | `--export-migration-hints` | Write migration roadmap JSON (and emit it on stdout with `-f json`) |
 | `--with-limits …` | Soft RSS / thread / spill budgets (containers) |
@@ -232,7 +235,7 @@ After discovery, artifacts live under **`{repo}/.rgctl/`**:
 | `-l, --languages` | Restrict to specific languages |
 | `-e, --exclude` | Exclude directories by name |
 | `-v, --verbose` | Debug logging with stage profiling |
-| `--full` | Staged pipeline: basic → CFG/Universe/harmonic/taint/Kantra → semantic index |
+| `--full` | Staged pipeline: basic → CFG/Universe/harmonic/taint → semantic index |
 
 Also: `rgctl merge <REPOS>... --output-dir <DIR>` (Lifecycle) after per-repo discovers.
 
@@ -240,7 +243,7 @@ Also: `rgctl merge <REPOS>... --output-dir <DIR>` (Lifecycle) after per-repo dis
 
 - **Single command to index an entire codebase.** No build system integration, no compilation required — rgctl works directly on source files.
 - **Incremental depth.** Start with basic discovery in under a second; use lazy `slice`/`flows` or opt into `--with-cfg` / `--with-taint` only when you need whole-repo procedural archives.
-- **Multi-language support.** Tier-1 deep-analysis languages plus the full ~60-plugin catalog in `languages.toml`.
+- **Multi-language support.** 24 Tier-1 deep-analysis languages plus 45 Tier-2 & Mainframe plugins (69 total in `languages.toml`).
 - **Foundation for all other commands.** Every query, metric, and analysis reads from the graph `discover` produces.
 
 ## Related Guides
@@ -250,6 +253,5 @@ Also: `rgctl merge <REPOS>... --output-dir <DIR>` (Lifecycle) after per-repo dis
 - [Graph Metrics](graph-metrics.md) — PageRank, betweenness, Fast-Leiden, churn
 - [Program Slicing](program-slicing.md) — lazy CFG/PDG slicing
 - [Migration Planning](migration-planning.md) — use the `--export-migration-hints` output
-- [Kantra Migration Rules](kantra-migration-rules.md) — embedded Kantra eval + `rules findings --target`
-- [HTTP Server and Dashboard](http-server-and-dashboard.md) — serve the `--with-dashboard` output in a browser
+- [HTTP Server and Dashboard](http-server-and-dashboard.md) — serve the `--with-universe` output in a browser
 - [CLI Command Reference](cli-command-reference.md) — full Lifecycle flag map

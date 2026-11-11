@@ -127,12 +127,12 @@ export default function HomePage() {
               </code>{" "}
               fixture — sub-second indexing, call-graph lookups, upstream blast
               radius, Fast-Leiden communities, Hybrid CPG program slicing,
-              structural clones, offline semantic search, Konveyor Kantra rules,
+              structural clones, offline semantic search, policy gates,
               and AI agent skill installation.
             </p>
             <DemoMedia
               kind="cli"
-              caption="Recorded from docs/videos/user-guide-cli.tape — discover, status, find, callers, blast-radius, communities, PageRank, CPG slicing, clones, semantic search, Kantra & agent skills."
+              caption="Recorded from docs/videos/user-guide-cli.tape — discover, status, find, callers, blast-radius, communities, PageRank, CPG slicing, clones, semantic search, policy gates & agent skills."
             />
           </div>
         </div>
@@ -205,10 +205,10 @@ export default function HomePage() {
               </li>
               <li className="rounded-[4px] border border-[var(--hairline)] p-4">
                 <b className="font-semibold text-[var(--ink)]">
-                  60+ languages across two tiers
+                  69 languages across two tiers
                 </b>{" "}
-                — 23 Tier-1 deep CFG/PDG plugins + Mainframe (COBOL/PL/I/JCL) +
-                35+ Tier-2 <code className="font-mono text-xs">tags.scm</code>{" "}
+                — 24 Tier-1 deep CFG/PDG plugins + Mainframe (COBOL/PL/I/JCL) +
+                42 Tier-2 <code className="font-mono text-xs">tags.scm</code>{" "}
                 packs
               </li>
             </ul>

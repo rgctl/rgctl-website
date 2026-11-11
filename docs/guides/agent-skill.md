@@ -610,7 +610,7 @@ At **rgctl build** time, `rgctl-agent-pack-codegen` generates the pack from `age
 ## Related Guides
 
 - [USER_AGENTS_TEMPLATE](../agents/USER_AGENTS_TEMPLATE.md) — paste into *another* repo as `AGENTS.md`
-- [Installation](../installation.md) — binary install / PATH
+- [Install page](/install/) — binary install / PATH
 - [Structured graph queries](structured-query.md) — `find` / `callers` / `relations`
 - [Discovering and Indexing a Codebase](discovering-and-indexing.md) — the `discover` step that all agent queries depend on
 - [Blast Radius Analysis](blast-radius-analysis.md) — the most common agent query for refactoring safety

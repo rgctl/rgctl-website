@@ -94,13 +94,13 @@ rm -rf .rgctl .rgctl-base
 rgctl discover .
 ```
 
-Then rebuild `.rgctl-base/` from `main` as above. See [release notes](../releases/unreleased.md#graph--ci-policy).
+Then rebuild `.rgctl-base/` from `main` as above.
 
 ---
 
 ## Policy files
 
-Example PR policy shipped with rgctl: [rgctl-tests/rgctl-pr-policy.json](../../rgctl-tests/rgctl-pr-policy.json).
+Example PR policy shipped with rgctl (`rgctl-tests/rgctl-pr-policy.json`):
 
 ```json
 {
@@ -125,8 +125,6 @@ Example PR policy shipped with rgctl: [rgctl-tests/rgctl-pr-policy.json](../../r
 | `scope.fail_on_regression` | Fail when a resolved violation reappears (ledger-backed) |
 | `size_limits.*` | Abort if the PR scope is too large (runaway PR protection) |
 | `temporal.*` | Grace periods, SLA aging, sunset dates (optional) |
-
-Stricter smoke-test policies: [examples/policy-strict.json](../examples/policy-strict.json), [examples/policy-permissive.json](../examples/policy-permissive.json).
 
 Full schema: [policy-format.md](../policy-format.md).
 
@@ -161,7 +159,7 @@ Policy field `scope.strict_diff: true` also enables strict mode for `check`.
 
 ### Example: CoolStore
 
-CoolStore does not ship a `policy.json`; use a local file (or [docs/examples/policy-strict.json](../examples/policy-strict.json) for a stricter smoke policy):
+CoolStore does not ship a `policy.json`; create a local policy file:
 
 ```bash
 rgctl -r example/coolstore discover . -l java --with-cfg --with-harmonic
@@ -303,7 +301,7 @@ During grace, violations emit `severity: warn` and exit **0** unless you pass **
 
 ## CI on GitHub Actions
 
-Canonical example workflow in this repo: [.github/workflows/rgctl-pr-check.yml](../../.github/workflows/rgctl-pr-check.yml).
+Canonical example workflow in this repo: `.github/workflows/rgctl-pr-check.yml`.
 
 It:
 
