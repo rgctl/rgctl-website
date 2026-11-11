@@ -30,7 +30,6 @@ Most CLI how-tos embed a short **VHS walkthrough** (captioned) at the top of the
 | [HTTP Server and Dashboard](http-server-and-dashboard.md) | `serve` | Run an HTTP API and browser-based dashboard |
 | [Watch mode and incremental update](watch-mode.md) | `update`, `watch`, `serve --watch` | Keep the graph fresh without full rediscover |
 | [Migration Planning](migration-planning.md) | `discover --export-migration-hints` | Generate a dependency-aware migration roadmap |
-| [Lossless Write-Back and Framework Migration](lossless-writeback-migration.md) | `discover --lossless` · `writeback` | Import-prefix & annotation census, container blast radius, and CST/BLAKE3 verified write-back |
 | [Clone Detection](clone-detection.md) | `clones` | Detect exact (Type-1), bloom, and sub-function fragment clones |
 | [Vulnerability and OSV Supply-Chain Analysis](vulnerability-and-osv-analysis.md) | `vuln`, `deps`, `taint`, `security` | End-to-end OSV advisory triage, manifest scanning, call-path reachability, and OpenVEX generation |
 | [Agent pack](agent-skill.md) | CoolStore install walkthrough | NL → `rgctl` + `/rgctl:review` · `/rgctl:vuln` · `/rgctl:migrate` → CLI |

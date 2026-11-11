@@ -246,8 +246,6 @@ You can also pass a container type (`Class`, `Interface`, `Struct`, `Enum`, or `
 rgctl -r example/coolstore -f json callers ShoppingCartService --depth 2 | jq '{total, callers: .callers[:4]}'
 ```
 
-See [Lossless Write-Back and Framework Migration](lossless-writeback-migration.md) for the complete migration and write-back workflow.
-
 ### 9. Compatibility alias
 
 Prefer top-level **`rgctl find` / `callers` / `callees` / `relations` / `inventory`**. The hidden `rgctl query <verb> …` namespace remains a compatibility alias only.
@@ -283,12 +281,11 @@ Full field catalog: [json-api.md](../json-api.md#5-structured-query-verbs).
 
 - **Stable contracts.** Fixed verbs with `schema_version` 2 envelopes (query verbs) and `schema_version` 3 for `status`.
 - **Fast.** Queries mmap the session snapshot; no re-parse of source trees.
-- **Composable.** Chain with `blast-radius`, `metrics`, `cpg`, `writeback`, and `semantic query` on the same `.rgctl/` session.
+- **Composable.** Chain with `blast-radius`, `metrics`, `cpg`, and `semantic query` on the same `.rgctl/` session.
 
 ## Related guides
 
 - [Discovering and indexing](discovering-and-indexing.md) — build `.rgctl/` first
-- [Lossless write-back and framework migration](lossless-writeback-migration.md) — import-prefix census, `--show-attributes`, and CST-verified write-back
 - [Blast radius analysis](blast-radius-analysis.md) — weighted upstream impact from a symbol
 - [Community detection](community-detection.md) — labels and `communities list`
 - [Agent pack](agent-skill.md) — install the `rgctl` skill that calls these verbs

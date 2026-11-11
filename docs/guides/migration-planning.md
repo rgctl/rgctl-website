@@ -6,7 +6,7 @@ rgctl can generate a **dependency-aware migration roadmap** that tells you the o
 
 Migration planning answers the critical question: "In what order should we extract pieces of this monolith so that each step is safe and dependencies are respected?"
 
-For AI agents, prefer slash command **`/rgctl:migrate`** (skill `rgctl-migrate`) after `rgctl install --skill` — see the [agent pack guide](agent-skill.md). The CLI deliverable is still `.rgctl/migration_plan.json` from `discover --export-migration-hints`. For framework import/annotation census and CST-verified code write-back (`inventory --by import-prefix`, `find --annotation --show-attributes`, `rgctl writeback`), see [Lossless Write-Back and Framework Migration](lossless-writeback-migration.md).
+For AI agents, prefer slash command **`/rgctl:migrate`** (skill `rgctl-migrate`) after `rgctl install --skill` — see the [agent pack guide](agent-skill.md). The CLI deliverable is still `.rgctl/migration_plan.json` from `discover --export-migration-hints`.
 
 ## Use Cases
 

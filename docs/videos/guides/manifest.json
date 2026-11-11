@@ -106,12 +106,6 @@
       "needs": ["coolstore", "migration"]
     },
     {
-      "slug": "lossless-writeback-migration",
-      "title": "Lossless write-back and migration",
-      "blurb": "Import-prefix & annotation census, container blast radius, and CST/BLAKE3 verified write-back.",
-      "needs": ["coolstore"]
-    },
-    {
       "slug": "markdown-context-graph",
       "title": "Markdown context graph",
       "blurb": "Discover docs+Java fixture and find Checkout* modules.",

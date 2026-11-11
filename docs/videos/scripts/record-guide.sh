@@ -50,35 +50,12 @@ if ! command -v rgctl >/dev/null 2>&1; then
   exit 1
 fi
 
-if [[ "$SLUG" == "kantra-migration-rules" ]]; then
-  if [[ ! -e "$SITE/docs/videos/.work/metasfresh" ]]; then
-    echo "error: missing docs/videos/.work/metasfresh — run prep-coolstore.sh first" >&2
-    exit 1
-  fi
-  if [[ ! -f "$SITE/docs/videos/.work/metasfresh/.rgctl/kantra_findings.json" ]]; then
-    echo "error: metasfresh missing kantra_findings.json — re-run prep-coolstore.sh (or SKIP_KANTRA=0)" >&2
-    exit 1
-  fi
-elif [[ "$SLUG" == "lossless-writeback-migration" ]]; then
-  SRC_COOLSTORE=""
-  for c in "${RGCTL_REPO:-}/example/coolstore-weblogic" "$SITE/../rbuilder/example/coolstore-weblogic" "$SITE/../rgctl/example/coolstore-weblogic" "$SITE/docs/videos/.work/coolstore"; do
-    if [[ -d "$c" ]]; then
-      SRC_COOLSTORE="$c"
-      break
-    fi
-  done
-  if [[ -z "$SRC_COOLSTORE" ]]; then
-    echo "error: missing coolstore-weblogic source for lossless-writeback-migration" >&2
-    exit 1
-  fi
-  mkdir -p "$SITE/docs/videos/.work/coolstore-migrate"
-  rsync -a --delete --exclude '.rgctl*' --exclude '.git' "$SRC_COOLSTORE/" "$SITE/docs/videos/.work/coolstore-migrate/"
-elif [[ ! -e "$SITE/docs/videos/.work/coolstore" && "$SLUG" != "markdown-context-graph" ]]; then
+if [[ ! -e "$SITE/docs/videos/.work/coolstore" && "$SLUG" != "markdown-context-graph" ]]; then
   echo "error: missing docs/videos/.work/coolstore — run prep-coolstore.sh first" >&2
   exit 1
 fi
 
-if [[ "$SLUG" != "markdown-context-graph" && "$SLUG" != "discovering-and-indexing" && "$SLUG" != "kantra-migration-rules" && "$SLUG" != "lossless-writeback-migration" && -d "$SITE/docs/videos/.work/.rgctl.golden" ]]; then
+if [[ "$SLUG" != "markdown-context-graph" && "$SLUG" != "discovering-and-indexing" && -d "$SITE/docs/videos/.work/.rgctl.golden" ]]; then
   mkdir -p "$SITE/docs/videos/.work/coolstore/.rgctl"
   rsync -a --delete "$SITE/docs/videos/.work/.rgctl.golden/" "$SITE/docs/videos/.work/coolstore/.rgctl/"
 fi

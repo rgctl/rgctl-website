@@ -192,7 +192,6 @@ Install: \`curl -fsSL https://rgctl.io/install.sh | sh\`
 - https://rgctl.io/docs/guides/community-detection/
 - https://rgctl.io/docs/guides/vulnerability-and-osv-analysis/
 - https://rgctl.io/docs/guides/migration-planning/
-- https://rgctl.io/docs/guides/lossless-writeback-migration/
 
 ## Reference
 

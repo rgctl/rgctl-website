@@ -678,63 +678,6 @@ const tapes = {
     ],
   },
 
-  "lossless-writeback-migration": {
-    slug: "lossless-writeback-migration",
-    workdir: "docs/videos/.work/coolstore-migrate",
-    prompt: "coolstore",
-    scenes: [
-      {
-        comment: "# 1. Index CoolStore with lossless Red-Green CST/content sidecars + javax.* census",
-        cmds: [
-          "rgctl -f json discover . -l java --lossless | jq '{command, metrics}'",
-          "rgctl -f json inventory --by import-prefix --prefix javax. | jq '.counts[:6]'",
-        ],
-        sleep: "2.5s",
-      },
-      {
-        comment: "# 2. Census Java EE stereotypes with raw attributes (--show-attributes)",
-        cmds: [
-          "rgctl -f json find --annotation Stateless,Singleton,Stateful,MessageDriven --show-attributes | jq '.entities[:5] | map({name, type, attributes})'",
-        ],
-        sleep: "3s",
-      },
-      {
-        comment: "# 3. Container-level blast radius & callers across ShoppingCartService",
-        cmds: [
-          "rgctl -f json blast-radius ShoppingCartService --depth 2 --summary | jq '{target: .target.symbol, score, distance_buckets}'",
-          "rgctl -f json callers ShoppingCartService --depth 2 | jq '{total, callers: [.callers[:4][] | {name, type}]}'",
-        ],
-        sleep: "3s",
-      },
-      {
-        comment: "# 4. Verify lossless BLAKE3/CST sidecars & preview token-aware rename patch",
-        cmds: [
-          "rgctl -f json writeback verify | jq '{files_processed, files_verified_identical}'",
-          "rgctl -f json writeback patch --rename ShoppingCartOrderProcessor=CartOrderProcessor --dry-run | jq '{files_processed, edits_applied, entries: [.entries[] | {file, status}]}'",
-        ],
-        sleep: "3.5s",
-      },
-    ],
-    captions: [
-      [
-        "Index with Lossless CST & Content Sidecars (discover --lossless)",
-        "RGCS v2 + RGCT v1 sidecars + javax.* import-prefix census",
-      ],
-      [
-        "Stereotype & Decorator Census (find --show-attributes)",
-        "Join raw @Stateless / @Stateful / @MessageDriven arguments from annotation_args.json",
-      ],
-      [
-        "Container-Level Blast Radius & Callers",
-        "Aggregate member methods + CDI Injects edges on ShoppingCartService",
-      ],
-      [
-        "BLAKE3 Verification & CST Token-Aware Write-Back (rgctl writeback)",
-        "100% byte-identical sidecar verify + syntax-gated rename patch",
-      ],
-    ],
-  },
-
   "markdown-context-graph": {
     slug: "markdown-context-graph",
     workdir: "docs/videos/.work/markdown-context",
