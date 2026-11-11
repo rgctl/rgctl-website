@@ -168,6 +168,12 @@ const paths: Path[] = [
         href: "/docs/guides/migration-planning/",
       },
       {
+        title: "Lossless write-back migration",
+        feature: "discover --lossless · writeback",
+        blurb: "Import-prefix & annotation census, container blast radius, and CST/BLAKE3 verified write-back.",
+        href: "/docs/guides/lossless-writeback-migration/",
+      },
+      {
         title: "Markdown context graph",
         feature: "discover -l markdown · export",
         blurb: "Index docs, Obsidian/OKF export, fixture feature tour.",

@@ -53,6 +53,10 @@ export const DOCS_NAV: NavSection[] = [
       { href: "/docs/guides/graph-metrics/", label: "Graph metrics" },
       { href: "/docs/guides/semantic-search/", label: "Semantic search" },
       { href: "/docs/guides/migration-planning/", label: "Migration planning" },
+      {
+        href: "/docs/guides/lossless-writeback-migration/",
+        label: "Lossless write-back migration",
+      },
       { href: "/docs/guides/markdown-context-graph/", label: "Markdown context graph" },
       { href: "/docs/guides/exporting-graphs/", label: "Exporting graphs" },
       { href: "/docs/guides/http-server-and-dashboard/", label: "HTTP server and dashboard" },

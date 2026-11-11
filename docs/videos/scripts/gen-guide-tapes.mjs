@@ -678,57 +678,59 @@ const tapes = {
     ],
   },
 
-  "kantra-migration-rules": {
-    slug: "kantra-migration-rules",
-    workdir: "docs/videos/.work/metasfresh",
-    prompt: "metasfresh-4.9.8b",
+  "lossless-writeback-migration": {
+    slug: "lossless-writeback-migration",
+    workdir: "docs/videos/.work/coolstore-migrate",
+    prompt: "coolstore",
     scenes: [
       {
-        comment: "# 1. Large Java corpus (old metasfresh snapshot — scale test, not a product scorecard)",
+        comment: "# 1. Index CoolStore with lossless Red-Green CST/content sidecars + javax.* census",
         cmds: [
-          "rgctl -f json status | jq '{status, nodes, edges, kantra_findings, schema_version}'",
-          "rgctl -f json inventory --by type | jq '[.counts[] | select(.key==\"file\" or .key==\"function\" or .key==\"class\")]'",
+          "rgctl -f json discover . -l java --lossless | jq '{command, metrics}'",
+          "rgctl -f json inventory --by import-prefix --prefix javax. | jq '.counts[:6]'",
+        ],
+        sleep: "2.5s",
+      },
+      {
+        comment: "# 2. Census Java EE stereotypes with raw attributes (--show-attributes)",
+        cmds: [
+          "rgctl -f json find --annotation Stateless,Singleton,Stateful,MessageDriven --show-attributes | jq '.entities[:5] | map({name, type, attributes})'",
         ],
         sleep: "3s",
       },
       {
-        comment: "# 2. Catalog targets with hit counts (one embedded rules run already on disk)",
+        comment: "# 3. Container-level blast radius & callers across ShoppingCartService",
         cmds: [
-          "rgctl -f json rules targets | jq '{findings_present, catalog_id, targets: [.targets[] | select(.name==\"quarkus\" or .name==\"eap8\" or .name==\"openjdk17+\" or .name==\"cloud-readiness\") | {name, rules, hits}]}'",
+          "rgctl -f json blast-radius ShoppingCartService --depth 2 --summary | jq '{target: .target.symbol, score, distance_buckets}'",
+          "rgctl -f json callers ShoppingCartService --depth 2 | jq '{total, callers: [.callers[:4][] | {name, type}]}'",
         ],
         sleep: "3s",
       },
       {
-        comment: "# 3. Token-compact findings for quarkus (summary before --limit sample)",
+        comment: "# 4. Verify lossless BLAKE3/CST sidecars & preview token-aware rename patch",
         cmds: [
-          "rgctl -f json rules findings --target quarkus --limit 2 | jq '{total_matched, summary, rules: [.per_rule[].rule_id], sample: [.violations[] | {rule_id, file: (.file|split(\"/\")[-1]), line}]}'",
+          "rgctl -f json writeback verify | jq '{files_processed, files_verified_identical}'",
+          "rgctl -f json writeback patch --rename ShoppingCartOrderProcessor=CartOrderProcessor --dry-run | jq '{files_processed, edits_applied, entries: [.entries[] | {file, status}]}'",
         ],
-        sleep: "3s",
-      },
-      {
-        comment: "# 4. Mandatory openjdk17+ hits (illustrative on this ancient tree)",
-        cmds: [
-          "rgctl -f json rules findings --target openjdk17+ --category mandatory --limit 2 | jq '{total_matched, summary, per_rule: [.per_rule[] | {rule_id, category, effort, targets}]}'",
-        ],
-        sleep: "3s",
+        sleep: "3.5s",
       },
     ],
     captions: [
       [
-        "Scale Corpus: metasfresh 4.9.8b",
-        "~11k files · ~322k nodes · ~1.1M edges — old snapshot for load, not judgment",
+        "Index with Lossless CST & Content Sidecars (discover --lossless)",
+        "RGCS v2 + RGCT v1 sidecars + javax.* import-prefix census",
       ],
       [
-        "Embedded Kantra Targets (rules targets)",
-        "quarkus · eap8 · openjdk17+ · cloud-readiness hit counts",
+        "Stereotype & Decorator Census (find --show-attributes)",
+        "Join raw @Stateless / @Stateful / @MessageDriven arguments from annotation_args.json",
       ],
       [
-        "Filter Findings Without Re-Eval (rules findings --target)",
-        "summary + per_rule metadata · capped violation sample",
+        "Container-Level Blast Radius & Callers",
+        "Aggregate member methods + CDI Injects edges on ShoppingCartService",
       ],
       [
-        "Category Filters for Migration Waves",
-        "openjdk17+ mandatory — illustrative hits on a legacy tree",
+        "BLAKE3 Verification & CST Token-Aware Write-Back (rgctl writeback)",
+        "100% byte-identical sidecar verify + syntax-gated rename patch",
       ],
     ],
   },

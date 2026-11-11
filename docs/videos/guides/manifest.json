@@ -106,10 +106,10 @@
       "needs": ["coolstore", "migration"]
     },
     {
-      "slug": "kantra-migration-rules",
-      "title": "Kantra migration rules",
-      "blurb": "Embedded Kantra rules run + target-filtered findings on metasfresh 4.9.8b.",
-      "needs": ["metasfresh", "kantra"]
+      "slug": "lossless-writeback-migration",
+      "title": "Lossless write-back and migration",
+      "blurb": "Import-prefix & annotation census, container blast radius, and CST/BLAKE3 verified write-back.",
+      "needs": ["coolstore"]
     },
     {
       "slug": "markdown-context-graph",

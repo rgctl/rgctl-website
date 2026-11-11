@@ -223,19 +223,30 @@ rgctl -r example/coolstore -f json inventory --by community | jq '.counts[:5]'
 
 Heuristic labels (for example `coolstore.model::shoppingCartToJson`) help you choose a `--scope` prefix for `find`. Refresh labels with `communities label --write`. See [Community detection](community-detection.md).
 
-### 8. Kantra rules
+### 8. Framework migration census (import prefixes & annotation attributes)
 
-After `discover -l java --with-kantra`, list indexed rules (CoolStore currently yields thousands of rule nodes and `violates` edges):
-
-```bash
-rgctl -r example/coolstore -f json find --type kantrarule --limit 10 | jq '.entities[].name'
-```
-
-Filter by migration target using discover’s `--kantra-target` (violations and skips land in `.rgctl/kantra_findings.json`). Rule-to-code matches:
+Group imports by two-segment package/namespace prefix across any Tier-1 language (`.`, `::`, `/`, `\`):
 
 ```bash
-rgctl -r example/coolstore -f json relations --edge violates --from-type kantrarule --limit 20
+rgctl -r example/coolstore -f json inventory --by import-prefix --prefix javax. | jq '.counts[:5]'
 ```
+
+Find classes or functions by annotation, decorator, or attribute (comma-separated) and include raw source arguments with `--show-attributes`:
+
+```bash
+rgctl -r example/coolstore -f json find \
+  --annotation Stateless,Singleton,Stateful,MessageDriven \
+  --show-attributes \
+  | jq '.entities[:5] | map({name, type, attributes})'
+```
+
+You can also pass a container type (`Class`, `Interface`, `Struct`, `Enum`, or `Module`) directly to `callers` to aggregate incoming calls across all member methods plus DI `Injects` edges:
+
+```bash
+rgctl -r example/coolstore -f json callers ShoppingCartService --depth 2 | jq '{total, callers: .callers[:4]}'
+```
+
+See [Lossless Write-Back and Framework Migration](lossless-writeback-migration.md) for the complete migration and write-back workflow.
 
 ### 9. Compatibility alias
 
@@ -259,10 +270,12 @@ Full field catalog: [json-api.md](../json-api.md#5-structured-query-verbs).
 |------|-------|---------|
 | `-r REPO` | all | Repository root (same as `discover`) |
 | `-f json` | all | Machine-readable stdout |
-| `--type` | `find` | Node type (`function`, `class`, `module`, `kantrarule`, …) |
+| `--type` | `find` | Node type (`function`, `class`, `interface`, `struct`, `enum`, `module`, …) |
+| `--annotation LIST` | `find` | Comma-separated annotation / attribute / decorator filter |
+| `--show-attributes` | `find` | Join raw annotation arguments from `.rgctl/annotation_args.json` |
 | `--file GLOB` | find, callers, callees, relations | Path filter |
 | `--scope PREFIX` | find, callers, callees, relations | Qualified-name prefix filter |
-| `--limit N` | find, callers, callees, relations | Cap rows (default 50 where applicable) |
+| `--limit N` | find, callers, callees, relations, inventory | Cap rows (default 50 where applicable) |
 | `--exact` | `find` | Exact name match |
 | `--count-only` | `find` | Return counts only |
 
@@ -270,11 +283,12 @@ Full field catalog: [json-api.md](../json-api.md#5-structured-query-verbs).
 
 - **Stable contracts.** Fixed verbs with `schema_version` 2 envelopes (query verbs) and `schema_version` 3 for `status`.
 - **Fast.** Queries mmap the session snapshot; no re-parse of source trees.
-- **Composable.** Chain with `blast-radius`, `metrics`, `cpg`, and `semantic query` on the same `.rgctl/` session.
+- **Composable.** Chain with `blast-radius`, `metrics`, `cpg`, `writeback`, and `semantic query` on the same `.rgctl/` session.
 
 ## Related guides
 
 - [Discovering and indexing](discovering-and-indexing.md) — build `.rgctl/` first
+- [Lossless write-back and framework migration](lossless-writeback-migration.md) — import-prefix census, `--show-attributes`, and CST-verified write-back
 - [Blast radius analysis](blast-radius-analysis.md) — weighted upstream impact from a symbol
 - [Community detection](community-detection.md) — labels and `communities list`
 - [Agent pack](agent-skill.md) — install the `rgctl` skill that calls these verbs
