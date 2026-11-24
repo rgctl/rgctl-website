@@ -153,7 +153,7 @@ for (const slug of slugs) {
     continue;
   }
 
-  const audio = audioFor(slug);
+  const audio = silent ? null : audioFor(slug);
   if (!audio && !silent) die(`${slug}: no final guide or voiceover audio; run voiceover:compose first (or pass --silent)`);
 
   const silentPath = path.join(shortsDir, `.${slug}.silent.mp4`);

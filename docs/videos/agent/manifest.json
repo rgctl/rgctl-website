@@ -12,12 +12,12 @@
       "status": "recorded",
       "video": "recordings/agent-skill.mp4",
       "transcript": "transcripts/agent-skill.json",
-      "durationSec": 67.3,
+      "durationSec": 80.5,
       "recordedWith": "claude",
       "model": "deepseek-flash",
-      "rgctlVersion": "rgctl v0.4.29 (https://github.com/rgctl/rgctl)",
-      "fixtureCommit": "b5752b9",
-      "recordedAt": "2026-11-23T18:59:24.772Z"
+      "rgctlVersion": "rgctl v0.4.30 (https://github.com/rgctl/rgctl)",
+      "fixtureCommit": "8aa5fe2",
+      "recordedAt": "2026-11-24T16:07:06.756Z"
     },
     {
       "slug": "blast-radius-analysis",
@@ -29,12 +29,12 @@
       "status": "recorded",
       "video": "recordings/blast-radius-analysis.mp4",
       "transcript": "transcripts/blast-radius-analysis.json",
-      "durationSec": 58.2,
+      "durationSec": 27.8,
       "recordedWith": "claude",
       "model": "deepseek-flash",
-      "rgctlVersion": "rgctl v0.4.29 (https://github.com/rgctl/rgctl)",
-      "fixtureCommit": "b5752b9",
-      "recordedAt": "2026-11-23T18:49:25.535Z"
+      "rgctlVersion": "rgctl v0.4.30 (https://github.com/rgctl/rgctl)",
+      "fixtureCommit": "8aa5fe2",
+      "recordedAt": "2026-11-24T16:07:44.020Z"
     },
     {
       "slug": "ci-policy-checks",
@@ -46,12 +46,12 @@
       "status": "recorded",
       "video": "recordings/ci-policy-checks.mp4",
       "transcript": "transcripts/ci-policy-checks.json",
-      "durationSec": 33.2,
+      "durationSec": 28.3,
       "recordedWith": "claude",
       "model": "deepseek-flash",
-      "rgctlVersion": "rgctl v0.4.29 (https://github.com/rgctl/rgctl)",
-      "fixtureCommit": "b5752b9",
-      "recordedAt": "2026-11-23T19:00:46.678Z"
+      "rgctlVersion": "rgctl v0.4.30 (https://github.com/rgctl/rgctl)",
+      "fixtureCommit": "8aa5fe2",
+      "recordedAt": "2026-11-24T16:24:08.212Z"
     },
     {
       "slug": "cli-command-reference",
@@ -73,12 +73,12 @@
       "status": "recorded",
       "video": "recordings/clone-detection.mp4",
       "transcript": "transcripts/clone-detection.json",
-      "durationSec": 86.3,
+      "durationSec": 58,
       "recordedWith": "claude",
       "model": "deepseek-flash",
-      "rgctlVersion": "rgctl v0.4.29 (https://github.com/rgctl/rgctl)",
-      "fixtureCommit": "b5752b9",
-      "recordedAt": "2026-11-23T19:08:19.202Z"
+      "rgctlVersion": "rgctl v0.4.30 (https://github.com/rgctl/rgctl)",
+      "fixtureCommit": "8aa5fe2",
+      "recordedAt": "2026-11-24T16:08:44.695Z"
     },
     {
       "slug": "community-detection",
@@ -90,12 +90,12 @@
       "status": "recorded",
       "video": "recordings/community-detection.mp4",
       "transcript": "transcripts/community-detection.json",
-      "durationSec": 59,
+      "durationSec": 120.6,
       "recordedWith": "claude",
       "model": "deepseek-flash",
-      "rgctlVersion": "rgctl v0.4.29 (https://github.com/rgctl/rgctl)",
-      "fixtureCommit": "eb0cff25",
-      "recordedAt": "2026-11-23T20:46:24.141Z"
+      "rgctlVersion": "rgctl v0.4.30 (https://github.com/rgctl/rgctl)",
+      "fixtureCommit": "c1d41daa",
+      "recordedAt": "2026-11-24T16:09:06.895Z"
     },
     {
       "slug": "dependency-injection-and-frameworks",
@@ -107,12 +107,12 @@
       "status": "recorded",
       "video": "recordings/dependency-injection-and-frameworks.mp4",
       "transcript": "transcripts/dependency-injection-and-frameworks.json",
-      "durationSec": 60.1,
+      "durationSec": 74.8,
       "recordedWith": "claude",
       "model": "deepseek-flash",
-      "rgctlVersion": "rgctl v0.4.29 (https://github.com/rgctl/rgctl)",
-      "fixtureCommit": "b5752b9",
-      "recordedAt": "2026-11-23T19:15:47.702Z"
+      "rgctlVersion": "rgctl v0.4.30 (https://github.com/rgctl/rgctl)",
+      "fixtureCommit": "8aa5fe2",
+      "recordedAt": "2026-11-24T16:10:02.370Z"
     },
     {
       "slug": "discovering-and-indexing",
@@ -124,12 +124,12 @@
       "status": "recorded",
       "video": "recordings/discovering-and-indexing.mp4",
       "transcript": "transcripts/discovering-and-indexing.json",
-      "durationSec": 76.9,
+      "durationSec": 34.5,
       "recordedWith": "claude",
       "model": "deepseek-flash",
-      "rgctlVersion": "rgctl v0.4.29 (https://github.com/rgctl/rgctl)",
-      "fixtureCommit": "b5752b9",
-      "recordedAt": "2026-11-23T19:20:38.689Z"
+      "rgctlVersion": "rgctl v0.4.30 (https://github.com/rgctl/rgctl)",
+      "fixtureCommit": "8aa5fe2",
+      "recordedAt": "2026-11-24T16:07:04.273Z"
     },
     {
       "slug": "exporting-graphs",
@@ -141,12 +141,12 @@
       "status": "recorded",
       "video": "recordings/exporting-graphs.mp4",
       "transcript": "transcripts/exporting-graphs.json",
-      "durationSec": 46.4,
+      "durationSec": 43.5,
       "recordedWith": "claude",
       "model": "deepseek-flash",
-      "rgctlVersion": "rgctl v0.4.29 (https://github.com/rgctl/rgctl)",
-      "fixtureCommit": "b5752b9",
-      "recordedAt": "2026-11-23T19:23:16.835Z"
+      "rgctlVersion": "rgctl v0.4.30 (https://github.com/rgctl/rgctl)",
+      "fixtureCommit": "8aa5fe2",
+      "recordedAt": "2026-11-24T16:09:15.724Z"
     },
     {
       "slug": "graph-metrics",
@@ -158,12 +158,12 @@
       "status": "recorded",
       "video": "recordings/graph-metrics.mp4",
       "transcript": "transcripts/graph-metrics.json",
-      "durationSec": 49.9,
+      "durationSec": 80.3,
       "recordedWith": "claude",
       "model": "deepseek-flash",
-      "rgctlVersion": "rgctl v0.4.29 (https://github.com/rgctl/rgctl)",
-      "fixtureCommit": "b5752b9",
-      "recordedAt": "2026-11-23T19:26:06.068Z"
+      "rgctlVersion": "rgctl v0.4.30 (https://github.com/rgctl/rgctl)",
+      "fixtureCommit": "8aa5fe2",
+      "recordedAt": "2026-11-24T16:08:30.121Z"
     },
     {
       "slug": "http-server-and-dashboard",
@@ -175,12 +175,12 @@
       "status": "recorded",
       "video": "recordings/http-server-and-dashboard.mp4",
       "transcript": "transcripts/http-server-and-dashboard.json",
-      "durationSec": 49.1,
+      "durationSec": 64.5,
       "recordedWith": "claude",
       "model": "deepseek-flash",
-      "rgctlVersion": "rgctl v0.4.29 (https://github.com/rgctl/rgctl)",
-      "fixtureCommit": "b5752b9",
-      "recordedAt": "2026-11-23T19:28:47.627Z"
+      "rgctlVersion": "rgctl v0.4.30 (https://github.com/rgctl/rgctl)",
+      "fixtureCommit": "8aa5fe2",
+      "recordedAt": "2026-11-24T16:10:25.517Z"
     },
     {
       "slug": "hybrid-cpg",
@@ -192,12 +192,12 @@
       "status": "recorded",
       "video": "recordings/hybrid-cpg.mp4",
       "transcript": "transcripts/hybrid-cpg.json",
-      "durationSec": 78.8,
+      "durationSec": 89.4,
       "recordedWith": "claude",
       "model": "deepseek-flash",
-      "rgctlVersion": "rgctl v0.4.29 (https://github.com/rgctl/rgctl)",
-      "fixtureCommit": "b5752b9",
-      "recordedAt": "2026-11-23T19:35:11.732Z"
+      "rgctlVersion": "rgctl v0.4.30 (https://github.com/rgctl/rgctl)",
+      "fixtureCommit": "8aa5fe2",
+      "recordedAt": "2026-11-24T16:07:14.395Z"
     },
     {
       "slug": "inspecting-cfg-pdg-dominance",
@@ -209,12 +209,12 @@
       "status": "recorded",
       "video": "recordings/inspecting-cfg-pdg-dominance.mp4",
       "transcript": "transcripts/inspecting-cfg-pdg-dominance.json",
-      "durationSec": 35.8,
+      "durationSec": 43.6,
       "recordedWith": "claude",
       "model": "deepseek-flash",
-      "rgctlVersion": "rgctl v0.4.29 (https://github.com/rgctl/rgctl)",
-      "fixtureCommit": "b5752b9",
-      "recordedAt": "2026-11-23T19:38:01.572Z"
+      "rgctlVersion": "rgctl v0.4.30 (https://github.com/rgctl/rgctl)",
+      "fixtureCommit": "8aa5fe2",
+      "recordedAt": "2026-11-24T16:06:26.056Z"
     },
     {
       "slug": "markdown-context-graph",
@@ -226,12 +226,12 @@
       "status": "recorded",
       "video": "recordings/markdown-context-graph.mp4",
       "transcript": "transcripts/markdown-context-graph.json",
-      "durationSec": 65.2,
+      "durationSec": 73.5,
       "recordedWith": "claude",
       "model": "deepseek-flash",
-      "rgctlVersion": "rgctl v0.4.29 (https://github.com/rgctl/rgctl)",
-      "fixtureCommit": "a5e90ac3",
-      "recordedAt": "2026-11-23T19:41:28.579Z"
+      "rgctlVersion": "rgctl v0.4.30 (https://github.com/rgctl/rgctl)",
+      "fixtureCommit": "c1d41daa",
+      "recordedAt": "2026-11-24T16:30:52.040Z"
     },
     {
       "slug": "migration-planning",
@@ -243,12 +243,12 @@
       "status": "recorded",
       "video": "recordings/migration-planning.mp4",
       "transcript": "transcripts/migration-planning.json",
-      "durationSec": 49.4,
+      "durationSec": 63,
       "recordedWith": "claude",
       "model": "deepseek-flash",
-      "rgctlVersion": "rgctl v0.4.29 (https://github.com/rgctl/rgctl)",
-      "fixtureCommit": "b5752b9",
-      "recordedAt": "2026-11-23T19:45:04.484Z"
+      "rgctlVersion": "rgctl v0.4.30 (https://github.com/rgctl/rgctl)",
+      "fixtureCommit": "8aa5fe2",
+      "recordedAt": "2026-11-24T16:15:54.063Z"
     },
     {
       "slug": "program-slicing",
@@ -260,12 +260,12 @@
       "status": "recorded",
       "video": "recordings/program-slicing.mp4",
       "transcript": "transcripts/program-slicing.json",
-      "durationSec": 76.5,
+      "durationSec": 56.2,
       "recordedWith": "claude",
       "model": "deepseek-flash",
-      "rgctlVersion": "rgctl v0.4.29 (https://github.com/rgctl/rgctl)",
-      "fixtureCommit": "b5752b9",
-      "recordedAt": "2026-11-23T19:49:33.879Z"
+      "rgctlVersion": "rgctl v0.4.30 (https://github.com/rgctl/rgctl)",
+      "fixtureCommit": "8aa5fe2",
+      "recordedAt": "2026-11-24T16:15:02.174Z"
     },
     {
       "slug": "pr-review",
@@ -277,12 +277,12 @@
       "status": "recorded",
       "video": "recordings/pr-review.mp4",
       "transcript": "transcripts/pr-review.json",
-      "durationSec": 94,
+      "durationSec": 34.4,
       "recordedWith": "claude",
       "model": "deepseek-flash",
-      "rgctlVersion": "rgctl v0.4.29 (https://github.com/rgctl/rgctl)",
+      "rgctlVersion": "rgctl v0.4.30 (https://github.com/rgctl/rgctl)",
       "fixtureCommit": "8aa5fe2",
-      "recordedAt": "2026-11-23T20:54:47.819Z"
+      "recordedAt": "2026-11-24T16:10:37.892Z"
     },
     {
       "slug": "semantic-search",
@@ -294,12 +294,12 @@
       "status": "recorded",
       "video": "recordings/semantic-search.mp4",
       "transcript": "transcripts/semantic-search.json",
-      "durationSec": 78.6,
+      "durationSec": 53.8,
       "recordedWith": "claude",
       "model": "deepseek-flash",
-      "rgctlVersion": "rgctl v0.4.29 (https://github.com/rgctl/rgctl)",
-      "fixtureCommit": "b5752b9",
-      "recordedAt": "2026-11-23T19:56:34.808Z"
+      "rgctlVersion": "rgctl v0.4.30 (https://github.com/rgctl/rgctl)",
+      "fixtureCommit": "8aa5fe2",
+      "recordedAt": "2026-11-24T16:14:39.574Z"
     },
     {
       "slug": "structured-query",
@@ -311,12 +311,12 @@
       "status": "recorded",
       "video": "recordings/structured-query.mp4",
       "transcript": "transcripts/structured-query.json",
-      "durationSec": 62.9,
+      "durationSec": 44.4,
       "recordedWith": "claude",
       "model": "deepseek-flash",
-      "rgctlVersion": "rgctl v0.4.29 (https://github.com/rgctl/rgctl)",
-      "fixtureCommit": "b5752b9",
-      "recordedAt": "2026-11-23T19:59:39.784Z"
+      "rgctlVersion": "rgctl v0.4.30 (https://github.com/rgctl/rgctl)",
+      "fixtureCommit": "8aa5fe2",
+      "recordedAt": "2026-11-24T16:16:07.914Z"
     },
     {
       "slug": "vulnerability-and-osv-analysis",
@@ -328,12 +328,12 @@
       "status": "recorded",
       "video": "recordings/vulnerability-and-osv-analysis.mp4",
       "transcript": "transcripts/vulnerability-and-osv-analysis.json",
-      "durationSec": 61,
+      "durationSec": 79.1,
       "recordedWith": "claude",
       "model": "deepseek-flash",
-      "rgctlVersion": "rgctl v0.4.29 (https://github.com/rgctl/rgctl)",
-      "fixtureCommit": "b5752b9",
-      "recordedAt": "2026-11-23T20:25:29.030Z"
+      "rgctlVersion": "rgctl v0.4.30 (https://github.com/rgctl/rgctl)",
+      "fixtureCommit": "8aa5fe2",
+      "recordedAt": "2026-11-24T16:17:40.979Z"
     },
     {
       "slug": "vulnerability-reachability",
@@ -345,12 +345,12 @@
       "status": "recorded",
       "video": "recordings/vulnerability-reachability.mp4",
       "transcript": "transcripts/vulnerability-reachability.json",
-      "durationSec": 146,
+      "durationSec": 129.8,
       "recordedWith": "claude",
       "model": "deepseek-flash",
-      "rgctlVersion": "rgctl v0.4.29 (https://github.com/rgctl/rgctl)",
-      "fixtureCommit": "b5752b9",
-      "recordedAt": "2026-11-23T20:17:05.613Z"
+      "rgctlVersion": "rgctl v0.4.30 (https://github.com/rgctl/rgctl)",
+      "fixtureCommit": "8aa5fe2",
+      "recordedAt": "2026-11-24T16:21:26.585Z"
     },
     {
       "slug": "watch-mode",
@@ -362,12 +362,12 @@
       "status": "recorded",
       "video": "recordings/watch-mode.mp4",
       "transcript": "transcripts/watch-mode.json",
-      "durationSec": 46.8,
+      "durationSec": 45.8,
       "recordedWith": "claude",
       "model": "deepseek-flash",
-      "rgctlVersion": "rgctl v0.4.29 (https://github.com/rgctl/rgctl)",
-      "fixtureCommit": "b5752b9",
-      "recordedAt": "2026-11-23T20:19:29.960Z"
+      "rgctlVersion": "rgctl v0.4.30 (https://github.com/rgctl/rgctl)",
+      "fixtureCommit": "8aa5fe2",
+      "recordedAt": "2026-11-24T16:19:14.939Z"
     },
     {
       "slug": "dead-code-detection",
@@ -379,12 +379,12 @@
       "status": "recorded",
       "video": "recordings/dead-code-detection.mp4",
       "transcript": "transcripts/dead-code-detection.json",
-      "durationSec": 118.5,
+      "durationSec": 135.2,
       "recordedWith": "claude",
       "model": "deepseek-flash",
-      "rgctlVersion": "rgctl v0.4.29 (https://github.com/rgctl/rgctl)",
-      "fixtureCommit": "eb0cff25",
-      "recordedAt": "2026-11-23T21:25:05.424Z"
+      "rgctlVersion": "rgctl v0.4.30 (https://github.com/rgctl/rgctl)",
+      "fixtureCommit": "c1d41daa",
+      "recordedAt": "2026-11-24T16:19:53.761Z"
     },
     {
       "slug": "full-demo",

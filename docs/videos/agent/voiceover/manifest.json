@@ -1,125 +1,264 @@
 {
   "schemaVersion": 1,
   "voice": {
-    "id": "",
-    "model": "eleven_multilingual_v2",
-    "outputFormat": "mp3_44100_128"
+    "id": "stella",
+    "model": "deepseek-tts",
+    "outputFormat": "mp3_44100_192"
   },
   "scripts": [
     {
       "slug": "agent-skill",
       "script": "script/agent-skill.md",
-      "status": "scripted"
+      "status": "generated",
+      "audio": "sound/agent-skill.mp3",
+      "durationSec": 77.96,
+      "voiceId": "stella",
+      "model": "deepseek-tts",
+      "outputFormat": "mp3_44100_192",
+      "generatedAt": "2026-11-24T16:48:11.086Z"
     },
     {
       "slug": "blast-radius-analysis",
       "script": "script/blast-radius-analysis.md",
-      "status": "scripted"
+      "status": "generated",
+      "audio": "sound/blast-radius-analysis.mp3",
+      "durationSec": 82.68,
+      "voiceId": "stella",
+      "model": "deepseek-tts",
+      "outputFormat": "mp3_44100_192",
+      "generatedAt": "2026-11-24T16:58:00.500Z"
     },
     {
       "slug": "ci-policy-checks",
       "script": "script/ci-policy-checks.md",
-      "status": "scripted"
+      "status": "generated",
+      "audio": "sound/ci-policy-checks.mp3",
+      "durationSec": 66.44,
+      "voiceId": "stella",
+      "model": "deepseek-tts",
+      "outputFormat": "mp3_44100_192",
+      "generatedAt": "2026-11-24T16:48:11.086Z"
     },
     {
       "slug": "cli-command-reference",
       "script": "script/cli-command-reference.md",
-      "status": "scripted"
+      "status": "generated",
+      "audio": "sound/cli-command-reference.mp3",
+      "durationSec": 71.84,
+      "voiceId": "stella",
+      "model": "deepseek-tts",
+      "outputFormat": "mp3_44100_192",
+      "generatedAt": "2026-11-24T16:48:11.086Z"
     },
     {
       "slug": "clone-detection",
       "script": "script/clone-detection.md",
-      "status": "scripted"
+      "status": "generated",
+      "audio": "sound/clone-detection.mp3",
+      "durationSec": 72.44,
+      "voiceId": "stella",
+      "model": "deepseek-tts",
+      "outputFormat": "mp3_44100_192",
+      "generatedAt": "2026-11-24T16:48:11.086Z"
     },
     {
       "slug": "community-detection",
       "script": "script/community-detection.md",
-      "status": "scripted"
+      "status": "generated",
+      "audio": "sound/community-detection.mp3",
+      "durationSec": 83.04,
+      "voiceId": "stella",
+      "model": "deepseek-tts",
+      "outputFormat": "mp3_44100_192",
+      "generatedAt": "2026-11-24T16:48:11.086Z"
     },
     {
       "slug": "dead-code-detection",
       "script": "script/dead-code-detection.md",
-      "status": "scripted"
+      "status": "generated",
+      "audio": "sound/dead-code-detection.mp3",
+      "durationSec": 73.96,
+      "voiceId": "stella",
+      "model": "deepseek-tts",
+      "outputFormat": "mp3_44100_192",
+      "generatedAt": "2026-11-24T16:48:11.086Z"
     },
     {
       "slug": "dependency-injection-and-frameworks",
       "script": "script/dependency-injection-and-frameworks.md",
-      "status": "scripted"
+      "status": "generated",
+      "audio": "sound/dependency-injection-and-frameworks.mp3",
+      "durationSec": 70.84,
+      "voiceId": "stella",
+      "model": "deepseek-tts",
+      "outputFormat": "mp3_44100_192",
+      "generatedAt": "2026-11-24T16:48:11.086Z"
     },
     {
       "slug": "discovering-and-indexing",
       "script": "script/discovering-and-indexing.md",
-      "status": "scripted"
+      "status": "generated",
+      "audio": "sound/discovering-and-indexing.mp3",
+      "durationSec": 68,
+      "voiceId": "stella",
+      "model": "deepseek-tts",
+      "outputFormat": "mp3_44100_192",
+      "generatedAt": "2026-11-24T16:48:11.086Z"
     },
     {
       "slug": "exporting-graphs",
       "script": "script/exporting-graphs.md",
-      "status": "scripted"
+      "status": "generated",
+      "audio": "sound/exporting-graphs.mp3",
+      "durationSec": 62.24,
+      "voiceId": "stella",
+      "model": "deepseek-tts",
+      "outputFormat": "mp3_44100_192",
+      "generatedAt": "2026-11-24T16:48:11.086Z"
     },
     {
       "slug": "graph-metrics",
       "script": "script/graph-metrics.md",
-      "status": "scripted"
+      "status": "generated",
+      "audio": "sound/graph-metrics.mp3",
+      "durationSec": 63.88,
+      "voiceId": "stella",
+      "model": "deepseek-tts",
+      "outputFormat": "mp3_44100_192",
+      "generatedAt": "2026-11-24T16:48:11.086Z"
     },
     {
       "slug": "http-server-and-dashboard",
       "script": "script/http-server-and-dashboard.md",
-      "status": "scripted"
+      "status": "generated",
+      "audio": "sound/http-server-and-dashboard.mp3",
+      "durationSec": 61.88,
+      "voiceId": "stella",
+      "model": "deepseek-tts",
+      "outputFormat": "mp3_44100_192",
+      "generatedAt": "2026-11-24T16:48:11.086Z"
     },
     {
       "slug": "hybrid-cpg",
       "script": "script/hybrid-cpg.md",
-      "status": "scripted"
+      "status": "generated",
+      "audio": "sound/hybrid-cpg.mp3",
+      "durationSec": 59.36,
+      "voiceId": "stella",
+      "model": "deepseek-tts",
+      "outputFormat": "mp3_44100_192",
+      "generatedAt": "2026-11-24T16:48:11.086Z"
     },
     {
       "slug": "inspecting-cfg-pdg-dominance",
       "script": "script/inspecting-cfg-pdg-dominance.md",
-      "status": "scripted"
+      "status": "generated",
+      "audio": "sound/inspecting-cfg-pdg-dominance.mp3",
+      "durationSec": 61.56,
+      "voiceId": "stella",
+      "model": "deepseek-tts",
+      "outputFormat": "mp3_44100_192",
+      "generatedAt": "2026-11-24T16:48:11.086Z"
     },
     {
       "slug": "markdown-context-graph",
       "script": "script/markdown-context-graph.md",
-      "status": "scripted"
+      "status": "generated",
+      "audio": "sound/markdown-context-graph.mp3",
+      "durationSec": 55.6,
+      "voiceId": "stella",
+      "model": "deepseek-tts",
+      "outputFormat": "mp3_44100_192",
+      "generatedAt": "2026-11-24T16:48:11.086Z"
     },
     {
       "slug": "migration-planning",
       "script": "script/migration-planning.md",
-      "status": "scripted"
+      "status": "generated",
+      "audio": "sound/migration-planning.mp3",
+      "durationSec": 63.56,
+      "voiceId": "stella",
+      "model": "deepseek-tts",
+      "outputFormat": "mp3_44100_192",
+      "generatedAt": "2026-11-24T16:48:11.086Z"
     },
     {
       "slug": "pr-review",
       "script": "script/pr-review.md",
-      "status": "scripted"
+      "status": "generated",
+      "audio": "sound/pr-review.mp3",
+      "durationSec": 81.76,
+      "voiceId": "stella",
+      "model": "deepseek-tts",
+      "outputFormat": "mp3_44100_192",
+      "generatedAt": "2026-11-24T16:48:11.086Z"
     },
     {
       "slug": "program-slicing",
       "script": "script/program-slicing.md",
-      "status": "scripted"
+      "status": "generated",
+      "audio": "sound/program-slicing.mp3",
+      "durationSec": 60.08,
+      "voiceId": "stella",
+      "model": "deepseek-tts",
+      "outputFormat": "mp3_44100_192",
+      "generatedAt": "2026-11-24T16:48:11.086Z"
     },
     {
       "slug": "semantic-search",
       "script": "script/semantic-search.md",
-      "status": "scripted"
+      "status": "generated",
+      "audio": "sound/semantic-search.mp3",
+      "durationSec": 66.52,
+      "voiceId": "stella",
+      "model": "deepseek-tts",
+      "outputFormat": "mp3_44100_192",
+      "generatedAt": "2026-11-24T16:48:11.086Z"
     },
     {
       "slug": "structured-query",
       "script": "script/structured-query.md",
-      "status": "scripted"
+      "status": "generated",
+      "audio": "sound/structured-query.mp3",
+      "durationSec": 68.84,
+      "voiceId": "stella",
+      "model": "deepseek-tts",
+      "outputFormat": "mp3_44100_192",
+      "generatedAt": "2026-11-24T16:48:11.086Z"
     },
     {
       "slug": "vulnerability-and-osv-analysis",
       "script": "script/vulnerability-and-osv-analysis.md",
-      "status": "scripted"
+      "status": "generated",
+      "audio": "sound/vulnerability-and-osv-analysis.mp3",
+      "durationSec": 69.52,
+      "voiceId": "stella",
+      "model": "deepseek-tts",
+      "outputFormat": "mp3_44100_192",
+      "generatedAt": "2026-11-24T16:48:11.086Z"
     },
     {
       "slug": "vulnerability-reachability",
       "script": "script/vulnerability-reachability.md",
-      "status": "scripted"
+      "status": "generated",
+      "audio": "sound/vulnerability-reachability.mp3",
+      "durationSec": 67.08,
+      "voiceId": "stella",
+      "model": "deepseek-tts",
+      "outputFormat": "mp3_44100_192",
+      "generatedAt": "2026-11-24T16:48:11.086Z"
     },
     {
       "slug": "watch-mode",
       "script": "script/watch-mode.md",
-      "status": "scripted"
+      "status": "generated",
+      "audio": "sound/watch-mode.mp3",
+      "durationSec": 59.32,
+      "voiceId": "stella",
+      "model": "deepseek-tts",
+      "outputFormat": "mp3_44100_192",
+      "generatedAt": "2026-11-24T16:48:11.086Z"
     }
-  ]
+  ],
+  "updatedAt": "2026-11-24T16:58:00.500Z"
 }

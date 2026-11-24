@@ -103,8 +103,16 @@ function runOne({ prompt, sessionId, isFirst, config, fixtureDir, configDir }) {
     const appendPrompt = value(config, "CLAUDE_APPEND_SYSTEM_PROMPT");
     if (appendPrompt) args.push("--append-system-prompt", appendPrompt);
 
-    const model = value(config, "CLAUDE_MODEL", "deepseek-flash");
-    const smallModel = value(config, "CLAUDE_SMALL_MODEL", model);
+    const configuredModel = value(config, "CLAUDE_MODEL", "deepseek-flash");
+    const baseUrl = value(config, "CLAUDE_BASE_URL", "https://api.deepseek.com/anthropic");
+    // Claude Code 2.1 rejects DeepSeek model ids. DeepSeek maps claude-haiku*
+    // to deepseek-flash and claude-opus* to deepseek-v4-pro, so the haiku alias
+    // keeps these recordings on Flash.
+    const model =
+      baseUrl.includes("api.deepseek.com") && configuredModel === "deepseek-flash"
+        ? "claude-haiku-4-5"
+        : configuredModel;
+    const smallModel = model;
     if (model) args.push("--model", model);
     const budget = value(config, "CLAUDE_MAX_BUDGET_USD");
     if (budget) args.push("--max-budget-usd", budget);
@@ -145,10 +153,14 @@ function runOne({ prompt, sessionId, isFirst, config, fixtureDir, configDir }) {
       ),
       ANTHROPIC_MODEL: model,
       ANTHROPIC_SMALL_FAST_MODEL: smallModel,
+      ANTHROPIC_DEFAULT_OPUS_MODEL: model,
+      ANTHROPIC_DEFAULT_SONNET_MODEL: model,
+      ANTHROPIC_DEFAULT_HAIKU_MODEL: model,
+      CLAUDE_CODE_SUBAGENT_MODEL: model,
     };
 
-    // A gateway that expects Bearer auth can set CLAUDE_AUTH_TOKEN.
-    const authToken = value(config, "CLAUDE_AUTH_TOKEN");
+    // DeepSeek's Claude Code guide authenticates with ANTHROPIC_AUTH_TOKEN.
+    const authToken = value(config, "CLAUDE_AUTH_TOKEN") || (baseUrl.includes("api.deepseek.com") ? apiKey : "");
     if (authToken) {
       env.ANTHROPIC_AUTH_TOKEN = authToken;
       delete env.ANTHROPIC_API_KEY;
@@ -245,7 +257,7 @@ export async function run({ questions, config, fixtureDir, configDir }) {
     });
     durationMs += Date.now() - started;
     resolvedSessionId = state.sessionId || resolvedSessionId;
-    model = state.model || model;
+    model = value(config, "CLAUDE_MODEL", "") || state.model || model;
     events.push(...state.events);
 
     if (state.usage) {

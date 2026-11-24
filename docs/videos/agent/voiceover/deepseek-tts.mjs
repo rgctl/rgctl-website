@@ -14,6 +14,7 @@ import { existsSync, readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadEnv, value } from "../automation/lib/env.mjs";
+import { speakable } from "./speakable.mjs";
 
 const base = path.dirname(fileURLToPath(import.meta.url));
 const argv = process.argv.slice(2);
@@ -56,6 +57,7 @@ text = text
   .replace(/[*_]{1,2}([^*_]+)[*_]{1,2}/g, "$1")
   .replace(/\s+/g, " ")
   .trim();
+text = speakable(text);
 if (!text) die("no speakable text found");
 
 const endpoint = value(voiceoverEnv, "DEEPSEEK_TTS_URL", "https://api.deepseek.com/v1/tools/tts");

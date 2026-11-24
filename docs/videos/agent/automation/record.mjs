@@ -24,6 +24,7 @@ Options:
   --agent <name>         claude (default) or mock
   --config <file>        Default: docs/videos/agent/.env.demo.agent
   --fixture <path>       Override DEMO_FIXTURE
+  --fixture-label <text> Path label used in the transcript and for redaction
   --theme <name>         chat (default) or dashboard
   --out <file>           Output video; default .work/<slug>/<slug>.mp4
   --transcript <file>    Render an existing transcript instead of running an agent
@@ -84,9 +85,9 @@ const fixtureDir = path.isAbsolute(fixtureArg)
 if (!fs.existsSync(fixtureDir)) {
   throw new Error(`Fixture not found: ${fixtureDir}. Run docs/videos/agent/setup-demo.sh first.`);
 }
-const fixtureLabel = path.isAbsolute(fixtureArg)
-  ? path.relative(websiteRoot, fixtureDir)
-  : fixtureArg;
+const fixtureLabel =
+  args["fixture-label"] ||
+  (path.isAbsolute(fixtureArg) ? path.relative(websiteRoot, fixtureDir) : fixtureArg);
 
 const workDir = path.resolve(base, value(config, "DEMO_WORK_DIR", ".work"));
 const outputDir = path.resolve(base, value(config, "DEMO_OUTPUT_DIR", "recordings"));
@@ -118,6 +119,8 @@ function redactString(input) {
     .replaceAll(fixtureDir, fixtureLabel)
     .replaceAll(rgctlRepo, "..")
     .replaceAll(os.homedir(), "~")
+    .replace(/\/private\/tmp\/claude-\d+\/\S+/g, "~/.claude/task")
+    .replace(/-Users-[A-Za-z0-9._-]*rgctl-vid-[A-Za-z0-9._-]*/g, "fixture")
     .split("\n")
     .filter(
       (line) =>

@@ -6,23 +6,18 @@
       "title": "Blast Radius Analysis",
       "status": "short",
       "video": "blast-radius-analysis.mp4",
-      "audio": "shorts/blast-radius-analysis.voiceover.wav",
+      "audio": null,
       "layout": "vertical-native",
       "template": "short.html",
       "aspectRatio": "9:16",
       "width": 1080,
       "height": 1920,
       "questions": 2,
-      "durationSec": 34.16,
+      "durationSec": 15.64,
       "commands": [
         "rgctl -f json status",
-        "rgctl -f json find \"*priceShoppingCart*\"",
-        "rgctl -f json blast-radius \"com.redhat.coolstore.service.ShoppingCartService.priceShoppingCart\" --depth 3",
-        "rgctl -f json callers \"com.redhat.coolstore.service.ShoppingCartService.priceShoppingCart\" --depth 2",
-        "rgctl -f json blast-radius \"5f952d17-4970-57b5-9abf-a7539637e550\" --depth 3",
-        "rgctl -f json callers \"priceShoppingCart\" --depth 2",
-        "rgctl -f json relations --edge exposesroute",
-        "rgctl -f json blast-radius \"priceShoppingCart\" --depth 2"
+        "rgctl -f json blast-radius priceShoppingCart --depth 2",
+        "rgctl -f json blast-radius priceShoppingCart --depth 4"
       ],
       "platforms": [
         "YouTube Shorts",
@@ -35,13 +30,733 @@
         "#devtools",
         "#ai"
       ],
-      "description": "Blast Radius Analysis \u2014 a coding agent using rgctl, the code knowledge graph for AI agents.",
-      "generatedAt": "2026-11-24T15:16:09.788Z",
+      "description": "Blast Radius Analysis — a coding agent using rgctl, the code knowledge graph for AI agents.",
+      "generatedAt": "2026-11-24T17:05:29.986Z",
       "source": "../blast-radius-analysis.mp4",
       "voiceProvider": "deepseek",
       "voiceId": "stella",
       "voiceScript": "../../voiceover/short/blast-radius-analysis.md"
+    },
+    {
+      "slug": "agent-skill",
+      "title": "Agent pack (skills)",
+      "status": "short",
+      "video": "agent-skill.mp4",
+      "audio": null,
+      "layout": "vertical-native",
+      "template": "short.html",
+      "aspectRatio": "9:16",
+      "width": 1080,
+      "height": 1920,
+      "questions": 2,
+      "durationSec": 22.84,
+      "commands": [
+        "rgctl -f json status",
+        "rgctl -f json callers priceShoppingCart --depth 2",
+        "rgctl -f json blast-radius priceShoppingCart --summary",
+        "rgctl -f json callees priceShoppingCart",
+        "rgctl -f json inspect priceShoppingCart cfg"
+      ],
+      "platforms": [
+        "YouTube Shorts",
+        "TikTok",
+        "Instagram Reels"
+      ],
+      "hashtags": [
+        "#rgctl",
+        "#codeintelligence",
+        "#devtools",
+        "#ai"
+      ],
+      "description": "Agent pack (skills) — a coding agent using rgctl, the code knowledge graph for AI agents.",
+      "generatedAt": "2026-11-24T17:05:11.843Z"
+    },
+    {
+      "slug": "ci-policy-checks",
+      "title": "CI Policy Checks",
+      "status": "short",
+      "video": "ci-policy-checks.mp4",
+      "audio": null,
+      "layout": "vertical-native",
+      "template": "short.html",
+      "aspectRatio": "9:16",
+      "width": 1080,
+      "height": 1920,
+      "questions": 2,
+      "durationSec": 15.64,
+      "commands": [],
+      "platforms": [
+        "YouTube Shorts",
+        "TikTok",
+        "Instagram Reels"
+      ],
+      "hashtags": [
+        "#rgctl",
+        "#codeintelligence",
+        "#devtools",
+        "#ai"
+      ],
+      "description": "CI Policy Checks — a coding agent using rgctl, the code knowledge graph for AI agents.",
+      "generatedAt": "2026-11-24T17:05:48.029Z"
+    },
+    {
+      "slug": "clone-detection",
+      "title": "Clone Detection",
+      "status": "short",
+      "video": "clone-detection.mp4",
+      "audio": null,
+      "layout": "vertical-native",
+      "template": "short.html",
+      "aspectRatio": "9:16",
+      "width": 1080,
+      "height": 1920,
+      "questions": 2,
+      "durationSec": 37.24,
+      "commands": [
+        "rgctl -r . -f json find \"*[Cc]art*\" --type class --limit 20",
+        "rgctl -r . -f json find \"*\" --type class | jq -r '.entities[] | select(.name | test(\"[Cc]art|[Oo]rder\")) | .file_path' 2>/dev/null | head -20",
+        "rgctl -r . -f json clones --mode fragment --seed \"src/main/java/com/redhat/coolstore/service/ShoppingCartService.java\"",
+        "rgctl -r . -f json clones --mode fragment --seed \"ShoppingCartService\"",
+        "rgctl -r . -f json clones --mode fragment",
+        "rgctl -r . clones --mode fragment",
+        "rgctl -r . clones --mode exact",
+        "rgctl -r . clones --mode bloom"
+      ],
+      "platforms": [
+        "YouTube Shorts",
+        "TikTok",
+        "Instagram Reels"
+      ],
+      "hashtags": [
+        "#rgctl",
+        "#codeintelligence",
+        "#devtools",
+        "#ai"
+      ],
+      "description": "Clone Detection — a coding agent using rgctl, the code knowledge graph for AI agents.",
+      "generatedAt": "2026-11-24T17:06:29.043Z"
+    },
+    {
+      "slug": "community-detection",
+      "title": "Community Detection",
+      "status": "short",
+      "video": "community-detection.mp4",
+      "audio": null,
+      "layout": "vertical-native",
+      "template": "short.html",
+      "aspectRatio": "9:16",
+      "width": 1080,
+      "height": 1920,
+      "questions": 2,
+      "durationSec": 69.8,
+      "commands": [
+        "rgctl discover . --export-communities -f json | head -300",
+        "rgctl -f json status",
+        "rgctl -f json communities list | jq '.communities[] | select(.member_count > 1) | {name, member_count, description}' | head -150",
+        "rgctl -f json communities list",
+        "rgctl discover . --with-harmonic",
+        "rgctl -f json inventory --by type",
+        "rgctl -f json find \"*Order*\" --type class --limit 30",
+        "rgctl -f json find \"*Invoice*\" --type class --limit 20"
+      ],
+      "platforms": [
+        "YouTube Shorts",
+        "TikTok",
+        "Instagram Reels"
+      ],
+      "hashtags": [
+        "#rgctl",
+        "#codeintelligence",
+        "#devtools",
+        "#ai"
+      ],
+      "description": "Community Detection — a coding agent using rgctl, the code knowledge graph for AI agents.",
+      "generatedAt": "2026-11-24T17:07:44.473Z"
+    },
+    {
+      "slug": "dead-code-detection",
+      "title": "Dead Code Detection",
+      "status": "short",
+      "video": "dead-code-detection.mp4",
+      "audio": null,
+      "layout": "vertical-native",
+      "template": "short.html",
+      "aspectRatio": "9:16",
+      "width": 1080,
+      "height": 1920,
+      "questions": 2,
+      "durationSec": 68.92,
+      "commands": [
+        "rgctl discover .",
+        "rgctl -f json find --type function --unreachable --limit 50",
+        "rgctl inventory --help",
+        "rgctl -f json relations --edge callers --limit 0 | jq '[.[] | select(.target_callers == 0) | {name: .target_name, type: .target_type, file: .target_file}] | length'",
+        "rgctl -f json relations --edge callers --limit 5",
+        "rgctl -f json relations --edge calls --limit 5",
+        "rgctl -f json find --type function | jq -r '[.[] | select(.inbound_degree == 0 and (.file | contains(\".java\") or contains(\".sql\"))) | \"\\(.name | split(\"/\")[-1]) (\\(.type)) @ \\(.file | split(\"/\")[-3:]|join(\"/\"))\")] | sort | .[0:40][]'",
+        "rgctl -f json find --type function | jq '[.[] | select(.inbound_degree == 0) | {name: .name, file: (.file | split(\"/\") | .[-3:] | join(\"/\")), type: .type}] | sort_by(.name) | .[0:30]'"
+      ],
+      "platforms": [
+        "YouTube Shorts",
+        "TikTok",
+        "Instagram Reels"
+      ],
+      "hashtags": [
+        "#rgctl",
+        "#codeintelligence",
+        "#devtools",
+        "#ai"
+      ],
+      "description": "Dead Code Detection — a coding agent using rgctl, the code knowledge graph for AI agents.",
+      "generatedAt": "2026-11-24T17:08:59.104Z"
+    },
+    {
+      "slug": "dependency-injection-and-frameworks",
+      "title": "Dependency Injection and Frameworks",
+      "status": "short",
+      "video": "dependency-injection-and-frameworks.mp4",
+      "audio": null,
+      "layout": "vertical-native",
+      "template": "short.html",
+      "aspectRatio": "9:16",
+      "width": 1080,
+      "height": 1920,
+      "questions": 2,
+      "durationSec": 26.52,
+      "commands": [
+        "rgctl -f json inventory --category endpoint",
+        "rgctl inventory --help",
+        "rgctl -f json find --annotation \"@Path,@GetMapping,@PostMapping,@PutMapping,@DeleteMapping,@RequestMapping\" --show-attributes",
+        "rgctl -f json relations \"com.redhat.coolstore.rest.CartEndpoint\" --edge injects",
+        "rgctl -f json find \"CartEndpoint\" --type class",
+        "rgctl -f json relations --from \"bc1b5591-faba-551a-92ce-3b6dd02dad85\" --edge injects",
+        "rgctl -f json callers \"com.redhat.coolstore.rest.CartEndpoint\" --depth 0",
+        "rgctl -f json callers \"ShoppingCartService\" --depth 1"
+      ],
+      "platforms": [
+        "YouTube Shorts",
+        "TikTok",
+        "Instagram Reels"
+      ],
+      "hashtags": [
+        "#rgctl",
+        "#codeintelligence",
+        "#devtools",
+        "#ai"
+      ],
+      "description": "Dependency Injection and Frameworks — a coding agent using rgctl, the code knowledge graph for AI agents.",
+      "generatedAt": "2026-11-24T17:09:28.839Z"
+    },
+    {
+      "slug": "discovering-and-indexing",
+      "title": "Discovering and Indexing a Codebase",
+      "status": "short",
+      "video": "discovering-and-indexing.mp4",
+      "audio": null,
+      "layout": "vertical-native",
+      "template": "short.html",
+      "aspectRatio": "9:16",
+      "width": 1080,
+      "height": 1920,
+      "questions": 2,
+      "durationSec": 18.24,
+      "commands": [
+        "rgctl discover .",
+        "rgctl -f json inventory --by type",
+        "rgctl -f json find --type file --limit 20",
+        "rgctl discover . -l java"
+      ],
+      "platforms": [
+        "YouTube Shorts",
+        "TikTok",
+        "Instagram Reels"
+      ],
+      "hashtags": [
+        "#rgctl",
+        "#codeintelligence",
+        "#devtools",
+        "#ai"
+      ],
+      "description": "Discovering and Indexing a Codebase — a coding agent using rgctl, the code knowledge graph for AI agents.",
+      "generatedAt": "2026-11-24T17:09:49.832Z"
+    },
+    {
+      "slug": "exporting-graphs",
+      "title": "Exporting Graphs",
+      "status": "short",
+      "video": "exporting-graphs.mp4",
+      "audio": null,
+      "layout": "vertical-native",
+      "template": "short.html",
+      "aspectRatio": "9:16",
+      "width": 1080,
+      "height": 1920,
+      "questions": 2,
+      "durationSec": 21.88,
+      "commands": [
+        "rgctl discover . && rgctl graph --help",
+        "rgctl export --help",
+        "rgctl -f json find \"checkout\" --type function --limit 20",
+        "rgctl -f json callees \"com.redhat.coolstore.rest.CartEndpoint.checkout\" --depth 3",
+        "rgctl -f json callees \"047eab8a-c78b-56f2-966e-3e80f00a3f90\" --depth 3"
+      ],
+      "platforms": [
+        "YouTube Shorts",
+        "TikTok",
+        "Instagram Reels"
+      ],
+      "hashtags": [
+        "#rgctl",
+        "#codeintelligence",
+        "#devtools",
+        "#ai"
+      ],
+      "description": "Exporting Graphs — a coding agent using rgctl, the code knowledge graph for AI agents.",
+      "generatedAt": "2026-11-24T17:10:14.608Z"
+    },
+    {
+      "slug": "graph-metrics",
+      "title": "Graph Metrics",
+      "status": "short",
+      "video": "graph-metrics.mp4",
+      "audio": null,
+      "layout": "vertical-native",
+      "template": "short.html",
+      "aspectRatio": "9:16",
+      "width": 1080,
+      "height": 1920,
+      "questions": 2,
+      "durationSec": 46.24,
+      "commands": [
+        "rgctl -f json inventory --with-degree",
+        "rgctl -f json callers --top 20",
+        "rgctl inventory",
+        "rgctl relations --format text",
+        "rgctl relations --edge call --format text",
+        "rgctl relations --edge calls --format text",
+        "rgctl blast-radius --format text add",
+        "rgctl blast-radius --format text getShoppingCart"
+      ],
+      "platforms": [
+        "YouTube Shorts",
+        "TikTok",
+        "Instagram Reels"
+      ],
+      "hashtags": [
+        "#rgctl",
+        "#codeintelligence",
+        "#devtools",
+        "#ai"
+      ],
+      "description": "Graph Metrics — a coding agent using rgctl, the code knowledge graph for AI agents.",
+      "generatedAt": "2026-11-24T17:11:05.514Z"
+    },
+    {
+      "slug": "http-server-and-dashboard",
+      "title": "HTTP Server and Dashboard",
+      "status": "short",
+      "video": "http-server-and-dashboard.mp4",
+      "audio": null,
+      "layout": "vertical-native",
+      "template": "short.html",
+      "aspectRatio": "9:16",
+      "width": 1080,
+      "height": 1920,
+      "questions": 2,
+      "durationSec": 39.08,
+      "commands": [
+        "rgctl graph inventory --format table 2>/dev/null | head -30",
+        "rgctl -f json inventory | jq '.[] | select(.type==\"entity\") | {name: .name, type: .type, path: .path}' 2>/dev/null | head -60",
+        "rgctl graph callers CartEndpoint",
+        "rgctl --help",
+        "rgctl callers CartEndpoint.add",
+        "rgctl find CartEndpoint"
+      ],
+      "platforms": [
+        "YouTube Shorts",
+        "TikTok",
+        "Instagram Reels"
+      ],
+      "hashtags": [
+        "#rgctl",
+        "#codeintelligence",
+        "#devtools",
+        "#ai"
+      ],
+      "description": "HTTP Server and Dashboard — a coding agent using rgctl, the code knowledge graph for AI agents.",
+      "generatedAt": "2026-11-24T17:11:48.414Z"
+    },
+    {
+      "slug": "hybrid-cpg",
+      "title": "Hybrid CPG",
+      "status": "short",
+      "video": "hybrid-cpg.mp4",
+      "audio": null,
+      "layout": "vertical-native",
+      "template": "short.html",
+      "aspectRatio": "9:16",
+      "width": 1080,
+      "height": 1920,
+      "questions": 2,
+      "durationSec": 33.68,
+      "commands": [
+        "rgctl -f json relations ShoppingCart | jq '.relations[] | select(.kind==\"FIELD_MUTATION\" or .kind==\"ASSIGN\" or .kind==\"FIELD_WRITE\")' 2>/dev/null | head -50",
+        "rgctl -f json find --kind class ShoppingCart",
+        "rgctl -f json find ShoppingCart",
+        "rgctl -f json callers --all com.redhat.coolstore.model.ShoppingCart",
+        "rgctl -f json callers com.redhat.coolstore.model.ShoppingCart.setCartItemTotal"
+      ],
+      "platforms": [
+        "YouTube Shorts",
+        "TikTok",
+        "Instagram Reels"
+      ],
+      "hashtags": [
+        "#rgctl",
+        "#codeintelligence",
+        "#devtools",
+        "#ai"
+      ],
+      "description": "Hybrid CPG — a coding agent using rgctl, the code knowledge graph for AI agents.",
+      "generatedAt": "2026-11-24T17:12:25.658Z"
+    },
+    {
+      "slug": "inspecting-cfg-pdg-dominance",
+      "title": "Inspecting CFG, PDG, and Dominance",
+      "status": "short",
+      "video": "inspecting-cfg-pdg-dominance.mp4",
+      "audio": null,
+      "layout": "vertical-native",
+      "template": "short.html",
+      "aspectRatio": "9:16",
+      "width": 1080,
+      "height": 1920,
+      "questions": 2,
+      "durationSec": 21.08,
+      "commands": [
+        "rgctl -f json status",
+        "rgctl -f json find priceShoppingCart",
+        "rgctl -f json inspect priceShoppingCart cfg",
+        "rgctl -f json cpg flows example/coolstore-weblogic/src/main/java/com/redhat/coolstore/service/ShoppingCartService.java --line 68 --variable sc",
+        "rgctl -f json cpg flows example/coolstore-weblogic/src/main/java/com/redhat/coolstore/service/ShoppingCartService.java --line 68 --variable sc --direction backward"
+      ],
+      "platforms": [
+        "YouTube Shorts",
+        "TikTok",
+        "Instagram Reels"
+      ],
+      "hashtags": [
+        "#rgctl",
+        "#codeintelligence",
+        "#devtools",
+        "#ai"
+      ],
+      "description": "Inspecting CFG, PDG, and Dominance — a coding agent using rgctl, the code knowledge graph for AI agents.",
+      "generatedAt": "2026-11-24T17:12:49.659Z"
+    },
+    {
+      "slug": "markdown-context-graph",
+      "title": "Markdown Context Graph",
+      "status": "short",
+      "video": "markdown-context-graph.mp4",
+      "audio": null,
+      "layout": "vertical-native",
+      "template": "short.html",
+      "aspectRatio": "9:16",
+      "width": 1080,
+      "height": 1920,
+      "questions": 2,
+      "durationSec": 30.88,
+      "commands": [],
+      "platforms": [
+        "YouTube Shorts",
+        "TikTok",
+        "Instagram Reels"
+      ],
+      "hashtags": [
+        "#rgctl",
+        "#codeintelligence",
+        "#devtools",
+        "#ai"
+      ],
+      "description": "Markdown Context Graph — a coding agent using rgctl, the code knowledge graph for AI agents.",
+      "generatedAt": "2026-11-24T17:13:23.998Z"
+    },
+    {
+      "slug": "migration-planning",
+      "title": "Migration Planning",
+      "status": "short",
+      "video": "migration-planning.mp4",
+      "audio": null,
+      "layout": "vertical-native",
+      "template": "short.html",
+      "aspectRatio": "9:16",
+      "width": 1080,
+      "height": 1920,
+      "questions": 2,
+      "durationSec": 36.28,
+      "commands": [
+        "rgctl -f json status",
+        "rgctl discover . --export-migration-hints --with-harmonic",
+        "rgctl -f json communities list",
+        "rgctl -f json find --annotation \"@Path,@RestController,@RequestMapping\" --show-attributes --limit 20",
+        "rgctl -f json find --annotation \"@Path\" --limit 15",
+        "rgctl -f json blast-radius \"com.redhat.coolstore.rest.CartEndpoint\" --depth 2 --summary",
+        "rgctl -f json inventory --by type --limit 20",
+        "rgctl -f json callers \"com.redhat.coolstore.rest.CartEndpoint\" --depth 3"
+      ],
+      "platforms": [
+        "YouTube Shorts",
+        "TikTok",
+        "Instagram Reels"
+      ],
+      "hashtags": [
+        "#rgctl",
+        "#codeintelligence",
+        "#devtools",
+        "#ai"
+      ],
+      "description": "Migration Planning — a coding agent using rgctl, the code knowledge graph for AI agents.",
+      "generatedAt": "2026-11-24T17:14:04.062Z"
+    },
+    {
+      "slug": "pr-review",
+      "title": "Pull Request Review",
+      "status": "short",
+      "video": "pr-review.mp4",
+      "audio": null,
+      "layout": "vertical-native",
+      "template": "short.html",
+      "aspectRatio": "9:16",
+      "width": 1080,
+      "height": 1920,
+      "questions": 2,
+      "durationSec": 20.04,
+      "commands": [],
+      "platforms": [
+        "YouTube Shorts",
+        "TikTok",
+        "Instagram Reels"
+      ],
+      "hashtags": [
+        "#rgctl",
+        "#codeintelligence",
+        "#devtools",
+        "#ai"
+      ],
+      "description": "Pull Request Review — a coding agent using rgctl, the code knowledge graph for AI agents.",
+      "generatedAt": "2026-11-24T17:14:27.029Z"
+    },
+    {
+      "slug": "program-slicing",
+      "title": "Program Slicing",
+      "status": "short",
+      "video": "program-slicing.mp4",
+      "audio": null,
+      "layout": "vertical-native",
+      "template": "short.html",
+      "aspectRatio": "9:16",
+      "width": 1080,
+      "height": 1920,
+      "questions": 2,
+      "durationSec": 26.44,
+      "commands": [
+        "rgctl -f json status",
+        "rgctl -f json slice src/main/java/com/redhat/coolstore/service/ShoppingCartService.java --line 68 --variable sc",
+        "rgctl -f json cpg flows src/main/java/com/redhat/coolstore/service/ShoppingCartService.java --line 68 --variable sc --with-alias",
+        "rgctl -f json callers 'ShoppingCartService.priceShoppingCart' --depth 2",
+        "rgctl -f json find priceShoppingCart --type function",
+        "rgctl -f json callers 'com.redhat.coolstore.service.ShoppingCartService.priceShoppingCart' --depth 2",
+        "rgctl -f json callers --file src/main/java/com/redhat/coolstore/service/ShoppingCartService.java --function priceShoppingCart",
+        "rgctl -f json callers --file src/main/java/com/redhat/coolstore/service/ShoppingCartService.java priceShoppingCart"
+      ],
+      "platforms": [
+        "YouTube Shorts",
+        "TikTok",
+        "Instagram Reels"
+      ],
+      "hashtags": [
+        "#rgctl",
+        "#codeintelligence",
+        "#devtools",
+        "#ai"
+      ],
+      "description": "Program Slicing — a coding agent using rgctl, the code knowledge graph for AI agents.",
+      "generatedAt": "2026-11-24T17:14:56.803Z"
+    },
+    {
+      "slug": "semantic-search",
+      "title": "Semantic Search",
+      "status": "short",
+      "video": "semantic-search.mp4",
+      "audio": null,
+      "layout": "vertical-native",
+      "template": "short.html",
+      "aspectRatio": "9:16",
+      "width": 1080,
+      "height": 1920,
+      "questions": 2,
+      "durationSec": 18.36,
+      "commands": [
+        "rgctl -f json find \"payment\"",
+        "rgctl -f json find \"*ransaction*\" --type class",
+        "rgctl -f json semantic query \"checkout payment processing\" --limit 10",
+        "rgctl -f json semantic query \"authentication login credentials user session\" --limit 20"
+      ],
+      "platforms": [
+        "YouTube Shorts",
+        "TikTok",
+        "Instagram Reels"
+      ],
+      "hashtags": [
+        "#rgctl",
+        "#codeintelligence",
+        "#devtools",
+        "#ai"
+      ],
+      "description": "Semantic Search — a coding agent using rgctl, the code knowledge graph for AI agents.",
+      "generatedAt": "2026-11-24T17:15:17.774Z"
+    },
+    {
+      "slug": "structured-query",
+      "title": "Structured graph queries",
+      "status": "short",
+      "video": "structured-query.mp4",
+      "audio": null,
+      "layout": "vertical-native",
+      "template": "short.html",
+      "aspectRatio": "9:16",
+      "width": 1080,
+      "height": 1920,
+      "questions": 2,
+      "durationSec": 15.6,
+      "commands": [
+        "rgctl -r . -f json find --kind function checkout",
+        "rgctl -r . -f json find \"checkout\" --type function",
+        "rgctl -r . -f json callers \"priceShoppingCart\" --depth 2"
+      ],
+      "platforms": [
+        "YouTube Shorts",
+        "TikTok",
+        "Instagram Reels"
+      ],
+      "hashtags": [
+        "#rgctl",
+        "#codeintelligence",
+        "#devtools",
+        "#ai"
+      ],
+      "description": "Structured graph queries — a coding agent using rgctl, the code knowledge graph for AI agents.",
+      "generatedAt": "2026-11-24T17:15:35.780Z"
+    },
+    {
+      "slug": "vulnerability-and-osv-analysis",
+      "title": "Single-Advisory Vulnerability Reachability",
+      "status": "short",
+      "video": "vulnerability-and-osv-analysis.mp4",
+      "audio": null,
+      "layout": "vertical-native",
+      "template": "short.html",
+      "aspectRatio": "9:16",
+      "width": 1080,
+      "height": 1920,
+      "questions": 2,
+      "durationSec": 48.04,
+      "commands": [
+        "rgctl -f json cpg status",
+        "rgctl discover . --with-cfg",
+        "rgctl -f json deps check --include-jars lib",
+        "rgctl -f json inventory --by type",
+        "rgctl -f json inventory",
+        "rgctl -f json find --type dependency",
+        "rgctl -f json find --type function --pattern \"doGet|doPost|service|deserialize|fromJson|readValue\" --limit 50",
+        "rgctl -f json find --type function --pattern \"doGet|doPost|service\" --limit 50"
+      ],
+      "platforms": [
+        "YouTube Shorts",
+        "TikTok",
+        "Instagram Reels"
+      ],
+      "hashtags": [
+        "#rgctl",
+        "#codeintelligence",
+        "#devtools",
+        "#ai"
+      ],
+      "description": "Single-Advisory Vulnerability Reachability — a coding agent using rgctl, the code knowledge graph for AI agents.",
+      "generatedAt": "2026-11-24T17:16:28.116Z"
+    },
+    {
+      "slug": "vulnerability-reachability",
+      "title": "Batch Vulnerability Scanning, OSV Fetch & SARIF",
+      "status": "short",
+      "video": "vulnerability-reachability.mp4",
+      "audio": null,
+      "layout": "vertical-native",
+      "template": "short.html",
+      "aspectRatio": "9:16",
+      "width": 1080,
+      "height": 1920,
+      "questions": 2,
+      "durationSec": 39.88,
+      "commands": [
+        "rgctl -f json cpg status",
+        "rgctl discover . --with-cfg --with-taint",
+        "rgctl -f json deps check | jq '.dependencies | length'",
+        "rgctl -f json inventory --by type | jq '.[] | select(.schema_version) | keys'",
+        "rgctl -f json inventory --by type",
+        "rgctl -f json deps inventory",
+        "rgctl deps --help",
+        "rgctl -f json find --type module --limit 200 | jq -r '.modules[] | select(.name | contains(\"h2\") or contains(\"javax\")) | \"\\(.name) @ \\(.version)\"' 2>/dev/null"
+      ],
+      "platforms": [
+        "YouTube Shorts",
+        "TikTok",
+        "Instagram Reels"
+      ],
+      "hashtags": [
+        "#rgctl",
+        "#codeintelligence",
+        "#devtools",
+        "#ai"
+      ],
+      "description": "Batch Vulnerability Scanning, OSV Fetch & SARIF — a coding agent using rgctl, the code knowledge graph for AI agents.",
+      "generatedAt": "2026-11-24T17:17:12.080Z"
+    },
+    {
+      "slug": "watch-mode",
+      "title": "Watch mode and incremental update",
+      "status": "short",
+      "video": "watch-mode.mp4",
+      "audio": null,
+      "layout": "vertical-native",
+      "template": "short.html",
+      "aspectRatio": "9:16",
+      "width": 1080,
+      "height": 1920,
+      "questions": 2,
+      "durationSec": 25.4,
+      "commands": [
+        "rgctl discover .",
+        "rgctl -f json find --type package | jq -r '.[] | select(.name | contains(\"cart\")) | .name' 2>/dev/null",
+        "rgctl relations --edge calls ./src/main/java/com/redhat/coolstore 2>/dev/null | head -30",
+        "rgctl update ./src/main/java/com/redhat/coolstore -f json 2>/dev/null | tail -5",
+        "rgctl relations --edge calls $(git diff --name-only --diff-filter=M -- \"*.java\" | grep -i cart | tr '\\n' ' ') 2>/dev/null | head -20"
+      ],
+      "platforms": [
+        "YouTube Shorts",
+        "TikTok",
+        "Instagram Reels"
+      ],
+      "hashtags": [
+        "#rgctl",
+        "#codeintelligence",
+        "#devtools",
+        "#ai"
+      ],
+      "description": "Watch mode and incremental update — a coding agent using rgctl, the code knowledge graph for AI agents.",
+      "generatedAt": "2026-11-24T17:17:40.735Z"
     }
   ],
-  "updatedAt": "2026-11-24T15:16:09.789Z"
+  "updatedAt": "2026-11-24T17:17:40.735Z"
 }

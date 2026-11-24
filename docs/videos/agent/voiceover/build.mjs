@@ -16,6 +16,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 import { loadEnv, number, value } from "../automation/lib/env.mjs";
+import { speakable } from "./speakable.mjs";
 
 const base = path.dirname(fileURLToPath(import.meta.url));
 const scriptDir = path.join(base, "script");
@@ -107,7 +108,7 @@ function parseSections(text) {
 }
 
 function cleanForSpeech(text) {
-  return text
+  const plain = text
     .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
     .replace(/`([^`]+)`/g, "$1")
     .replace(/\*\*([^*]+)\*\*/g, "$1")
@@ -115,6 +116,7 @@ function cleanForSpeech(text) {
     .replace(/_([^_]+)_/g, "$1")
     .replace(/\s+/g, " ")
     .trim();
+  return speakable(plain);
 }
 
 function scriptsToBuild() {
