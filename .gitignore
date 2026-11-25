@@ -23,6 +23,9 @@ out/
 # copied from docs/videos at build/dev time
 public/demos/
 
+# copied from rgctl/rgctl at build/dev time
+public/install.sh
+
 # VHS working tree (CoolStore / fixture symlinks)
 docs/videos/.work/
 

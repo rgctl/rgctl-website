@@ -7,7 +7,7 @@
  * Pulled from the rgctl product repo (RGCTL_REPO):
  *   - other published docs (Introduction, user-guide, json-api, …)
  *   - AGENTS.md
- *   - scripts/install.sh  (falls back to vendor/install.sh)
+ *   - scripts/install.sh
  *
  * Resolve product repo as:
  *   $RGCTL_REPO → ../rgctl → ../rbuilder
@@ -129,18 +129,12 @@ for (const agents of agentsCandidates) {
   }
 }
 
-// install.sh — prefer website vendor so the published one-liner always
-// targets rgctl/rgctl releases (product-tree copy can lag after the org move).
-const installCandidates = [
-  join(siteRoot, "vendor/install.sh"),
-  rgctlRepo ? join(rgctlRepo, "scripts/install.sh") : null,
-].filter(Boolean);
-mkdirSync(publicDir, { recursive: true });
-for (const installSh of installCandidates) {
+// install.sh
+if (rgctlRepo) {
+  const installSh = join(rgctlRepo, "scripts/install.sh");
   if (existsSync(installSh)) {
     cpSync(installSh, join(publicDir, "install.sh"));
     console.log(`[copy-docs] ${installSh} → public/install.sh`);
-    break;
   }
 }
 

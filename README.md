@@ -15,7 +15,6 @@ Live: [https://rgctl.io/](https://rgctl.io/)
 | `docs/videos/agent/voiceover/` | Voiceover scripts and ElevenLabs audio pipeline |
 | `AGENTS.md` | End-to-end guide for agents/contributors reproducing the guide videos |
 | `scripts/copy-*.mjs` | Prebuild: assemble `content/docs`, language catalog, demos |
-| `vendor/install.sh` | Fallback install script if product repo is unavailable |
 
 Non-guide reference docs (`Introduction`, `user-guide`, `json-api`, …), `AGENTS.md`, and `*-ast-coverage.json` are pulled at build time from the **rgctl** product repo via `RGCTL_REPO` (default: sibling `../rgctl` or `../rbuilder`).
 
